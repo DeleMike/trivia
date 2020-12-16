@@ -67,6 +67,8 @@ class _AuthFormState extends State<AuthForm> {
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
+                    keyboardType: TextInputType.name,
+                    autocorrect: true,
                     decoration: InputDecoration(
                       labelText: 'Enter username',
                       border: UnderlineInputBorder(),
