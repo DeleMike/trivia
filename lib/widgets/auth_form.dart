@@ -1,12 +1,49 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../widgets/user_image_picker.dart';
+
 class AuthForm extends StatefulWidget {
   @override
   _AuthFormState createState() => _AuthFormState();
 }
 
 class _AuthFormState extends State<AuthForm> {
+  var _name = '';
+  String _pickedImageFilePath;
+  final _formKey = GlobalKey<FormState>();
+
+  ///tries to submit data entered
+  void _trySubmit() {
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus(); //close keyboard
+
+  //if no image is chosen, inform user and return
+    if(_pickedImageFilePath == null) {
+       Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please pick an image.'),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+      return;
+    }
+
+    //is valid, save data using shared pref
+    if(isValid) {
+      _formKey.currentState.save();
+      print('name = $_name, filePath = $_pickedImageFilePath');
+      //save to shared pref
+    }
+  }
+
+  ///save picked file
+  void _pickFile(String filePath) {
+    _pickedImageFilePath = filePath;
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -23,21 +60,33 @@ class _AuthFormState extends State<AuthForm> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: UserImagePicker(),
+                child: UserImagePicker(_pickFile),
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Enter username',
-                    border: UnderlineInputBorder(),
-                    filled: true,
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Enter username',
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                    ),
+                    validator: (value) {
+                      if(value.isEmpty || value.length < 3) {
+                        return 'username should be at least 3 characters';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _name = value;
+                    },
                   ),
                 ),
               ),
               RaisedButton(
                 child: Text('Save'),
-                onPressed: (){},
+                onPressed: _trySubmit,
               ),
             ],
           ),
