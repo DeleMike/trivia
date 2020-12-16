@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/auth_screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -29,14 +31,15 @@ class MyApp extends StatelessWidget {
         ) ,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Trivia'),
-        ),
-        body: Center(
-            child: Text('Hello world!', style:  Theme.of(context).textTheme.headline6,),
-          ),
-      ),
+      home: AuthScreen(),
+      // home: Scaffold(
+      //   appBar: AppBar(
+      //     title: Text('Trivia'),
+      //   ),
+      //   body: Center(
+      //       child: Text('Hello world!', style:  Theme.of(context).textTheme.headline6,),
+      //     ),
+      // ),
       debugShowCheckedModeBanner: false,
     );
   }
