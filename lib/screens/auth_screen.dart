@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/image_banner.dart';
+import '../widgets/auth_form.dart';
 
-class AuthScreen extends StatefulWidget {
-  @override
-  _AuthScreenState createState() => _AuthScreenState();
-}
-
-class _AuthScreenState extends State<AuthScreen> {
+class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -30,9 +26,13 @@ class _AuthScreenState extends State<AuthScreen> {
               height: deviceSize.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                //crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ImageBanner(),
+                  Flexible(child: const ImageBanner()),
+                  Flexible(
+                    flex: deviceSize.width > 600 ? 2 : 1,
+                    child: AuthForm(),
+                  ),
                 ],
               ),
             ),
