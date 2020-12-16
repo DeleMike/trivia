@@ -16,6 +16,13 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xff3f51b5),
         canvasColor: Colors.indigo[50],
         fontFamily: 'Ubuntu',
+        accentColorBrightness: Brightness.dark,
+        buttonTheme: ButtonTheme.of(context).copyWith(
+          buttonColor: Colors.indigo,
+          textTheme: ButtonTextTheme.primary,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
         textTheme: ThemeData.light().textTheme.copyWith(
           bodyText2: TextStyle(
                 color: Color.fromRGBO(20, 51, 51, 1),
