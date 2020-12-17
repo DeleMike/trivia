@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import '../widgets/user_image_picker.dart';
+import '../helpers/user_pref.dart';
 
 class AuthForm extends StatefulWidget {
   @override
@@ -35,6 +34,8 @@ class _AuthFormState extends State<AuthForm> {
       _formKey.currentState.save();
       print('name = $_name, filePath = $_pickedImageFilePath');
       //save to shared pref
+      UserPref userPref = UserPref();
+      userPref.save(_name, _pickedImageFilePath);
     }
   }
 
@@ -49,7 +50,8 @@ class _AuthFormState extends State<AuthForm> {
     final deviceSize = MediaQuery.of(context).size;
     return Container(
       width: deviceSize.width * 0.85,
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.only(bottom: 16.0),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
