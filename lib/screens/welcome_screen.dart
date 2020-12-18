@@ -45,19 +45,28 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 25),
-              Consumer<UserPref>(
-                builder: (_, userPref, __) => Expanded(
-                  child: Text(
-                    'Welcome, ${userPref.userData['username']}',
-                    style: TextStyle(
-                      fontSize: 40,
-                      foreground: Paint()
-                        ..style = PaintingStyle.stroke
-                        ..strokeWidth = 2.5
-                        ..color = Theme.of(context).primaryColor,
+              FutureBuilder(
+                future:
+                    Provider.of<UserPref>(context, listen: false).fetchData(),
+                builder: (ctx, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  }
+                  return Consumer<UserPref>(
+                    builder: (_, userPref, __) => Expanded(
+                      child: Text(
+                        'Welcome, ${userPref.userData['username']}',
+                        style: TextStyle(
+                          fontSize: 40,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 2.5
+                            ..color = Theme.of(context).primaryColor,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
               Flexible(
                 child: Text(
