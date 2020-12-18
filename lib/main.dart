@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './widgets/splash_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/welcome_screen.dart';
 import './helpers/user_pref.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
                   ),
                   bodyText1: TextStyle(
                     color: Color.fromRGBO(20, 51, 51, 1),
+                    fontStyle: FontStyle.italic,
                   ),
                   headline6: TextStyle(
                     fontSize: 12,
@@ -43,10 +45,16 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
             visualDensity: VisualDensity.adaptivePlatformDensity,
+          ), 
+          home: FutureBuilder(
+            future: userPref.isLoggedIn(),
+            builder: (ctx, AsyncSnapshot<void> snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting) {
+                return SplashScreen();
+              }
+              return !userPref.isLogin ?  AuthScreen() : WelcomeScreen(); 
+            },
           ),
-          home: !userPref.isLogin
-              ? AuthScreen()
-              : WelcomeScreen(),
           debugShowCheckedModeBanner: false,
         ),
       ),
