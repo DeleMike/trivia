@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import './widgets/splash_screen.dart';
 import './screens/auth_screen.dart';
+import './screens/categories.dart';
 import './screens/welcome_screen.dart';
 import './helpers/user_pref.dart';
 
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
               return !userPref.isLogin ?  AuthScreen() : WelcomeScreen(); 
             },
           ),
+          routes: {
+            Categories.routeName : (ctx) => Categories(),
+          },
           debugShowCheckedModeBanner: false,
         ),
       ),
