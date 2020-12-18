@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
                     fontStyle: FontStyle.italic,
                   ),
                   headline6: TextStyle(
-                    fontSize: 12,
+                    fontSize: 30,
                     fontFamily: 'Ubuntu',
                     fontWeight: FontWeight.bold,
                   ),
