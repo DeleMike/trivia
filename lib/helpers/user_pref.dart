@@ -38,11 +38,9 @@ class UserPref with ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
     //is user login data saved
     _isLogin = prefs.getBool(loginKey) ?? false;
-    notifyListeners();
   }
 
   bool get isLogin {
-    isLoggedIn();
     return _isLogin;
   }
 }
