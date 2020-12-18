@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/categories.dart';
 import '../helpers/user_pref.dart';
 import '../widgets/nav_drawer.dart';
 
@@ -73,7 +74,9 @@ class WelcomeScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text('Go'),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, Categories.routeName);
+                        },
                       ),
                     ),
                   ),
