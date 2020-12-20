@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../helpers/quiz_builder.dart';
+
 class BuildQuestionForm extends StatefulWidget {
   final String categoryName;
   final int categoryTag;
@@ -12,12 +14,17 @@ class BuildQuestionForm extends StatefulWidget {
 
 class _BuildQuestionFormState extends State<BuildQuestionForm> {
   static const _difficulties = [
-    'Easy',
-    'Medium',
-    'Hard',
+    'easy',
+    'medium',
+    'hard',
   ];
 
-  static const _questionTypes = ['True/False', 'Mutliple Choice'];
+  static const _questionTypes = [
+    // 'boolean',
+    // 'multiple',
+    'True/False',
+    'Mutliple Choice',
+  ];
 
   final List<DropdownMenuItem<String>> _difficultyDropdownMenuItems =
       _difficulties.map((val) {
@@ -29,25 +36,39 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
     return DropdownMenuItem<String>(value: val, child: Text(val));
   }).toList();
 
-  String _selectedDifficulty = 'Easy';
+  String _selectedDifficulty = 'easy';
   String _selectedQuestionType = 'True/False';
   String _numOfQuestions = '';
+  String _typeTag = '';
 
   final _formKey = GlobalKey<FormState>();
 
-  void _trySubmit() {
+  Future<void> _trySubmit() async {
+    _selectedQuestionType == 'True/False'
+        ? _typeTag = 'boolean'
+        : _typeTag = 'multiple';
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus(); //close keyboard
 
     //is valid, save data using shared pref
     if (isValid) {
       _formKey.currentState.save();
-      print(
-          'numOfQuestions = $_numOfQuestions, selectedDifficulty = ' +
-         ' $_selectedDifficulty, selectedQuestionType = $_selectedQuestionType');
+
+      print('numOfQuestions = $_numOfQuestions, selectedDifficulty = ' +
+          ' $_selectedDifficulty, selectedQuestionType = $_typeTag\n');
+
+      final quizBuilder = QuizBuilder();
+      await quizBuilder.fetchAndSetQuestions(
+        numOfQuestion: _numOfQuestions,
+        difficulty: _selectedDifficulty,
+        categoryTag: widget.categoryTag.toString(),
+        type: _typeTag,
+      );
+
+      final result = quizBuilder.fetchedData;
+      print('BuildQuestionForm: Result = $result\n');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
