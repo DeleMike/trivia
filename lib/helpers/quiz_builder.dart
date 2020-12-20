@@ -34,7 +34,7 @@ class QuizBuilder with ChangeNotifier {
 
     //get response and group data
     final response = await http.get(uri);
-    print('QuizBuilder: Response from request sent = $response');
+    print('QuizBuilder: Response from request sent = ${response.body}');
 
     final List result = json.decode(response.body)['results'];
     if (result.isEmpty) {
