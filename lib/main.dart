@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import './widgets/splash_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/categories.dart';
+import './screens/build_question.dart';
 import './screens/welcome_screen.dart';
 import './helpers/user_pref.dart';
 
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
           ),
           routes: {
             Categories.routeName : (ctx) => Categories(),
+            BuildQuestion.routeName : (ctx) => BuildQuestion(),
           },
           debugShowCheckedModeBanner: false,
         ),
