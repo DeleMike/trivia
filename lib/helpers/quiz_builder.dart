@@ -34,7 +34,7 @@ class QuizBuilder with ChangeNotifier {
 
     //get response and group data
     final response = await http.get(uri);
-    print('QuizBuilder: Response from request sent = $response\n');
+    print('QuizBuilder: Response from request sent = $response');
 
     final List result = json.decode(response.body)['results'];
     if (result.isEmpty) {
@@ -46,16 +46,16 @@ class QuizBuilder with ChangeNotifier {
         _incorrectAnswers.add(res['incorrect_answers']);
       });
 
-      print('QuizBuilder: question = $_questions\n');
-      print('QuizBuilder: correct_answers = $_correctAnswers\n');
-      print('QuizBuilder: incorrect_answers = $_incorrectAnswers\n');
+      print('QuizBuilder: question = $_questions');
+      print('QuizBuilder: correct_answers = $_correctAnswers');
+      print('QuizBuilder: incorrect_answers = $_incorrectAnswers');
 
       _fetchedData = {
         'questions': _questions,
         'correct_answer': _correctAnswers,
         'incorrect_answers': _incorrectAnswers,
       };
-      print('QuizBuilder: data = $_fetchedData\n');
+      print('QuizBuilder: data = $_fetchedData');
     }
     notifyListeners();
   }
