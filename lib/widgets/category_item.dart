@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/build_question.dart';
+
 class CategoryItem extends StatelessWidget {
   final String categoryName;
   final int categoryTag;
@@ -12,7 +14,12 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(BuildQuestion.routeName, arguments: {
+          'name' : categoryName,
+          'tag' : categoryTag,
+        },);
+      },
       splashColor: Theme.of(context).canvasColor,
       borderRadius: BorderRadius.circular(15),
       child: Container(
