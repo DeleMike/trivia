@@ -20,8 +20,6 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
   ];
 
   static const _questionTypes = [
-    // 'boolean',
-    // 'multiple',
     'True/False',
     'Mutliple Choice',
   ];
@@ -40,10 +38,12 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
   String _selectedQuestionType = 'True/False';
   String _numOfQuestions = '';
   String _typeTag = '';
+  bool _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _trySubmit() async {
+    setState(() => _isLoading = true);
     _selectedQuestionType == 'True/False'
         ? _typeTag = 'boolean'
         : _typeTag = 'multiple';
@@ -66,6 +66,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       );
 
       final result = quizBuilder.fetchedData;
+      setState(() => _isLoading = false);
       print('BuildQuestionForm: Result = $result');
     }
   }
@@ -163,13 +164,19 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                 ),
               ),
               SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: RaisedButton(
-                  child: Text('Submit'),
-                  onPressed: _trySubmit,
+              if(_isLoading)
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: CircularProgressIndicator(),
                 ),
-              ),
+               if(!_isLoading) 
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: RaisedButton(
+                    child: Text('Submit'),
+                    onPressed: _trySubmit,
+                  ),
+                ),
             ],
           ),
         ),
