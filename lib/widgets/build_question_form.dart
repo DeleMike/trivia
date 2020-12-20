@@ -55,7 +55,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       _formKey.currentState.save();
 
       print('numOfQuestions = $_numOfQuestions, selectedDifficulty = ' +
-          ' $_selectedDifficulty, selectedQuestionType = $_typeTag\n');
+          ' $_selectedDifficulty, selectedQuestionType = $_typeTag');
 
       final quizBuilder = QuizBuilder();
       await quizBuilder.fetchAndSetQuestions(
@@ -66,7 +66,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       );
 
       final result = quizBuilder.fetchedData;
-      print('BuildQuestionForm: Result = $result\n');
+      print('BuildQuestionForm: Result = $result');
     }
   }
 
