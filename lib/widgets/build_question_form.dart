@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../helpers/quiz_builder.dart';
+import '../screens/quiz_page.dart';
 
 class BuildQuestionForm extends StatefulWidget {
   final String categoryName;
@@ -68,6 +69,8 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       final result = quizBuilder.fetchedData;
       setState(() => _isLoading = false);
       print('BuildQuestionForm: Result = $result');
+      //pass data to quiz page
+      Navigator.of(context).pushNamed(QuizPage.routeName);
     }
   }
 
