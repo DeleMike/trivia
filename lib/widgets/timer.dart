@@ -16,7 +16,7 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: Duration(milliseconds: 10));
     _controller.forward();
     _valueTween = Tween<double>(begin: 0, end: widget.endTime);
     _animation = CurvedAnimation(
@@ -52,17 +52,9 @@ class _TimerState extends State<Timer> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: _animation,
-        child: Container(),
-        builder: (ctx, ch) {
-          return Container(
-            decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
-            child: Text('Time: ${widget.endTime.toInt()}', style: TextStyle(color: Colors.white,),),
-          );
-          // return LinearProgressIndicator(
-          //   value: _valueTween.evaluate(_animation),
-          // );
-        });
+    return Container(
+        decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
+        child: Text('Time: ${widget.endTime.toInt()}', style: TextStyle(color: Colors.white,),),
+      );
   }
 }
