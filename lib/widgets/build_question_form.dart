@@ -70,7 +70,11 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       setState(() => _isLoading = false);
       print('BuildQuestionForm: Result = $result');
       //pass data to quiz page
-      Navigator.of(context).pushNamed(QuizPage.routeName);
+      Navigator.of(context).pushNamed(QuizPage.routeName, arguments: {
+        'results' : result,
+        'difficulty' :  _selectedDifficulty,
+        'type' : _typeTag,
+      },);
     }
   }
 
