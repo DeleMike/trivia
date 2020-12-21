@@ -6,6 +6,7 @@ import './screens/auth_screen.dart';
 import './screens/categories.dart';
 import './screens/build_question.dart';
 import './screens/welcome_screen.dart';
+import './screens/quiz_page.dart';
 import './helpers/user_pref.dart';
 
 void main() {
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           routes: {
             Categories.routeName : (ctx) => Categories(),
             BuildQuestion.routeName : (ctx) => BuildQuestion(),
+            QuizPage.routeName : (ctx) => QuizPage()
           },
           debugShowCheckedModeBanner: false,
         ),
