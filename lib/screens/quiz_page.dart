@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:quiver/async.dart';
+import 'package:html/parser.dart' as parser;
 
+import '../widgets/question_num.dart';
 import '../widgets/timer.dart' as t;
+import '../widgets/question_placeholder.dart';
 
 class QuizPage extends StatefulWidget {
   static const routeName = '/quiz-page';
@@ -12,13 +14,49 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  // CountdownTimer _countDownTimer;
-  // int _totalTime = 20;
-  // int _currentTime = 0;
   Timer _timer;
   int _start = 20;
-  var _indicatorVal = 0.0;
+  var _currentTime = 20;
+  var _data;
+  var isLoaded = false;
+  var _currentQuestionNum = 0;
+  var _totalQuestionNum;
+  List<String> _questions;
+  var _currentQuestion;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isLoaded) {
+      _data = ModalRoute.of(context).settings.arguments as Map;
+      _questions = _data['results']['questions'];
+      _totalQuestionNum = _questions.length;
+      _currentQuestion = parsedHtmlString(_questions[_currentQuestionNum]);
+      var time = _data['difficulty'];
+      if (time == 'easy') {
+        _currentTime = 20;
+      } else if (time == 'medium') {
+        _currentTime = 30;
+      } else {
+        _currentTime = 40;
+      }
+      setState(() {
+        isLoaded = true;
+      });
+    }
+  }
+
+  String parsedHtmlString(String question) {
+    var doc = parser.parse(question);
+    String parsedStr = parser.parse(doc.body.text).documentElement.text;
+    return parsedStr;
+  }
+  
   void startTimer(int quizTime) {
     const oneSec = const Duration(seconds: 1);
 
@@ -36,12 +74,8 @@ class _QuizPageState extends State<QuizPage> {
         } else {
           if (mounted) {
             setState(() {
-              int currentTime = --_start;
-              print('Timer: Current time = $currentTime seconds used up');
-              // print('Timer: indicator value = ${((currentTime / quizTime).toStringAsFixed(2))}');
-              // _indicatorVal = double.parse((currentTime / quizTime).toStringAsFixed(2));
-              _indicatorVal = currentTime.toDouble();
-              
+              _currentTime = --_start;
+              print('Timer: Current time = $_currentTime remaining');
             });
           }
         }
@@ -59,18 +93,45 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    startTimer(20);
+    // startTimer(20);
     //_startCountdown(_totalTime);
     return Scaffold(
       appBar: AppBar(
         title: Text('Trivia'),
       ),
 
-      body: Center(
-        child: t.Timer(_indicatorVal),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.all(8.0),
+                  child: QuestionNum(
+                    (_currentQuestionNum + 1).toString(),
+                    _totalQuestionNum.toString(),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.all(8.0),
+                  child: t.Timer(_currentTime),
+                ),
+              ],
+            ),
+            SizedBox(height: 25.0),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: QuestionPlaceholder(_currentQuestion),
+            ),
+            Divider(),
+            SizedBox(height: 25.0),
+          ],
+        ),
       ),
 
-      //LinearProgressIndicator widget as a timer
       //current question display widget
       //Question display widget
       //a divider
