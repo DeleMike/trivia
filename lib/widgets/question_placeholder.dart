@@ -6,16 +6,14 @@ class QuestionPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Text(questionText ?? '',
-          style: Theme.of(context).textTheme.headline6.copyWith(
-            fontSize: 20,
-          ),
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Text(questionText ?? '',
+        style: Theme.of(context).textTheme.headline6.copyWith(
+          fontSize: 20,
         ),
       ),
-      elevation: 4.0,
     );
   }
 }
