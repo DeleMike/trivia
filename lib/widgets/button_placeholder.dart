@@ -1,20 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart' as parser;
 
-class ButtonPlaceHolder extends StatefulWidget {
-  final String questionType;
+class ButtonPlaceholder extends StatefulWidget {
   final List answers;
+  final void Function(String answer) theAnswer;
+  final bool isDisabled;
 
-  ButtonPlaceHolder(this.questionType, this.answers);
+  ButtonPlaceholder(this.answers, this.theAnswer, this.isDisabled);
 
   @override
-  _ButtonPlaceHolderState createState() => _ButtonPlaceHolderState();
+  _ButtonPlaceholderState createState() => _ButtonPlaceholderState();
 }
 
-class _ButtonPlaceHolderState extends State<ButtonPlaceHolder> {
+class _ButtonPlaceholderState extends State<ButtonPlaceholder> {
+  var _selectedAnswer;
+  var _selectedButtonColor = Colors.transparent;
+  //var _selectedTextColor
+
+  void _selectAnswer(String answer) {
+    setState(() {
+      _selectedAnswer = answer;
+    });
+    widget.theAnswer(_selectedAnswer);
+  }
+
+  String _parsedHtmlString(String answer) {
+    var doc = parser.parse(answer);
+    String parsedStr = parser.parse(doc.body.text).documentElement.text;
+    return parsedStr;
+  }
+
+  //_passValue
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //use Wrap widget
+    _selectedAnswer = widget.theAnswer;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: widget.answers.map((answer) {
+        //return each answer button
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: _selectedButtonColor,
+            ),
+            child: OutlineButton(
+              key: ValueKey('$answer'),
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Text(_parsedHtmlString(answer)),
+              ),
+              onPressed: widget.isDisabled
+                  ? null
+                  : () {
+                      _selectAnswer(answer);
+                      print(
+                          'Button PlacedHolder: SelectedAnswer = $_selectedAnswer');
+                    },
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
