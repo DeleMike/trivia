@@ -112,6 +112,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                     validator: (value) {
                       if (value.isEmpty ||
                           (int.parse(value) <= 0 || int.parse(value) > 50)) {
+                            setState(() => _isLoading = false);
                         return 'please enter a value between 0 and 50';
                       }
                       return null;
