@@ -202,121 +202,168 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
+  Future<bool> _showDialog() async {
+    var closeQuiz = false;
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Message',
+          ),
+          content: Text(
+            'Do you really want to exit quiz?',
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                  fontSize: 15,
+                ),
+          ),
+          actions: [
+            FlatButton(
+              child: Text('NO'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('YES'),
+              onPressed: () {
+                
+                  closeQuiz = !closeQuiz;
+                   Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    print('QuizPage: closeQuiz = $closeQuiz');
+    return closeQuiz;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Trivia'),
-      ),
-      body: Builder(builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    padding: const EdgeInsets.all(8.0),
-                    child: QuestionNum(
-                      (_currentQuestionNum + 1).toString(),
-                      _totalQuestionNum.toString(),
+    return WillPopScope(
+      onWillPop: () async => _showDialog(),
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Trivia'),
+        ),
+        body: Builder(builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.all(8.0),
+                      child: QuestionNum(
+                        (_currentQuestionNum + 1).toString(),
+                        _totalQuestionNum.toString(),
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    padding: const EdgeInsets.all(8.0),
-                    child: t.Timer(_currentTime),
-                  ),
-                ],
-              ),
-              SizedBox(height: 25.0),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: QuestionPlaceholder(_currentQuestion),
-                      ),
-                      Divider(),
-                      SizedBox(height: 8.0),
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.indigo[50],
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.all(8.0),
+                      child: t.Timer(_currentTime),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 25.0),
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          child: QuestionPlaceholder(_currentQuestion),
                         ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Your answer: $_selectedAnswer'),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 16, right: 16, bottom: 16),
-                        child: ButtonPlaceholder(
-                          _allAnswers[_currentQuestionNum],
-                          _onSelectAnswer,
-                          _isDisabled,
+                        Divider(),
+                        SizedBox(height: 8.0),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.indigo[50],
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Your answer: $_selectedAnswer'),
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 16, right: 16, bottom: 16),
+                          child: ButtonPlaceholder(
+                            _allAnswers[_currentQuestionNum],
+                            _onSelectAnswer,
+                            _isDisabled,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.indigo[200],
-                            spreadRadius: 3,
-                            blurRadius: 16,
-                            offset: Offset(-2, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 16),
-                      child: RaisedButton(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text('${_isDoneWithQuiz ? 'DONE' : _buttonText}'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.indigo[200],
+                              spreadRadius: 3,
+                              blurRadius: 16,
+                              offset: Offset(-2, 4),
+                            ),
+                          ],
                         ),
-                        onPressed: () {
-                          if (_isDoneWithQuiz) {
-                            print('FINISHED');
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              behavior: SnackBarBehavior.floating,
-                              margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                              content:
-                                  Text('Results: $_score/$_totalQuestionNum'
-                                      '\n...to display results on the next page.'),
-                              action: SnackBarAction(
-                                textColor: Theme.of(context).buttonTheme.colorScheme.surface,
-                                label: 'OKAY',
-                                onPressed: () {},
-                              ),
-                            ));
-                          } else {
-                            _onBtnClick(_selectedAnswer);
-                          }
-                        },
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 16),
+                        child: RaisedButton(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                                '${_isDoneWithQuiz ? 'DONE' : _buttonText}'),
+                          ),
+                          onPressed: () {
+                            if (_isDoneWithQuiz) {
+                              print('FINISHED');
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                behavior: SnackBarBehavior.floating,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 16),
+                                content: Text(
+                                    'Results: $_score/$_totalQuestionNum'
+                                    '\n...to display results on the next page.'),
+                                action: SnackBarAction(
+                                  textColor: Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme
+                                      .surface,
+                                  label: 'OKAY',
+                                  onPressed: () {},
+                                ),
+                              ));
+                            } else {
+                              _onBtnClick(_selectedAnswer);
+                            }
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      }),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }
