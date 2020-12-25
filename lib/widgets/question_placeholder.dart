@@ -5,8 +5,7 @@ class QuestionPlaceholder extends StatelessWidget {
   QuestionPlaceholder(this.questionText);
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    return Container(
+   return Container(
       margin: const EdgeInsets.all(8.0),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Text(questionText ?? '',
