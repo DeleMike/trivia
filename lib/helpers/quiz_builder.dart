@@ -36,6 +36,7 @@ class QuizBuilder with ChangeNotifier {
     };
 
     final uri = Uri.https(url, '/api.php', queryParameters);
+    print('QuizBuilder: URL TO DB = $uri');
 
     //get response and group data
     final response = await http.get(uri);
@@ -46,7 +47,7 @@ class QuizBuilder with ChangeNotifier {
       _isEmpty = true;
       print('QuizBuilder: response returned no result');
     } else {
-      //_isEmpty = false;
+      _isEmpty = false;
       result.forEach((res) {
         _questions.add(res['question']);
         _correctAnswers.add(res['correct_answer']);
@@ -65,9 +66,5 @@ class QuizBuilder with ChangeNotifier {
       print('QuizBuilder: data = $_fetchedData');
     }
     notifyListeners();
-  }
-
-  void getDefaultQuestion() {
-    print('Quiz Page: This will get default question');
   }
 }
