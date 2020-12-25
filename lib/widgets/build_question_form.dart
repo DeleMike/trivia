@@ -98,9 +98,6 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
           return AlertDialog(
             title: Text(
               'Message',
-              style: Theme.of(context).textTheme.headline6.copyWith(
-                    color: Theme.of(context).errorColor,
-                  ),
             ),
             content: Text(
               'The questions are not available yet.'
