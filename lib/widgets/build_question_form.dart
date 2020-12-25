@@ -41,6 +41,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
   String _numOfQuestions = '';
   String _typeTag = '';
   bool _isLoading = false;
+  final _quizBuilder = QuizBuilder();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -59,32 +60,34 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       print('numOfQuestions = $_numOfQuestions, selectedDifficulty = ' +
           ' $_selectedDifficulty, selectedQuestionType = $_typeTag');
 
-      final quizBuilder = QuizBuilder();
-      await quizBuilder.fetchAndSetQuestions(
+      await _quizBuilder.fetchAndSetQuestions(
         numOfQuestion: _numOfQuestions,
         difficulty: _selectedDifficulty,
         categoryTag: widget.categoryTag.toString(),
         type: _typeTag,
       );
 
-      if (quizBuilder.isEmpty) {
-        setState(() => _isLoading = false);
-        quizBuilder.getDefaultQuestion();
-        _showDialog();
-      } else {
-        final result = quizBuilder.fetchedData;
-        setState(() => _isLoading = false);
-        print('BuildQuestionForm: Result = $result');
-        //pass data to quiz page
-        Navigator.of(context).pushNamed(
-          QuizPage.routeName,
-          arguments: {
-            'results': result,
-            'difficulty': _selectedDifficulty,
-            'type': _typeTag,
-          },
-        );
-      }
+      _checkValidResult(_quizBuilder);
+    }
+  }
+
+  void _checkValidResult(QuizBuilder quizBuilder) async {
+    if (_quizBuilder.isEmpty) {
+      setState(() => _isLoading = false);
+      _showDialog();
+    } else {
+      final result = _quizBuilder.fetchedData;
+      setState(() => _isLoading = false);
+      print('BuildQuestionForm: Result = $result');
+      //pass data to quiz page
+      Navigator.of(context).pushReplacementNamed(
+        QuizPage.routeName,
+        arguments: {
+          'results': result,
+          'difficulty': _selectedDifficulty,
+          'type': _typeTag,
+        },
+      );
     }
   }
 
@@ -100,18 +103,40 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                   ),
             ),
             content: Text(
-              'The questions are not available yet. Please try again later',
-              style: Theme.of(context).textTheme.bodyText2,
+              'The questions are not available yet.'
+              '\n\nPlease try again later or you can get the default questions',
+              style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    fontSize: 15,
+                  ),
             ),
             actions: [
-              FlatButton(
-                child: Text('OKAY'),
-                textTheme: Theme.of(context).buttonTheme.textTheme,
-                onPressed: () {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName(Categories.routeName));
-                },
-              ),
+              if(_isLoading)
+                Center(child:CircularProgressIndicator()),
+              if(!_isLoading)
+                FlatButton(
+                  child: Text('GET DEFAULT QUESTIONS'),
+                  textTheme: Theme.of(context).buttonTheme.textTheme,
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    setState(() => _isLoading = true);
+                    await _quizBuilder.fetchAndSetQuestions(
+                      numOfQuestion: _numOfQuestions,
+                      categoryTag: '0',
+                      difficulty: _selectedDifficulty,
+                      type: _typeTag,
+                    );
+
+                    _checkValidResult(_quizBuilder);
+                  },
+                ),
+                FlatButton(
+                  child: Text('OKAY'),
+                  textTheme: Theme.of(context).buttonTheme.textTheme,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .popUntil(ModalRoute.withName(Categories.routeName));
+                  },
+                ),
             ],
           );
         });
@@ -134,7 +159,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child:
-                    Text(widget.categoryName, style: TextStyle(fontSize: 20)),
+                    Text('${_isLoading ? 'Preparing your questions...' : widget.categoryName}', style: TextStyle(fontSize: 20)),
               ),
               Divider(),
               Container(
