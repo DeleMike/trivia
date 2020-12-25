@@ -16,7 +16,6 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   Timer _timer;
-  var _start = 20;
   var _currentTime = 20;
   var _durationTime = 20;
   var _data;
@@ -38,8 +37,8 @@ class _QuizPageState extends State<QuizPage> {
   var _isDisabled = false;
   var _buttonText = 'NEXT';
   var _score = 0;
+  bool _isDoneWithQuiz = false;
   List _chosenAnswers = [];
-  var _appContext;
 
   @override
   void initState() {
@@ -105,6 +104,7 @@ class _QuizPageState extends State<QuizPage> {
           _timer.cancel();
         }
         _currentTime = 0;
+        _isDoneWithQuiz = true;
       });
 
       //end quiz
@@ -126,9 +126,10 @@ class _QuizPageState extends State<QuizPage> {
           _timer.cancel();
         }
 
-         _currentQuestion = parsedHtmlString(_questions[_currentQuestionNum]);
+        _currentQuestion = parsedHtmlString(_questions[_currentQuestionNum]);
         _isDisabled = false;
         _currentTime = _durationTime;
+        _selectedAnswer = '';
       });
     }
     _startQuiz();
@@ -141,7 +142,7 @@ class _QuizPageState extends State<QuizPage> {
       ++_score; //record quiz score
     }
 
-      _chosenAnswers.insert(_currentQuestionNum, selectedAnswer);
+    _chosenAnswers.insert(_currentQuestionNum, selectedAnswer);
 
     print('QuizPage: selectedAnswer: $_selectedAnswer');
     print('QuizPage: correctAnswer: $_correctAnswer');
@@ -166,7 +167,6 @@ class _QuizPageState extends State<QuizPage> {
       oneSec,
       (Timer timer) {
         //if time is 0, then automatically disable buttons
-        //and tell user info then move to next question
         if (_currentTime == 0) {
           if (mounted) {
             setState(() {
@@ -208,102 +208,115 @@ class _QuizPageState extends State<QuizPage> {
       appBar: AppBar(
         title: Text('Trivia'),
       ),
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  padding: const EdgeInsets.all(8.0),
-                  child: QuestionNum(
-                    (_currentQuestionNum + 1).toString(),
-                    _totalQuestionNum.toString(),
+      body: Builder(builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.all(8.0),
+                    child: QuestionNum(
+                      (_currentQuestionNum + 1).toString(),
+                      _totalQuestionNum.toString(),
+                    ),
                   ),
-                ),
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  padding: const EdgeInsets.all(8.0),
-                  child: t.Timer(_currentTime),
-                ),
-              ],
-            ),
-            SizedBox(height: 25.0),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: QuestionPlaceholder(_currentQuestion),
-                    ),
-                    Divider(),
-                    SizedBox(height: 8.0),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.indigo[50],
+                  Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.all(8.0),
+                    child: t.Timer(_currentTime),
+                  ),
+                ],
+              ),
+              SizedBox(height: 25.0),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: QuestionPlaceholder(_currentQuestion),
                       ),
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Your answer: $_selectedAnswer'),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16),
-                      child: ButtonPlaceholder(
-                        _allAnswers[_currentQuestionNum],
-                        _onSelectAnswer,
-                        _isDisabled,
+                      Divider(),
+                      SizedBox(height: 8.0),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo[50],
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Your answer: $_selectedAnswer'),
                       ),
-                    ),
-                  ],
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 16, right: 16, bottom: 16),
+                        child: ButtonPlaceholder(
+                          _allAnswers[_currentQuestionNum],
+                          _onSelectAnswer,
+                          _isDisabled,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.indigo[200],
-                          spreadRadius: 3,
-                          blurRadius: 16,
-                          offset: Offset(-2, 4),
-                        ),
-                      ],
-                    ),
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 16),
-                    child: RaisedButton(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Text('$_buttonText'),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.indigo[200],
+                            spreadRadius: 3,
+                            blurRadius: 16,
+                            offset: Offset(-2, 4),
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        _onBtnClick(_selectedAnswer);
-                      },
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 16),
+                      child: RaisedButton(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Text('${_isDoneWithQuiz ? 'DONE' : _buttonText}'),
+                        ),
+                        onPressed: () {
+                          if (_isDoneWithQuiz) {
+                            print('FINISHED');
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              behavior: SnackBarBehavior.floating,
+                              margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
+                              content:
+                                  Text('Results: $_score/$_totalQuestionNum'
+                                      '\n...to display results on the next page.'),
+                              action: SnackBarAction(
+                                textColor: Theme.of(context).buttonTheme.colorScheme.surface,
+                                label: 'OKAY',
+                                onPressed: () {},
+                              ),
+                            ));
+                          } else {
+                            _onBtnClick(_selectedAnswer);
+                          }
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-
-      //current question display widget
-      //Question display widget
-      //a divider
-      //Answer Button widget
-      //next button widget
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
