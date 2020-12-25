@@ -227,9 +227,8 @@ class _QuizPageState extends State<QuizPage> {
             FlatButton(
               child: Text('YES'),
               onPressed: () {
-                
-                  closeQuiz = !closeQuiz;
-                   Navigator.of(context).pop();
+                closeQuiz = !closeQuiz;
+                Navigator.of(context).pop();
               },
             ),
           ],
