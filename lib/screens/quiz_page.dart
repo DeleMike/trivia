@@ -7,6 +7,7 @@ import '../widgets/question_num.dart';
 import '../widgets/timer.dart' as t;
 import '../widgets/question_placeholder.dart';
 import '../widgets/button_placeholder.dart';
+import '../screens/result_screen.dart';
 
 class QuizPage extends StatefulWidget {
   static const routeName = '/quiz-page';
@@ -332,23 +333,8 @@ class _QuizPageState extends State<QuizPage> {
                           onPressed: () {
                             if (_isDoneWithQuiz) {
                               print('FINISHED');
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                behavior: SnackBarBehavior.floating,
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 16),
-                                content: Text(
-                                    'Results: $_score/$_totalQuestionNum'
-                                    '\n...to display results on the next page.'),
-                                action: SnackBarAction(
-                                  textColor: Theme.of(context)
-                                      .buttonTheme
-                                      .colorScheme
-                                      .surface,
-                                  label: 'OKAY',
-                                  onPressed: () {},
-                                ),
-                              ));
+                              Navigator.of(context).pushReplacementNamed(ResultScreen.routeName);
+                              //TODO: Try to show a modal pop up to be used as the result screen 
                             } else {
                               _onBtnClick(_selectedAnswer);
                             }
