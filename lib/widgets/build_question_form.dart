@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../helpers/quiz_builder.dart';
 import '../screens/quiz_page.dart';
+import '../screens/categories.dart';
 
 class BuildQuestionForm extends StatefulWidget {
   final String categoryName;
@@ -66,16 +67,54 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
         type: _typeTag,
       );
 
-      final result = quizBuilder.fetchedData;
-      setState(() => _isLoading = false);
-      print('BuildQuestionForm: Result = $result');
-      //pass data to quiz page
-      Navigator.of(context).pushNamed(QuizPage.routeName, arguments: {
-        'results' : result,
-        'difficulty' :  _selectedDifficulty,
-        'type' : _typeTag,
-      },);
+      if (quizBuilder.isEmpty) {
+        setState(() => _isLoading = false);
+        quizBuilder.getDefaultQuestion();
+        _showDialog();
+      } else {
+        final result = quizBuilder.fetchedData;
+        setState(() => _isLoading = false);
+        print('BuildQuestionForm: Result = $result');
+        //pass data to quiz page
+        Navigator.of(context).pushNamed(
+          QuizPage.routeName,
+          arguments: {
+            'results': result,
+            'difficulty': _selectedDifficulty,
+            'type': _typeTag,
+          },
+        );
+      }
     }
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Message',
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Theme.of(context).errorColor,
+                  ),
+            ),
+            content: Text(
+              'The questions are not available yet. Please try again later',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            actions: [
+              FlatButton(
+                child: Text('OKAY'),
+                textTheme: Theme.of(context).buttonTheme.textTheme,
+                onPressed: () {
+                  Navigator.of(context)
+                      .popUntil(ModalRoute.withName(Categories.routeName));
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -112,7 +151,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                     validator: (value) {
                       if (value.isEmpty ||
                           (int.parse(value) <= 0 || int.parse(value) > 50)) {
-                            setState(() => _isLoading = false);
+                        setState(() => _isLoading = false);
                         return 'please enter a value between 0 and 50';
                       }
                       return null;
@@ -172,12 +211,12 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                 ),
               ),
               SizedBox(height: 20),
-              if(_isLoading)
+              if (_isLoading)
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: CircularProgressIndicator(),
                 ),
-               if(!_isLoading) 
+              if (!_isLoading)
                 Container(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: RaisedButton(

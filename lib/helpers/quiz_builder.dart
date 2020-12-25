@@ -9,9 +9,14 @@ class QuizBuilder with ChangeNotifier {
   List<String> _correctAnswers = [];
   List<List<dynamic>> _incorrectAnswers = [];
   Map<String, List> _fetchedData;
+  bool _isEmpty = false;
 
   Map<String, List> get fetchedData {
     return _fetchedData != null ? _fetchedData : null;
+  }
+
+  bool get isEmpty {
+    return _isEmpty;
   }
 
   ///fetch questions from api
@@ -38,8 +43,10 @@ class QuizBuilder with ChangeNotifier {
 
     final List result = json.decode(response.body)['results'];
     if (result.isEmpty) {
+      _isEmpty = true;
       print('QuizBuilder: response returned no result');
     } else {
+      //_isEmpty = false;
       result.forEach((res) {
         _questions.add(res['question']);
         _correctAnswers.add(res['correct_answer']);
@@ -58,5 +65,9 @@ class QuizBuilder with ChangeNotifier {
       print('QuizBuilder: data = $_fetchedData');
     }
     notifyListeners();
+  }
+
+  void getDefaultQuestion() {
+    print('Quiz Page: This will get default question');
   }
 }
