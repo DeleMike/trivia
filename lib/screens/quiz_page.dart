@@ -375,6 +375,7 @@ class _QuizPageState extends State<QuizPage> {
                                     return GestureDetector(
                                       child: SingleChildScrollView(
                                         child: Column(
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
                                             _resultAnimation(),
                                             Padding(
@@ -387,6 +388,7 @@ class _QuizPageState extends State<QuizPage> {
                                                     .headline6,
                                               ),
                                             ),
+                                            //TODO: Make all buttons do their respective tasks.
                                             Container(
                                               width: 300,
                                               margin: const EdgeInsets.only(
