@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart' as parser;
+import 'package:lottie/lottie.dart';
 
 import '../widgets/question_num.dart';
 import '../widgets/timer.dart' as t;
@@ -40,6 +41,11 @@ class _QuizPageState extends State<QuizPage> {
   var _score = 0;
   bool _isDoneWithQuiz = false;
   List _chosenAnswers = [];
+  final animations = [
+    'assets/animations/congratulation-success-batch.json',
+    'assets/animations/thumb-up-party.json',
+    'assets/animations/you-loss.json',
+  ];
 
   @override
   void initState() {
@@ -159,6 +165,31 @@ class _QuizPageState extends State<QuizPage> {
     var doc = parser.parse(question);
     String parsedStr = parser.parse(doc.body.text).documentElement.text;
     return parsedStr;
+  }
+
+  Widget _resultAnimation() {
+    if (_score == 0) {
+      return Lottie.asset(
+        animations[2],
+        width: 200,
+        height: 200,
+        fit: BoxFit.fill,
+      );
+    } else if (_score == _totalQuestionNum) {
+      return Lottie.asset(
+        animations[0],
+        width: 200,
+        height: 200,
+        fit: BoxFit.fill,
+      );
+    } else {
+      return Lottie.asset(
+        animations[1],
+        width: 200,
+        height: 200,
+        fit: BoxFit.fill,
+      );
+    }
   }
 
   void startTimer(int quizTime) {
@@ -333,8 +364,88 @@ class _QuizPageState extends State<QuizPage> {
                           onPressed: () {
                             if (_isDoneWithQuiz) {
                               print('FINISHED');
-                              Navigator.of(context).pushReplacementNamed(ResultScreen.routeName);
-                              //TODO: Try to show a modal pop up to be used as the result screen 
+                              //Navigator.of(context).pushReplacementNamed(ResultScreen.routeName);
+                              showModalBottomSheet(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20.0),
+                                  )),
+                                  context: context,
+                                  builder: (_) {
+                                    return GestureDetector(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            _resultAnimation(),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Text(
+                                                'Your Score: $_score / $_totalQuestionNum',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 300,
+                                              margin: const EdgeInsets.only(
+                                                  top: 16.0,
+                                                  left: 16.0,
+                                                  right: 16.0),
+                                              child: OutlinedButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Text('FINISH'),
+                                                ),
+                                                onPressed: () {
+                                                  print(
+                                                      'QuizPage-Bottom Sheet: Pressed finish button');
+                                                },
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 300,
+                                              margin: const EdgeInsets.only(
+                                                  top: 16.0,
+                                                  left: 16.0,
+                                                  right: 16.0),
+                                              child: OutlinedButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Text('TAKE ANOTHER'),
+                                                ),
+                                                onPressed: () {
+                                                  print(
+                                                      'QuizPage-Bottom Sheet: Pressed take-another button');
+                                                },
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 300,
+                                              margin:
+                                                  const EdgeInsets.all(16.0),
+                                              child: OutlinedButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Text('VIEW ANSWERS'),
+                                                ),
+                                                onPressed: () {
+                                                  print(
+                                                      'QuizPage-Bottom Sheet: Pressed view-answers button');
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {},
+                                      behavior: HitTestBehavior.opaque,
+                                    );
+                                  });
                             } else {
                               _onBtnClick(_selectedAnswer);
                             }
