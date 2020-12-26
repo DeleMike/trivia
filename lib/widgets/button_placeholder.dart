@@ -44,7 +44,7 @@ class _ButtonPlaceholderState extends State<ButtonPlaceholder> {
             decoration: BoxDecoration(
               color: _selectedButtonColor,
             ),
-            child: OutlineButton(
+            child: OutlinedButton(
               key: ValueKey('$answer'),
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
