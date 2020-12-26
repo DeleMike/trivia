@@ -17,6 +17,7 @@ dependencies:
   html: ^0.14.0+4
   http: ^0.12.2
   image_picker: ^0.6.7+15
+  lottie: ^0.7.0+1
   provider: ^4.3.2+3
   quiver: ^2.1.5
   shared_preferences: ^0.5.12+4
@@ -38,6 +39,9 @@ flutter:
   assets:
     - assets/images/app_icon.png
     - assets/images/logo.png
+    - assets/animations/congratulation-success-batch.json
+    - assets/animations/thumb-up-party.json
+    - assets/animations/you-loss.json
 
   fonts:
     - family: Ubuntu
