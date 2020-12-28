@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../helpers/quiz_builder.dart';
 import '../screens/quiz_page.dart';
@@ -36,6 +37,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
     return DropdownMenuItem<String>(value: val, child: Text(val));
   }).toList();
 
+  String _quizName = '';
   String _selectedDifficulty = 'easy';
   String _selectedQuestionType = 'True/False';
   String _numOfQuestions = '';
@@ -73,10 +75,13 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
 
   void _checkValidResult(QuizBuilder quizBuilder) async {
     if (_quizBuilder.isEmpty) {
+      _quizName = 'Any Category';
       setState(() => _isLoading = false);
       _showDialog();
     } else {
       final result = _quizBuilder.fetchedData;
+      final dateFormat = DateFormat('hh:mm');
+      final time = dateFormat.format(DateTime.now());
       setState(() => _isLoading = false);
       print('BuildQuestionForm: Result = $result');
       //pass data to quiz page
@@ -84,8 +89,10 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
         QuizPage.routeName,
         arguments: {
           'results': result,
+          'quiz_name': _quizName.length != 0 ? _quizName : widget.categoryName,
           'difficulty': _selectedDifficulty,
           'type': _typeTag,
+          'time_taken' : time,
         },
       );
     }
