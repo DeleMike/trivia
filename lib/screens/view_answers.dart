@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 
 class ViewAnswers extends StatelessWidget {
   static const routeName = '/view-answers';
-  final widgets = <Widget>[
-    Text('Hello - 1'),
-    Text('Hello - 2'),
-    Text('Hello - 3'),
-    Text('Hello - 4'),
-  ];
   @override
   Widget build(BuildContext context) {
     final tabs = ModalRoute.of(context).settings.arguments as Map<String, List<String>>;
@@ -27,17 +21,30 @@ class ViewAnswers extends StatelessWidget {
                 child: Column(
                     children: [
                       SizedBox(height:10),
-                      Text('Question ${i+1}'),
+                      Text('Question ${i+1}', style: Theme.of(context).textTheme.headline1),
                       SizedBox(height:10),
                       Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(questions[i], style: Theme.of(context).textTheme.headline6)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(questions[i], style: Theme.of(context).textTheme.headline6),
+                        )),
                         SizedBox(height:10),
                         Divider(),
                         SizedBox(height:10),
+                        Text('Answer', style: Theme.of(context).textTheme.headline1),
+                        SizedBox(height:10),
                        Container(
+                          decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(answers[i], style: Theme.of(context).textTheme.headline6)),
+                        child: Text(answers[i], style: Theme.of(context).textTheme.headline5)),
                       
                     ],
                   ),
