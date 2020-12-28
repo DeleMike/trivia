@@ -195,21 +195,37 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   List<Widget> _buildViewAnswersTabView() {
-    var list = [];
+    List<Widget> list = [];
     var item;
     var question = '';
     var answer = '';
     for (var i = 0; i < _viewAnswersQuestions.length; i++) {
       question = _viewAnswersQuestions[i];
       answer = _viewAnswersCorrectAnswers[i];
-      item = Column(
-        children: [
-          Text('Question', style: Theme.of(context).textTheme.headline4),
-          Text(question, style: Theme.of(context).textTheme.headline6),
-          SizedBox(height: 20.0),
-          Text('Correct Answer', style: Theme.of(context).textTheme.headline4),
-          Text(answer, style: Theme.of(context).textTheme.headline6),
-        ],
+      item = Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+              children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Question', style: Theme.of(context).textTheme.headline4),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(question, style: Theme.of(context).textTheme.headline6),
+        ),
+        Divider(),
+        SizedBox(height: 20.0),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Correct Answer', style: Theme.of(context).textTheme.headline4),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(answer, style: Theme.of(context).textTheme.headline6),
+        ),
+              ],
+            ),
       );
       list.add(item);
     }
@@ -471,7 +487,7 @@ class _QuizPageState extends State<QuizPage> {
                                                         parsedHtmlString(
                                                             question);
                                                     _viewAnswersQuestions.add(
-                                                        Text(parsedQuestion));
+                                                        parsedQuestion);
                                                   }
 
                                                   for (var answer
@@ -481,7 +497,7 @@ class _QuizPageState extends State<QuizPage> {
                                                             answer);
                                                     _viewAnswersCorrectAnswers
                                                         .add(
-                                                            Text(parsedAnswer));
+                                                            parsedAnswer);
                                                   }
                                                   var tabs = _buildViewAnswersTabView();
                                                   Navigator.of(context)
