@@ -71,7 +71,6 @@ class MyApp extends StatelessWidget {
             },
           ),
           routes: {
-            WelcomeScreen.routeName : (ctx) => WelcomeScreen(),
             Categories.routeName : (ctx) => Categories(),
             BuildQuestion.routeName : (ctx) => BuildQuestion(),
             QuizPage.routeName : (ctx) => QuizPage(),
