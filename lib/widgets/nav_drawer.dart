@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../screens/history_screen.dart'; 
+
 class NavDrawer extends StatelessWidget {
   final String username;
   final File fileImage;
@@ -38,7 +40,7 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(HistoryScreen.routeName);
           },
         ),
         InkWell(
