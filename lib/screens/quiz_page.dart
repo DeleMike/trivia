@@ -194,43 +194,22 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
-  List<Widget> _buildViewAnswersTabView() {
-    List<Widget> list = [];
-    var item;
-    var question = '';
-    var answer = '';
+  Map<String, List<String>> _buildViewAnswersTabView() {
+    Map<String, List<String>> dataToPass = {
+      'question': [],
+      'answer' : [],
+    };
+    List<String> questions = [];
+    List<String> answers = [];
     for (var i = 0; i < _viewAnswersQuestions.length; i++) {
-      question = _viewAnswersQuestions[i];
-      answer = _viewAnswersCorrectAnswers[i];
-      item = Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-              children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Question', style: Theme.of(context).textTheme.headline4),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(question, style: Theme.of(context).textTheme.headline6),
-        ),
-        Divider(),
-        SizedBox(height: 20.0),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('Correct Answer', style: Theme.of(context).textTheme.headline4),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(answer, style: Theme.of(context).textTheme.headline6),
-        ),
-              ],
-            ),
-      );
-      list.add(item);
+      questions.insert(i,_viewAnswersQuestions[i]);
+      answers.insert(i, _viewAnswersCorrectAnswers[i]);
     }
 
-    return list;
+     dataToPass['question'] = questions;
+    dataToPass['answer'] = answers;
+
+    return dataToPass;
   }
 
   void startTimer(int quizTime) {
