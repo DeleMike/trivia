@@ -26,14 +26,14 @@ class _QuestionNumState extends State<QuestionNum> {
         //borderRadius: BorderRadius.circular(12),
       ),
       child: FittedBox(
-        fit: BoxFit.contain,
+        fit: BoxFit.fitWidth,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(24.0),
           child: Text(
-            '${widget.currentQuestionNum}/${widget.totalQuestionNum}',
+            '${widget.currentQuestionNum} of ${widget.totalQuestionNum}',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
