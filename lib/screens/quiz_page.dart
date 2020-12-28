@@ -8,7 +8,7 @@ import '../widgets/question_num.dart';
 import '../widgets/timer.dart' as t;
 import '../widgets/question_placeholder.dart';
 import '../widgets/button_placeholder.dart';
-import '../screens/result_screen.dart';
+import '../screens/view_answers.dart';
 
 class QuizPage extends StatefulWidget {
   static const routeName = '/quiz-page';
@@ -41,6 +41,8 @@ class _QuizPageState extends State<QuizPage> {
   var _score = 0;
   bool _isDoneWithQuiz = false;
   List _chosenAnswers = [];
+  List _viewAnswersQuestions = [];
+  List _viewAnswersCorrectAnswers = [];
   final animations = [
     'assets/animations/congratulation-success-batch.json',
     'assets/animations/thumb-up-party.json',
@@ -190,6 +192,29 @@ class _QuizPageState extends State<QuizPage> {
         fit: BoxFit.fill,
       );
     }
+  }
+
+  List<Widget> _buildViewAnswersTabView() {
+    var list = [];
+    var item;
+    var question = '';
+    var answer = '';
+    for (var i = 0; i < _viewAnswersQuestions.length; i++) {
+      question = _viewAnswersQuestions[i];
+      answer = _viewAnswersCorrectAnswers[i];
+      item = Column(
+        children: [
+          Text('Question', style: Theme.of(context).textTheme.headline4),
+          Text(question, style: Theme.of(context).textTheme.headline6),
+          SizedBox(height: 20.0),
+          Text('Correct Answer', style: Theme.of(context).textTheme.headline4),
+          Text(answer, style: Theme.of(context).textTheme.headline6),
+        ],
+      );
+      list.add(item);
+    }
+
+    return list;
   }
 
   void startTimer(int quizTime) {
@@ -436,8 +461,33 @@ class _QuizPageState extends State<QuizPage> {
                                                   child: Text('VIEW ANSWERS'),
                                                 ),
                                                 onPressed: () {
+                                                  var parsedQuestion = '';
+                                                  var parsedAnswer = '';
                                                   print(
                                                       'QuizPage-Bottom Sheet: Pressed view-answers button');
+                                                  for (var question
+                                                      in _questions) {
+                                                    parsedQuestion =
+                                                        parsedHtmlString(
+                                                            question);
+                                                    _viewAnswersQuestions.add(
+                                                        Text(parsedQuestion));
+                                                  }
+
+                                                  for (var answer
+                                                      in _correctAnswers) {
+                                                    parsedAnswer =
+                                                        parsedHtmlString(
+                                                            answer);
+                                                    _viewAnswersCorrectAnswers
+                                                        .add(
+                                                            Text(parsedAnswer));
+                                                  }
+                                                  var tabs = _buildViewAnswersTabView();
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                          ViewAnswers.routeName,
+                                                          arguments: tabs);
                                                 },
                                               ),
                                             ),
