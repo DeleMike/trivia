@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:lottie/lottie.dart';
 
@@ -8,8 +9,8 @@ import '../widgets/question_num.dart';
 import '../widgets/timer.dart' as t;
 import '../widgets/question_placeholder.dart';
 import '../widgets/button_placeholder.dart';
+import '../helpers/trivia_history.dart';
 import '../screens/view_answers.dart';
-import '../screens/welcome_screen.dart';
 import '../screens/categories.dart';
 
 class QuizPage extends StatefulWidget {
@@ -39,8 +40,12 @@ class _QuizPageState extends State<QuizPage> {
   var _selectedAnswer = '';
   var _correctAnswer = '';
   var _isDisabled = false;
+  var _isSavingData = false;
   var _buttonText = 'NEXT';
   var _score = 0;
+  var _timeTaken = '';
+  var _difficulty = '';
+  var _quizName = '';
   bool _isDoneWithQuiz = false;
   List _chosenAnswers = [];
   List _viewAnswersQuestions = [];
@@ -63,6 +68,9 @@ class _QuizPageState extends State<QuizPage> {
       _data = ModalRoute.of(context).settings.arguments as Map;
       print('QuizPage: DataMap = $_data');
       _questions = _data['results']['questions'];
+      _quizName = _data['quiz_name'];
+      _difficulty = _data['difficulty'];
+      _timeTaken = _data['time_taken'];
       _correctAnswers = _data['results']['correct_answer'];
       _incorrectAnswers = _data['results']['incorrect_answers'];
       _answers['correct_answers'] = _correctAnswers;
@@ -424,12 +432,27 @@ class _QuizPageState extends State<QuizPage> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               16.0),
-                                                      child:
-                                                          Text('FINISH'),
+                                                      child: _isSavingData
+                                                          ? CircularProgressIndicator()
+                                                          : Text('FINISH'),
                                                     ),
-                                                    onPressed: () {
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _isSavingData = true;
+                                                      });
+                                                      await Provider.of<TriviaHistory>(
+                                                              context,
+                                                              listen: false)
+                                                          .addHistory(
+                                                              _quizName,
+                                                              _difficulty,
+                                                              _timeTaken,
+                                                              '$_score of $_totalQuestionNum');
                                                       print(
                                                           'QuizPage-Bottom Sheet: Pressed take-another button');
+                                                      setState(() {
+                                                        _isSavingData = false;
+                                                      });
                                                       Navigator.of(context)
                                                           .popUntil((route) =>
                                                               route.settings
