@@ -9,6 +9,8 @@ import '../widgets/timer.dart' as t;
 import '../widgets/question_placeholder.dart';
 import '../widgets/button_placeholder.dart';
 import '../screens/view_answers.dart';
+import '../screens/welcome_screen.dart';
+import '../screens/categories.dart';
 
 class QuizPage extends StatefulWidget {
   static const routeName = '/quiz-page';
@@ -67,10 +69,11 @@ class _QuizPageState extends State<QuizPage> {
       _answers['incorrect_answers'] = _incorrectAnswers;
       print('\n\nQuizPage: Answers: $_answers');
       for (var i = 0; i < _correctAnswers.length; i++) {
-        _anAnswer.add(_answers['correct_answers'][i]);
         _anAnswer.addAll(_answers['incorrect_answers'][i]);
-        _allAnswers.insert(i, _anAnswer);
-        _allAnswers.shuffle();
+        _anAnswer.add(_answers['correct_answers'][i]);
+        _anAnswer..shuffle();
+        _allAnswers.add(_anAnswer);
+        //_allAnswers.shuffle();
         _anAnswer = [];
       }
       print('AllAnswers: $_allAnswers');
@@ -197,16 +200,16 @@ class _QuizPageState extends State<QuizPage> {
   Map<String, List<String>> _buildViewAnswersTabView() {
     Map<String, List<String>> dataToPass = {
       'question': [],
-      'answer' : [],
+      'answer': [],
     };
     List<String> questions = [];
     List<String> answers = [];
     for (var i = 0; i < _viewAnswersQuestions.length; i++) {
-      questions.insert(i,_viewAnswersQuestions[i]);
+      questions.insert(i, _viewAnswersQuestions[i]);
       answers.insert(i, _viewAnswersCorrectAnswers[i]);
     }
 
-     dataToPass['question'] = questions;
+    dataToPass['question'] = questions;
     dataToPass['answer'] = answers;
 
     return dataToPass;
@@ -232,7 +235,7 @@ class _QuizPageState extends State<QuizPage> {
           if (mounted) {
             setState(() {
               --_currentTime;
-              print('Timer: Current time = $_currentTime remaining');
+              // print('Timer: Current time = $_currentTime remaining');
             });
           }
         }
@@ -296,216 +299,209 @@ class _QuizPageState extends State<QuizPage> {
     return WillPopScope(
       onWillPop: () async => _showDialog(),
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('Trivia'),
-        ),
-        body: Builder(builder: (BuildContext context) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      padding: const EdgeInsets.all(8.0),
-                      child: QuestionNum(
-                        (_currentQuestionNum + 1).toString(),
-                        _totalQuestionNum.toString(),
+        // appBar: AppBar(
+        //   automaticallyImplyLeading: false,
+        //   title: Text('Trivia'),
+        // ),
+        body: SafeArea(
+          child: Builder(builder: (BuildContext context) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.all(8.0),
+                        child: QuestionNum(
+                          (_currentQuestionNum + 1).toString(),
+                          _totalQuestionNum.toString(),
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      padding: const EdgeInsets.all(8.0),
-                      child: t.Timer(_currentTime),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 25.0),
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          child: QuestionPlaceholder(_currentQuestion),
-                        ),
-                        Divider(),
-                        SizedBox(height: 8.0),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.indigo[50],
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.all(8.0),
+                        child: t.Timer(_currentTime),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 25.0),
+                  Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: QuestionPlaceholder(_currentQuestion),
                           ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Your answer: $_selectedAnswer'),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 16, right: 16, bottom: 16),
-                          child: ButtonPlaceholder(
-                            _allAnswers[_currentQuestionNum],
-                            _onSelectAnswer,
-                            _isDisabled,
+                          Divider(),
+                          SizedBox(height: 8.0),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.indigo[50],
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                'Your answer: ${parsedHtmlString(_selectedAnswer)}'),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 16),
+                            child: ButtonPlaceholder(
+                              _allAnswers[_currentQuestionNum],
+                              _onSelectAnswer,
+                              _isDisabled,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.indigo[200],
-                              spreadRadius: 3,
-                              blurRadius: 16,
-                              offset: Offset(-2, 4),
-                            ),
-                          ],
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 16),
-                        child: RaisedButton(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Text(
-                                '${_isDoneWithQuiz ? 'DONE' : _buttonText}'),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.indigo[200],
+                                spreadRadius: 3,
+                                blurRadius: 16,
+                                offset: Offset(-2, 4),
+                              ),
+                            ],
                           ),
-                          onPressed: () {
-                            if (_isDoneWithQuiz) {
-                              print('FINISHED');
-                              //Navigator.of(context).pushReplacementNamed(ResultScreen.routeName);
-                              showModalBottomSheet(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20.0),
-                                  )),
-                                  context: context,
-                                  builder: (_) {
-                                    return GestureDetector(
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            _resultAnimation(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(12.0),
-                                              child: Text(
-                                                'Your Score: $_score / $_totalQuestionNum',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline6,
-                                              ),
-                                            ),
-                                            //TODO: Make all buttons do their respective tasks.
-                                            Container(
-                                              width: 300,
-                                              margin: const EdgeInsets.only(
-                                                  top: 16.0,
-                                                  left: 16.0,
-                                                  right: 16.0),
-                                              child: OutlinedButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
-                                                  child: Text('FINISH'),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 16),
+                          child: RaisedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: Text(
+                                  '${_isDoneWithQuiz ? 'DONE' : _buttonText}'),
+                            ),
+                            onPressed: () {
+                              if (_isDoneWithQuiz) {
+                                print('FINISHED');
+                                //Navigator.of(context).pushReplacementNamed(ResultScreen.routeName);
+                                showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20.0),
+                                    )),
+                                    context: context,
+                                    builder: (_) {
+                                      return GestureDetector(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              _resultAnimation(),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(12.0),
+                                                child: Text(
+                                                  'Your Score: $_score / $_totalQuestionNum',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
                                                 ),
-                                                onPressed: () {
-                                                  print(
-                                                      'QuizPage-Bottom Sheet: Pressed finish button');
-                                                },
                                               ),
-                                            ),
-                                            Container(
-                                              width: 300,
-                                              margin: const EdgeInsets.only(
-                                                  top: 16.0,
-                                                  left: 16.0,
-                                                  right: 16.0),
-                                              child: OutlinedButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
-                                                  child: Text('TAKE ANOTHER'),
-                                                ),
-                                                onPressed: () {
-                                                  print(
-                                                      'QuizPage-Bottom Sheet: Pressed take-another button');
-                                                },
+                                              Container(
+                                                width: 300,
+                                                margin: const EdgeInsets.only(
+                                                    top: 16.0,
+                                                    left: 16.0,
+                                                    right: 16.0),
+                                                child: OutlinedButton(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              16.0),
+                                                      child:
+                                                          Text('FINISH'),
+                                                    ),
+                                                    onPressed: () {
+                                                      print(
+                                                          'QuizPage-Bottom Sheet: Pressed take-another button');
+                                                      Navigator.of(context)
+                                                          .popUntil((route) =>
+                                                              route.settings
+                                                                  .name ==
+                                                              Categories
+                                                                  .routeName);
+                                                    }),
                                               ),
-                                            ),
-                                            Container(
-                                              width: 300,
-                                              margin:
-                                                  const EdgeInsets.all(16.0),
-                                              child: OutlinedButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      16.0),
-                                                  child: Text('VIEW ANSWERS'),
-                                                ),
-                                                onPressed: () {
-                                                  var parsedQuestion = '';
-                                                  var parsedAnswer = '';
-                                                  print(
-                                                      'QuizPage-Bottom Sheet: Pressed view-answers button');
-                                                  for (var question
-                                                      in _questions) {
-                                                    parsedQuestion =
-                                                        parsedHtmlString(
-                                                            question);
-                                                    _viewAnswersQuestions.add(
-                                                        parsedQuestion);
-                                                  }
+                                              Container(
+                                                width: 300,
+                                                margin:
+                                                    const EdgeInsets.all(16.0),
+                                                child: OutlinedButton(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    child: Text('VIEW ANSWERS'),
+                                                  ),
+                                                  onPressed: () {
+                                                    var parsedQuestion = '';
+                                                    var parsedAnswer = '';
+                                                    print(
+                                                        'QuizPage-Bottom Sheet: Pressed view-answers button');
+                                                    for (var question
+                                                        in _questions) {
+                                                      parsedQuestion =
+                                                          parsedHtmlString(
+                                                              question);
+                                                      _viewAnswersQuestions
+                                                          .add(parsedQuestion);
+                                                    }
 
-                                                  for (var answer
-                                                      in _correctAnswers) {
-                                                    parsedAnswer =
-                                                        parsedHtmlString(
-                                                            answer);
-                                                    _viewAnswersCorrectAnswers
-                                                        .add(
-                                                            parsedAnswer);
-                                                  }
-                                                  var tabs = _buildViewAnswersTabView();
-                                                  Navigator.of(context)
-                                                      .pushNamed(
-                                                          ViewAnswers.routeName,
-                                                          arguments: tabs);
-                                                },
+                                                    for (var answer
+                                                        in _correctAnswers) {
+                                                      parsedAnswer =
+                                                          parsedHtmlString(
+                                                              answer);
+                                                      _viewAnswersCorrectAnswers
+                                                          .add(parsedAnswer);
+                                                    }
+                                                    var tabs =
+                                                        _buildViewAnswersTabView();
+                                                    Navigator.of(context)
+                                                        .pushNamed(
+                                                            ViewAnswers
+                                                                .routeName,
+                                                            arguments: tabs);
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      onTap: () {},
-                                      behavior: HitTestBehavior.opaque,
-                                    );
-                                  });
-                            } else {
-                              _onBtnClick(_selectedAnswer);
-                            }
-                          },
+                                        onTap: () {},
+                                        behavior: HitTestBehavior.opaque,
+                                      );
+                                    });
+                              } else {
+                                _onBtnClick(_selectedAnswer);
+                              }
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
