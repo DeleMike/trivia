@@ -13,7 +13,7 @@ class ViewAnswers extends StatelessWidget {
       appBar: AppBar(title: Text('View Correct Answers')),
       body:
           PageView.builder(
-            itemCount: tabs.length,
+            itemCount: tabs['question'].length,
             itemBuilder: (ctx, i) {
               return Container(
                  padding: const EdgeInsets.all(8.0),
