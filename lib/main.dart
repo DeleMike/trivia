@@ -42,10 +42,21 @@ class MyApp extends StatelessWidget {
                     color: Color.fromRGBO(20, 51, 51, 1),
                     fontStyle: FontStyle.italic,
                   ),
+                  headline1: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Ubuntu',
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black
+                  ),
                   headline6: TextStyle(
                     fontSize: 24,
                     fontFamily: 'Ubuntu',
                     fontWeight: FontWeight.bold,
+                  ),
+                   headline5: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Ubuntu',
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
             visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -60,6 +71,7 @@ class MyApp extends StatelessWidget {
             },
           ),
           routes: {
+            WelcomeScreen.routeName : (ctx) => WelcomeScreen(),
             Categories.routeName : (ctx) => Categories(),
             BuildQuestion.routeName : (ctx) => BuildQuestion(),
             QuizPage.routeName : (ctx) => QuizPage(),
