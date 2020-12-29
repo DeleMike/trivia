@@ -12,11 +12,11 @@ class TriviaHistory with ChangeNotifier {
 
   ///add data
   Future<void> addHistory(
-      String quizName, String difficulty, String timeTaken, String score) async {
+      String quizName, String difficulty, String dateTaken, String score) async {
     final newHistory = History(
       name: quizName,
       difficulty: difficulty,
-      timeTaken: timeTaken,
+      dateTaken: dateTaken,
       score: score,
     );
 
@@ -27,7 +27,7 @@ class TriviaHistory with ChangeNotifier {
       {
         'quizName': quizName,
         'quizDifficulty': difficulty,
-        'timeTaken': timeTaken,
+        'dateTaken': dateTaken,
         'score' : score,
       },
     );
@@ -40,7 +40,7 @@ class TriviaHistory with ChangeNotifier {
         .map((item) => History(
               name: item['quizName'],
               difficulty: item['quizDifficulty'],
-              timeTaken: item['timeTaken'],
+              dateTaken: item['dateTaken'],
               score: item['score'],
             ))
         .toList();

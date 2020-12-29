@@ -43,7 +43,7 @@ class _QuizPageState extends State<QuizPage> {
   var _isSavingData = false;
   var _buttonText = 'NEXT';
   var _score = 0;
-  var _timeTaken = '';
+  var _dateTaken = '';
   var _difficulty = '';
   var _quizName = '';
   bool _isDoneWithQuiz = false;
@@ -70,7 +70,7 @@ class _QuizPageState extends State<QuizPage> {
       _questions = _data['results']['questions'];
       _quizName = _data['quiz_name'];
       _difficulty = _data['difficulty'];
-      _timeTaken = _data['time_taken'];
+      _dateTaken = _data['date_taken'];
       _correctAnswers = _data['results']['correct_answer'];
       _incorrectAnswers = _data['results']['incorrect_answers'];
       _answers['correct_answers'] = _correctAnswers;
@@ -446,7 +446,7 @@ class _QuizPageState extends State<QuizPage> {
                                                           .addHistory(
                                                               _quizName,
                                                               _difficulty,
-                                                              _timeTaken,
+                                                              _dateTaken,
                                                               '$_score of $_totalQuestionNum');
                                                       print(
                                                           'QuizPage-Bottom Sheet: Pressed take-another button');

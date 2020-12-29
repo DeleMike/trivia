@@ -49,7 +49,7 @@ class HistoryScreen extends StatelessWidget {
                                     'Score: ${history.items[i].score}',
                                   ),
                                   trailing: Text(
-                                      'Time taken: ${history.items[i].timeTaken}'),
+                                      'Time taken: ${history.items[i].dateTaken}'),
                                 ),
                               ),
                             ),

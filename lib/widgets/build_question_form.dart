@@ -80,8 +80,8 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
       _showDialog();
     } else {
       final result = _quizBuilder.fetchedData;
-      final dateFormat = DateFormat('hh:mm');
-      final time = dateFormat.format(DateTime.now());
+      final dateFormat = DateFormat('dd/MM/yyyy');
+      final date = dateFormat.format(DateTime.now());
       setState(() => _isLoading = false);
       print('BuildQuestionForm: Result = $result');
       //pass data to quiz page
@@ -92,7 +92,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
           'quiz_name': _quizName.length != 0 ? _quizName : widget.categoryName,
           'difficulty': _selectedDifficulty,
           'type': _typeTag,
-          'time_taken' : time,
+          'date_taken' : date,
         },
       );
     }
