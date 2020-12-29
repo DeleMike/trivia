@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/user_image_picker.dart';
 import '../helpers/user_pref.dart';
@@ -18,9 +19,9 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus(); //close keyboard
 
-  //if no image is chosen, inform user and return
-    if(_pickedImageFilePath == null) {
-       Scaffold.of(context).showSnackBar(
+    //if no image is chosen, inform user and return
+    if (_pickedImageFilePath == null) {
+      Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Please pick an image.'),
           backgroundColor: Theme.of(context).errorColor,
@@ -30,19 +31,18 @@ class _AuthFormState extends State<AuthForm> {
     }
 
     //is valid, save data using shared pref
-    if(isValid) {
+    if (isValid) {
       _formKey.currentState.save();
       print('name = $_name, filePath = $_pickedImageFilePath');
       //save to shared pref
-      UserPref userPref = UserPref();
-      userPref.save(_name, _pickedImageFilePath);
+      Provider.of<UserPref>(context, listen: false)
+          .save(_name, _pickedImageFilePath);
     }
   }
 
   ///save picked file
   void _pickFile(String filePath) {
     _pickedImageFilePath = filePath;
-
   }
 
   @override
@@ -77,7 +77,7 @@ class _AuthFormState extends State<AuthForm> {
                       filled: true,
                     ),
                     validator: (value) {
-                      if(value.isEmpty || value.length < 3) {
+                      if (value.isEmpty || value.length < 3) {
                         return 'username should be at least 3 characters';
                       }
                       return null;
