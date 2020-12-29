@@ -40,7 +40,7 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           onTap: () {
-            Navigator.of(context).pushNamed(HistoryScreen.routeName);
+            Navigator.of(context).popAndPushNamed(HistoryScreen.routeName);
           },
         ),
         InkWell(
