@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 import '../widgets/splash_screen.dart';
 import '../screens/categories.dart';
@@ -37,61 +38,75 @@ class WelcomeScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return SplashScreen();
             }
-            return SingleChildScrollView(
-              child: Container(
-                width: deviceSize.width,
-                height: deviceSize.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Container(
-                        width: deviceSize.width * 0.2,
-                        child: Image.asset('assets/images/app_icon.png'),
-                      ),
-                    ),
-                    SizedBox(height: 25),
-                    Consumer<UserPref>(
-                      builder: (_, userPref, __) => Expanded(
-                        child: Text(
-                          'Welcome, ${userPref.userData['username']}',
-                          style: TextStyle(
-                            fontSize: 40,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 2.5
-                              ..color = Theme.of(context).primaryColor,
-                          ),
+            return Consumer<DarkThemeProvider>(
+              builder: (_, themeProvider, __) => SingleChildScrollView(
+                child: Container(
+                  width: deviceSize.width,
+                  height: deviceSize.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Container(
+                          width: deviceSize.width * 0.2,
+                          child: themeProvider.darkTheme ? null : Image.asset('assets/images/app_icon.png'),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      child: Text(
-                        'ready to test your knowledge ?',
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.all(16.0),
-                            child: RaisedButton(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                child: Text('Go'),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, Categories.routeName);
-                              },
+                      SizedBox(height: 25),
+                      Consumer<UserPref>(
+                        builder: (_, userPref, __) => Expanded(
+                          child: Text(
+                            'Welcome, ${userPref.userData['username']}',
+                            style: TextStyle(
+                              fontSize: 40,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 2.5
+                                ..color = themeProvider.darkTheme
+                                    ? Theme.of(context)
+                                        .buttonTheme
+                                        .colorScheme
+                                        .surface
+                                    : Theme.of(context).primaryColor,
                             ),
                           ),
                         ),
-                      ],
-                    )
-                  ],
+                      ),
+                      Flexible(
+                        child: Text(
+                          'ready to test your knowledge ?',
+                          style: TextStyle(
+                              color:themeProvider.darkTheme
+                                    ? Theme.of(context)
+                                        .buttonTheme
+                                        .colorScheme
+                                        .surface
+                                    : Theme.of(context).primaryColor,),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.all(16.0),
+                              child: RaisedButton(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  child: Text('Go'),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, Categories.routeName);
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
