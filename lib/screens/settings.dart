@@ -19,7 +19,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(title: Text('Settings')),
       body: Container(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 1.0),
         child: SettingsList(
           sections: [
             SettingsSection(

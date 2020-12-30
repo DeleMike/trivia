@@ -9,7 +9,7 @@ class Styles {
       primaryColor: isDarkTheme ? Colors.black : Colors.indigo,
       accentColor: isDarkTheme ? Colors.black : Color(0xff3f51b5),
       canvasColor: isDarkTheme ? Colors.grey[900] : Colors.indigo[50],
-      brightness: isDarkTheme ? Brightness.light : Brightness.dark,
+      brightness: isDarkTheme ? Brightness.dark : Brightness.light,
 
       fontFamily: 'Ubuntu',
        accentColorBrightness: Brightness.dark,
