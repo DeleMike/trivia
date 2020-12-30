@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
-import '../screens/history_screen.dart'; 
+import '../screens/history_screen.dart';
+import '../screens/settings.dart';
 
 class NavDrawer extends StatelessWidget {
   final String username;
@@ -24,6 +27,8 @@ class NavDrawer extends StatelessWidget {
       ),
     );
 
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
+
     final drawerItems = ListView(
       children: [
         Container(
@@ -36,6 +41,9 @@ class NavDrawer extends StatelessWidget {
               'History',
               style: TextStyle(
                 fontStyle: FontStyle.normal,
+                color: themeProvider.darkTheme
+                    ? Theme.of(context).buttonTheme.colorScheme.surface
+                    : Theme.of(context).primaryColor,
               ),
             ),
           ),
@@ -49,11 +57,14 @@ class NavDrawer extends StatelessWidget {
               'Settings',
               style: TextStyle(
                 fontStyle: FontStyle.normal,
+                color: themeProvider.darkTheme
+                    ? Theme.of(context).buttonTheme.colorScheme.surface
+                    : Theme.of(context).primaryColor,
               ),
             ),
           ),
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).popAndPushNamed(Settings.routeName);
           },
         ),
       ],

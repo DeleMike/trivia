@@ -227,6 +227,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                           style: TextStyle(fontSize: 16)),
                     ),
                     DropdownButton(
+                     // dropdownColor: Colors.white,
                       underline: Container(),
                       value: _selectedQuestionType,
                       onChanged: (newVal) {

@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 import '../screens/build_question.dart';
 
@@ -13,32 +17,34 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(BuildQuestion.routeName, arguments: {
-          'name' : categoryName,
-          'tag' : categoryTag,
-        },);
-      },
-      splashColor: Theme.of(context).canvasColor,
-      borderRadius: BorderRadius.circular(15),
-      child: Container(
-        padding: const EdgeInsets.all(15.0),
-        child: Text(
-          categoryName,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+    return Consumer<DarkThemeProvider>(
+          builder: (ctx, themeProvider, __) => InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(BuildQuestion.routeName, arguments: {
+            'name' : categoryName,
+            'tag' : categoryTag,
+          },);
+        },
+        splashColor: Theme.of(context).canvasColor,
+        borderRadius: BorderRadius.circular(15),
+        child: Container(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+            categoryName,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.indigo[300], Colors.indigo[900]],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0, 0.8],
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: themeProvider.darkTheme ? [Colors.black, Colors.black] : [Colors.indigo[300], Colors.indigo[900]],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0, 0.8],
+            ),
+            borderRadius: BorderRadius.circular(15),
           ),
-          borderRadius: BorderRadius.circular(15),
         ),
       ),
     );
