@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 import '../helpers/trivia_history.dart';
 
@@ -42,9 +43,11 @@ class HistoryScreen extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {},
                                   child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor:
-                                          Colors.indigo[diffStrength],
+                                    leading: Consumer<DarkThemeProvider>(
+                                                                          builder: (_, theme, __) => CircleAvatar(
+                                        backgroundColor: theme.darkTheme ? Colors.grey[diffStrength] :
+                                            Colors.indigo[diffStrength],
+                                      ),
                                     ),
                                     title: Padding(
                                       padding: const EdgeInsets.all(8.0),

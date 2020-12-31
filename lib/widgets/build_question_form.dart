@@ -240,9 +240,6 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                         ),
                       ),
                       DropdownButton(
-                        dropdownColor: themeProvider.darkTheme
-                            ? Theme.of(context).buttonTheme.colorScheme.surface
-                            : null,
                         underline: Container(),
                         value: _selectedDifficulty,
                         onChanged: (newVal) {
@@ -278,9 +275,6 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                         ),
                       ),
                       DropdownButton(
-                        dropdownColor: themeProvider.darkTheme
-                            ? Theme.of(context).buttonTheme.colorScheme.surface
-                            : null,
                         underline: Container(),
                         value: _selectedQuestionType,
                         onChanged: (newVal) {

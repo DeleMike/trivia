@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 class ViewAnswers extends StatelessWidget {
   static const routeName = '/view-answers';
@@ -18,36 +20,38 @@ class ViewAnswers extends StatelessWidget {
               return Container(
                  padding: const EdgeInsets.all(8.0),
                  margin: const EdgeInsets.all(8.0),
-                child: Column(
-                    children: [
-                      SizedBox(height:10),
-                      Text('Question ${i+1}', style: Theme.of(context).textTheme.headline1),
-                      SizedBox(height:10),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(questions[i], style: Theme.of(context).textTheme.headline6),
-                        )),
+                child: Consumer<DarkThemeProvider>(
+                                  builder: (_, theme, __) => Column(
+                      children: [
                         SizedBox(height:10),
-                        Divider(),
+                        Text('Question ${i+1}', style: Theme.of(context).textTheme.headline1),
                         SizedBox(height:10),
-                        Text('Answer', style: Theme.of(context).textTheme.headline1),
-                        SizedBox(height:10),
-                       Container(
+                        Container(
                           decoration: BoxDecoration(
-                          border: Border.all(width: 1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(answers[i], style: Theme.of(context).textTheme.headline5)),
-                      
-                    ],
-                  ),
+                            border: Border.all(width: 1, color: theme.darkTheme ? Colors.white: Colors.black,),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(questions[i], style: Theme.of(context).textTheme.headline6),
+                          )),
+                          SizedBox(height:10),
+                          Divider(),
+                          SizedBox(height:10),
+                          Text('Answer', style: Theme.of(context).textTheme.headline1),
+                          SizedBox(height:10),
+                         Container(
+                            decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: theme.darkTheme ? Colors.white: Colors.black,),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(answers[i], style: Theme.of(context).textTheme.headline5)),
+                        
+                      ],
+                    ),
+                ),
               );
             },
           ),

@@ -13,7 +13,6 @@ class Styles {
 
       fontFamily: 'Ubuntu',
        accentColorBrightness: Brightness.dark,
-      
       buttonTheme: isDarkTheme
           ? ButtonTheme.of(context).copyWith(
               buttonColor: Colors.black,
@@ -40,7 +39,7 @@ class Styles {
                     fontSize: 16,
                     fontFamily: 'Ubuntu',
                     fontWeight: FontWeight.normal,
-                    color: Colors.black),
+                    color: Colors.white,),
                 headline6: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -48,7 +47,7 @@ class Styles {
                   fontWeight: FontWeight.bold,
                 ),
                 headline5: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18,
                   fontFamily: 'Ubuntu',
                   fontWeight: FontWeight.w600,

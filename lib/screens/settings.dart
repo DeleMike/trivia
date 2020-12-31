@@ -24,11 +24,13 @@ class _SettingsState extends State<Settings> {
           sections: [
             SettingsSection(
               title: 'Preferences',
+              titleTextStyle: TextStyle(color: themeChange.darkTheme ? Colors.white: Colors.black),
               tiles: [
                 SettingsTile.switchTile(
                   title: 'Dark Mode',
                   leading: Icon(_value ? Icons.bedtime : Icons.bedtime_outlined, color: Colors.indigo[600],),
                   switchValue: themeChange.darkTheme,
+                  switchActiveColor : Colors.indigo[600],
                   onToggle: (bool val) {
                     themeChange.darkTheme = val;
                     print('Settings: Dark Mode = $val');

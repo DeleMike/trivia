@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart' as parser;
+import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 class ButtonPlaceholder extends StatefulWidget {
   final List answers;
@@ -44,19 +46,31 @@ class _ButtonPlaceholderState extends State<ButtonPlaceholder> {
             decoration: BoxDecoration(
               color: _selectedButtonColor,
             ),
-            child: OutlinedButton(
-              key: ValueKey('$answer'),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(_parsedHtmlString(answer)),
+            child: Consumer<DarkThemeProvider>(
+              builder: (_, theme, __) => OutlinedButton(
+                key: ValueKey('$answer'),
+                style: OutlinedButton.styleFrom(
+                  primary: theme.darkTheme
+                      ? Colors.white
+                      : Theme.of(context).primaryColor,
+                  side: BorderSide(
+                    color: theme.darkTheme
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Text(_parsedHtmlString(answer)),
+                ),
+                onPressed: widget.isDisabled
+                    ? null
+                    : () {
+                        _selectAnswer(answer);
+                        print(
+                            'Button PlacedHolder: SelectedAnswer = $_selectedAnswer');
+                      },
               ),
-              onPressed: widget.isDisabled
-                  ? null
-                  : () {
-                      _selectAnswer(answer);
-                      print(
-                          'Button PlacedHolder: SelectedAnswer = $_selectedAnswer');
-                    },
             ),
           ),
         );
