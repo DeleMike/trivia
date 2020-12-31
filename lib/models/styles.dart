@@ -28,12 +28,12 @@ class Styles {
                   borderRadius: BorderRadius.circular(20)),
             ),
       textTheme: isDarkTheme
-          ? ThemeData.light().textTheme.copyWith(
+          ? ThemeData.dark().textTheme.copyWith(
                 bodyText2: TextStyle(
-                  color: Color.fromRGBO(20, 51, 51, 1),
+                  color: Colors.white,
                 ),
                 bodyText1: TextStyle(
-                  color: Color.fromRGBO(20, 51, 51, 1),
+                  color: Colors.white,
                   fontStyle: FontStyle.italic,
                 ),
                 headline1: TextStyle(

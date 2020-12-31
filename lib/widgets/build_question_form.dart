@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../helpers/quiz_builder.dart';
 import '../screens/quiz_page.dart';
@@ -92,7 +94,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
           'quiz_name': _quizName.length != 0 ? _quizName : widget.categoryName,
           'difficulty': _selectedDifficulty,
           'type': _typeTag,
-          'date_taken' : date,
+          'date_taken': date,
         },
       );
     }
@@ -102,24 +104,27 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text(
-              'Message',
-            ),
-            content: Text(
-              'The questions are not available yet.'
-              '\n\nPlease try again later or you can get the default questions',
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    fontSize: 15,
-                  ),
-            ),
-            actions: [
-              if(_isLoading)
-                Center(child:CircularProgressIndicator()),
-              if(!_isLoading)
-                FlatButton(
-                  child: Text('GET DEFAULT QUESTIONS'),
-                  textTheme: Theme.of(context).buttonTheme.textTheme,
+          return Consumer<DarkThemeProvider>(
+                      builder: (_, theme, __) => AlertDialog(
+              title: Text(
+                'Message',
+              ),
+              content: Text(
+                'The questions are not available yet.'
+                '\n\nPlease try again later or you can get the default questions',
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      fontSize: 15,
+                    ),
+              ),
+              actions: [
+                if (_isLoading) Center(child: CircularProgressIndicator()),
+                if (!_isLoading)
+                  FlatButton(
+                    child: Text('GET DEFAULT QUESTIONS',
+                      style: TextStyle(color: theme.darkTheme ? Colors.white : Theme.of(context).primaryColor,),
+                    ),
+                    splashColor:  Colors.grey.withOpacity(0.1),
+                //textTheme: Theme.of(context).buttonTheme.textTheme,
                   onPressed: () async {
                     Navigator.of(context).pop();
                     setState(() => _isLoading = true);
@@ -130,18 +135,22 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                       type: _typeTag,
                     );
 
-                    _checkValidResult(_quizBuilder);
-                  },
-                ),
+                      _checkValidResult(_quizBuilder);
+                    },
+                  ),
                 FlatButton(
-                  child: Text('OKAY'),
-                  textTheme: Theme.of(context).buttonTheme.textTheme,
+                  child: Text('OKAY', 
+                    style: TextStyle(color: theme.darkTheme ? Colors.white : Theme.of(context).primaryColor,),
+                  ),
+                  splashColor: Colors.grey.withOpacity(0.1),
+                  //textTheme: Theme.of(context).buttonTheme.textTheme,
                   onPressed: () {
                     Navigator.of(context)
                         .popUntil(ModalRoute.withName(Categories.routeName));
                   },
                 ),
-            ],
+              ],
+            ),
           );
         });
   }
@@ -156,105 +165,150 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child:
-                    Text('${_isLoading ? 'Preparing your questions...' : widget.categoryName}', style: TextStyle(fontSize: 20)),
-              ),
-              Divider(),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Enter number of questions',
-                      border: UnderlineInputBorder(),
-                      filled: true,
+        child: Consumer<DarkThemeProvider>(
+          builder: (_, themeProvider, __) => SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    '${_isLoading ? 'Preparing your questions...' : widget.categoryName}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: themeProvider.darkTheme
+                          ? Theme.of(context).buttonTheme.colorScheme.surface
+                          : null,
                     ),
-                    validator: (value) {
-                      if (value.isEmpty ||
-                          (int.parse(value) <= 0 || int.parse(value) > 50)) {
-                        setState(() => _isLoading = false);
-                        return 'please enter a value between 0 and 50';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _numOfQuestions = value;
-                    },
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:
-                          Text('Difficulty:', style: TextStyle(fontSize: 16)),
-                    ),
-                    DropdownButton(
-                      underline: Container(),
-                      value: _selectedDifficulty,
-                      onChanged: (newVal) {
-                        setState(() {
-                          _selectedDifficulty = newVal;
-                        });
-                      },
-                      items: _difficultyDropdownMenuItems,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Question Type:',
-                          style: TextStyle(fontSize: 16)),
-                    ),
-                    DropdownButton(
-                     // dropdownColor: Colors.white,
-                      underline: Container(),
-                      value: _selectedQuestionType,
-                      onChanged: (newVal) {
-                        setState(() {
-                          _selectedQuestionType = newVal;
-                        });
-                      },
-                      items: _questionTypeDropdownMenuItems,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              if (_isLoading)
+                Divider(),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: CircularProgressIndicator(),
-                ),
-              if (!_isLoading)
-                Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: RaisedButton(
-                    child: Text('Submit'),
-                    onPressed: _trySubmit,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: themeProvider.darkTheme
+                              ? Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme
+                                  .surface
+                              : null,
+                        ),
+                        //fillColor: themeProvider.darkTheme ? Theme.of(context).buttonTheme.colorScheme.surface: null,
+                        labelText: 'Enter number of questions',
+                        border: UnderlineInputBorder(),
+                        filled: true,
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty ||
+                            (int.parse(value) <= 0 || int.parse(value) > 50)) {
+                          setState(() => _isLoading = false);
+                          return 'please enter a value between 0 and 50';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _numOfQuestions = value;
+                      },
+                    ),
                   ),
                 ),
-            ],
+                Container(
+                  margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  decoration: BoxDecoration(
+                    color: themeProvider.darkTheme
+                        ? Colors.grey[700]
+                        : Colors.grey[200],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Difficulty:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: themeProvider.darkTheme
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                      DropdownButton(
+                        dropdownColor: themeProvider.darkTheme
+                            ? Theme.of(context).buttonTheme.colorScheme.surface
+                            : null,
+                        underline: Container(),
+                        value: _selectedDifficulty,
+                        onChanged: (newVal) {
+                          setState(() {
+                            _selectedDifficulty = newVal;
+                          });
+                        },
+                        items: _difficultyDropdownMenuItems,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  decoration: BoxDecoration(
+                    color: themeProvider.darkTheme
+                        ? Colors.grey[700]
+                        : Colors.grey[200],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Question Type:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: themeProvider.darkTheme
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                      DropdownButton(
+                        dropdownColor: themeProvider.darkTheme
+                            ? Theme.of(context).buttonTheme.colorScheme.surface
+                            : null,
+                        underline: Container(),
+                        value: _selectedQuestionType,
+                        onChanged: (newVal) {
+                          setState(() {
+                            _selectedQuestionType = newVal;
+                          });
+                        },
+                        items: _questionTypeDropdownMenuItems,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                if (_isLoading)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: CircularProgressIndicator(),
+                  ),
+                if (!_isLoading)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: RaisedButton(
+                      child: Text('Submit'),
+                      onPressed: _trySubmit,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

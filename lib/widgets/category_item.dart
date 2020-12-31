@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
 import '../screens/build_question.dart';
 
 class CategoryItem extends StatelessWidget {
