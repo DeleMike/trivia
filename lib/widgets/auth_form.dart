@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 import '../widgets/user_image_picker.dart';
 import '../helpers/user_pref.dart';
@@ -37,6 +38,18 @@ class _AuthFormState extends State<AuthForm> {
       //save to shared pref
       Provider.of<UserPref>(context, listen: false)
           .save(_name, _pickedImageFilePath);
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Data saved.', style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.indigo[900],
+          action: SnackBarAction(
+              label: 'OKAY',
+              textColor: Colors.white,
+              onPressed: () {
+                 Navigator.of(context).pop();
+              }),
+        ),
+      );
     }
   }
 
@@ -68,23 +81,33 @@ class _AuthFormState extends State<AuthForm> {
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
                   key: _formKey,
-                  child: TextFormField(
-                    keyboardType: TextInputType.name,
-                    autocorrect: true,
-                    decoration: InputDecoration(
-                      labelText: 'Enter username',
-                      border: UnderlineInputBorder(),
-                      filled: true,
+                  child: Consumer<DarkThemeProvider>(
+                    builder: (_, theme, __) => TextFormField(
+                      keyboardType: TextInputType.name,
+                      autocorrect: true,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: theme.darkTheme
+                              ? Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme
+                                  .surface
+                              : null,
+                        ),
+                        labelText: 'Enter username',
+                        border: UnderlineInputBorder(),
+                        filled: true,
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 3) {
+                          return 'username should be at least 3 characters';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _name = value;
+                      },
                     ),
-                    validator: (value) {
-                      if (value.isEmpty || value.length < 3) {
-                        return 'username should be at least 3 characters';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _name = value;
-                    },
                   ),
                 ),
               ),

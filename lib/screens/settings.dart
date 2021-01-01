@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
+
+import '../helpers/dark_theme_provider.dart';
+import '../screens/auth_screen.dart';
 
 class Settings extends StatefulWidget {
   static const routeName = 'settings';
@@ -36,8 +38,16 @@ class _SettingsState extends State<Settings> {
                     print('Settings: Dark Mode = $val');
                   },
                 ),
+                SettingsTile(
+                  title: 'Update bio',
+                  subtitle: 'Change your name and profile pic',
+                  leading: Icon(themeChange.darkTheme ? Icons.person : Icons.person_outlined, color: Colors.indigo[600],),
+                  onPressed: (ctx) {
+                    Navigator.of(context).pushNamed(AuthScreen.routeName);
+                  },
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

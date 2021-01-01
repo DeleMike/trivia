@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:trivia/helpers/dark_theme_provider.dart';
 
 class UserImagePicker extends StatefulWidget {
   final void Function(String filePath) onPickFile;
@@ -33,10 +35,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 40,
-          backgroundColor: Colors.indigo[400],
-          backgroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile) : null 
+        Consumer<DarkThemeProvider>(
+          
+                  builder: (_, theme, __) => CircleAvatar(
+            radius: 40,
+            backgroundColor: theme.darkTheme ? Colors.grey[400] : Colors.indigo[400],
+            backgroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile) : null 
+          ),
         ),
         FlatButton.icon(
           icon: Icon(Icons.image),

@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           routes: {
+            AuthScreen.routeName: (ctx) => AuthScreen(),
             Categories.routeName: (ctx) => Categories(),
             BuildQuestion.routeName: (ctx) => BuildQuestion(),
             QuizPage.routeName: (ctx) => QuizPage(),
