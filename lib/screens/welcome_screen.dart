@@ -50,7 +50,9 @@ class WelcomeScreen extends StatelessWidget {
                       Flexible(
                         child: Container(
                           width: deviceSize.width * 0.2,
-                          child: themeProvider.darkTheme ? null : Image.asset('assets/images/app_icon.png'),
+                          child: themeProvider.darkTheme
+                              ? null
+                              : Image.asset('assets/images/app_icon.png'),
                         ),
                       ),
                       SizedBox(height: 25),
@@ -77,12 +79,13 @@ class WelcomeScreen extends StatelessWidget {
                         child: Text(
                           'ready to test your knowledge ?',
                           style: TextStyle(
-                              color:themeProvider.darkTheme
-                                    ? Theme.of(context)
-                                        .buttonTheme
-                                        .colorScheme
-                                        .surface
-                                    : Theme.of(context).primaryColor,),
+                            color: themeProvider.darkTheme
+                                ? Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme
+                                    .surface
+                                : Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
                       Row(
@@ -96,9 +99,50 @@ class WelcomeScreen extends StatelessWidget {
                                       const EdgeInsets.symmetric(vertical: 15),
                                   child: Text('Go'),
                                 ),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, Categories.routeName);
+                                onPressed: () async {
+                                  try {
+                                    final result = await InternetAddress.lookup(
+                                        'google.com');
+                                    if (result.isNotEmpty &&
+                                        result[0].rawAddress.isNotEmpty) {
+                                          print('connected to a network');
+                                      Navigator.pushNamed(
+                                          context, Categories.routeName);
+                                    }
+                                  } on SocketException catch (_) {
+                                    print('Not connected to internet');
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text('Message'),
+                                        content: Text(
+                                          'No network connection. Please connect and try again',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .copyWith(
+                                                fontSize: 15,
+                                              ),
+                                        ),
+                                        actions: [
+                                          FlatButton(
+                                              child: Text(
+                                                'OKAY',
+                                                style: TextStyle(
+                                                  color: themeProvider.darkTheme
+                                                      ? Colors.white
+                                                      : Colors.indigo,
+                                                ),
+                                              ),
+                                              splashColor:
+                                                  Colors.grey.withOpacity(0.1),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              })
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 },
                               ),
                             ),
