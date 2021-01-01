@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
+
+import '../helpers/dark_theme_provider.dart';
 
 class UserImagePicker extends StatefulWidget {
   final void Function(String filePath) onPickFile;

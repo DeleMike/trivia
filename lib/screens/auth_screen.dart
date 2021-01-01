@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
 import '../widgets/image_banner.dart';
 import '../widgets/auth_form.dart';
 import '../widgets/text_banner.dart';
