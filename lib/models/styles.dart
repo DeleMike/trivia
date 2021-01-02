@@ -10,9 +10,8 @@ class Styles {
       accentColor: isDarkTheme ? Colors.black : Color(0xff3f51b5),
       canvasColor: isDarkTheme ? Colors.grey[900] : Colors.indigo[50],
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
-
       fontFamily: 'Ubuntu',
-       accentColorBrightness: Brightness.dark,
+      accentColorBrightness: Brightness.dark,
       buttonTheme: isDarkTheme
           ? ButtonTheme.of(context).copyWith(
               buttonColor: Colors.black,
@@ -36,10 +35,11 @@ class Styles {
                   fontStyle: FontStyle.italic,
                 ),
                 headline1: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white,),
+                  fontSize: 16,
+                  fontFamily: 'Ubuntu',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,
+                ),
                 headline6: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

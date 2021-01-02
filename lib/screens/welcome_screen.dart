@@ -49,10 +49,13 @@ class WelcomeScreen extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Container(
+                          padding: const EdgeInsets.all(8.0),
                           width: deviceSize.width * 0.2,
-                          child: themeProvider.darkTheme
-                              ? null
-                              : Image.asset('assets/images/app_icon.png'),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(12),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: Image.asset('assets/images/logo.png'),
                         ),
                       ),
                       SizedBox(height: 25),
@@ -105,7 +108,7 @@ class WelcomeScreen extends StatelessWidget {
                                         'google.com');
                                     if (result.isNotEmpty &&
                                         result[0].rawAddress.isNotEmpty) {
-                                          print('connected to a network');
+                                      print('connected to a network');
                                       Navigator.pushNamed(
                                           context, Categories.routeName);
                                     }
