@@ -10,8 +10,17 @@ A quiz application to test your knoweldege.
     - Select your favorite category to test your knowledge
     - Enjoy the quiz!
 
+### Screenshots
+
+| Dark Mode | Light Mode |
+|-----------|-------------|
+| ![Finish mode_dark](f_finish_dark.png)| ![Finish mode_light](f_finish_light.png) |
+| ![Finish mode_dark](f_auth_dark.png)| ![Finish mode_light](f_auth_light.png) |
+| ![Finish mode_dark](f_settings_dark.png)| ![Finish mode_light](f_settings_light.png) |
+
 ### Nice Features
 
+    - One time login
     - Offers the dark mode experience!
     - Save users 'taken quiz' using native device DBMS
 
