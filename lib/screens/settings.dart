@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../helpers/dark_theme_provider.dart';
 import '../screens/auth_screen.dart';
 
+///[Settings] screen is used to display user prefences options
 class Settings extends StatefulWidget {
   static const routeName = 'settings';
 

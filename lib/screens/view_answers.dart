@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
+
+///[ViewAnswers] screen is used to view the right answer to each question.
 class ViewAnswers extends StatelessWidget {
   static const routeName = '/view-answers';
   @override

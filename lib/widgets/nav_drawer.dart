@@ -7,6 +7,7 @@ import '../helpers/dark_theme_provider.dart';
 import '../screens/history_screen.dart';
 import '../screens/settings.dart';
 
+///[NavDrawer] - displays all navigation drawer items.
 class NavDrawer extends StatelessWidget {
   final String username;
   final File fileImage;

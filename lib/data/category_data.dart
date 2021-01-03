@@ -1,5 +1,6 @@
 import '../models/category.dart';
 
+///[CATEGORIES] used to store all quiz categories with their required data
 const List<Category> CATEGORIES = [
   Category('Any Category', 0),
   Category('General Knowledge', 9),

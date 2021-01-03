@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
 import '../helpers/trivia_history.dart';
 
+///[HistoryScreen] is used to display list of quiz taken so far.
 class HistoryScreen extends StatelessWidget {
   static const routeName = '/history';
   @override

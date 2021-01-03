@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///[QuestionPlaceholder] - displays a question.
 class QuestionPlaceholder extends StatelessWidget {
   final String questionText;
   QuestionPlaceholder(this.questionText);

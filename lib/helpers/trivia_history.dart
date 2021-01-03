@@ -3,14 +3,16 @@ import 'package:flutter/foundation.dart';
 import '../models/history.dart';
 import '../helpers/db_helper.dart';
 
+///[TriviaHistory] - used to handle all trivia app history
 class TriviaHistory with ChangeNotifier {
   List<History> _items = [];
 
+  ///returns all histories
   List<History> get items {
     return [..._items];
   }
 
-  ///add data
+  ///add a history
   Future<void> addHistory(
       String quizName, String difficulty, String dateTaken, String score) async {
     final newHistory = History(
@@ -33,7 +35,7 @@ class TriviaHistory with ChangeNotifier {
     );
   }
 
-  ///fetch data
+  ///fetch an history
   Future<void> fetchAndSetHistory() async {
     final dataList = await DbHelper.getData('history');
     _items = dataList

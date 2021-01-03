@@ -6,6 +6,7 @@ import '../widgets/image_banner.dart';
 import '../widgets/auth_form.dart';
 import '../widgets/text_banner.dart';
 
+///[AuthScreen] used to display [AuthForm] widget.
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth-screen';
   @override

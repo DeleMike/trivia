@@ -5,6 +5,7 @@ import '../helpers/dark_theme_provider.dart';
 import '../widgets/user_image_picker.dart';
 import '../helpers/user_pref.dart';
 
+///[AuthForm] collects all desired data to save in app.
 class AuthForm extends StatefulWidget {
   @override
   _AuthFormState createState() => _AuthFormState();

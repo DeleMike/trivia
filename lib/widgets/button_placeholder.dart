@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
+
+///[ButtonPlaceholder] is the answer widget holder.
+///Hold all answers for a particular question. 
 class ButtonPlaceholder extends StatefulWidget {
   final List answers;
   final void Function(String answer) theAnswer;
@@ -19,6 +22,7 @@ class _ButtonPlaceholderState extends State<ButtonPlaceholder> {
   var _selectedButtonColor = Colors.transparent;
   //var _selectedTextColor
 
+  //used to select correct answer
   void _selectAnswer(String answer) {
     setState(() {
       _selectedAnswer = answer;
@@ -26,6 +30,7 @@ class _ButtonPlaceholderState extends State<ButtonPlaceholder> {
     widget.theAnswer(_selectedAnswer);
   }
 
+  //parse the answer into a readable format
   String _parsedHtmlString(String answer) {
     var doc = parser.parse(answer);
     String parsedStr = parser.parse(doc.body.text).documentElement.text;

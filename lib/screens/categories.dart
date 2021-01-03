@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/category_item.dart';
 import '../data/category_data.dart';
 
+///[Categories] screen used to display list of trivia categories
 class Categories extends StatelessWidget {
   static const routeName = '/categories';
   @override

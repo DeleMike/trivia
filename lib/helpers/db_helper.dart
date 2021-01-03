@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
-///Opens SQLite functions tothe app
+///[DbHelper] - Opens SQLite functions to the app
 class DbHelper {
   ///create DB
   static Future<sql.Database> database() async {

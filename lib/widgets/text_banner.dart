@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///[TextBanner] - used a banner for auth screen.
 class TextBanner extends StatelessWidget {
   const TextBanner();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///[ImageBanner] - displays app logo
 class ImageBanner extends StatelessWidget {
   const ImageBanner();
   @override

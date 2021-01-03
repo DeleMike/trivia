@@ -30,10 +30,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    getCurrentAppTheme();
+    _getCurrentAppTheme();
   }
 
-  void getCurrentAppTheme() async {
+  //this will get the app current theme as saved in the shared pref file
+  void _getCurrentAppTheme() async {
     _themeProvider.darkTheme =
         await _themeProvider.darkThemePreference.getTheme();
   }
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<DarkThemeProvider>(
         builder: (_, themeProvider, __) => MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Trivia',
           theme: Styles.themeData(themeProvider.darkTheme, context),
           
           home: Consumer<UserPref>(

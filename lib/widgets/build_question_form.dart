@@ -7,6 +7,7 @@ import '../screens/quiz_page.dart';
 import '../screens/categories.dart';
 import '../helpers/dark_theme_provider.dart';
 
+///[BuildQuestionForm] is the form to collect data on how the [QuizPage] should look and have
 class BuildQuestionForm extends StatefulWidget {
   final String categoryName;
   final int categoryTag;
@@ -49,6 +50,9 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
 
   final _formKey = GlobalKey<FormState>();
 
+  //try to submit user data and get response.
+  // if ```_quizBuilder``` is empty prompt user on next steps
+  //else move on and pass data to ```QuizPage```
   Future<void> _trySubmit() async {
     setState(() => _isLoading = true);
     _selectedQuestionType == 'True/False'
@@ -75,6 +79,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
     }
   }
 
+  //check if http response contains values 
   void _checkValidResult(QuizBuilder quizBuilder) async {
     if (_quizBuilder.isEmpty) {
       _quizName = 'Any Category';
@@ -100,6 +105,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
     }
   }
 
+  //alert dialog
   void _showDialog() {
     showDialog(
         context: context,

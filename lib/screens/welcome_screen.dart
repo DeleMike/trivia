@@ -9,6 +9,7 @@ import '../screens/categories.dart';
 import '../helpers/user_pref.dart';
 import '../widgets/nav_drawer.dart';
 
+///[WelcomeScreen] - this is the first screen of the app. It will be used to show greeting section basically.
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

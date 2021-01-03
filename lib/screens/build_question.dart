@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/build_question_form.dart';
 
+///[BuildQuestion] screen is used to display the [BuildQuestionForm].
 class BuildQuestion extends StatelessWidget {
   static const routeName = '/build-questions';
 

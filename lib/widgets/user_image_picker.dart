@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../helpers/dark_theme_provider.dart';
 
+///[UserImagePicker] - gets user image on the device gallery.
 class UserImagePicker extends StatefulWidget {
   final void Function(String filePath) onPickFile;
 
@@ -19,6 +20,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
   File _pickedImageFile;
   String _pickedImageFilePath;
 
+  //used to pick image from device gallery app
   void _pickedImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.getImage(

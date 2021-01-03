@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
+
+///[Timer] - displays the current counting time.
 class Timer extends StatefulWidget {
   final int endTime;
   Timer(this.endTime);

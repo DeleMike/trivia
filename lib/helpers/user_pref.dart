@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+///[UserPref] - this handles all user one-time login function
+///and also stores users preferences
 class UserPref with ChangeNotifier {
   SharedPreferences prefs;
   final String nameKey = 'username';
@@ -40,6 +42,7 @@ class UserPref with ChangeNotifier {
     _isLogin = prefs.getBool(loginKey) ?? false;
   }
 
+  ///get user login data: returns ```true``` for if login, ```false``` otherwise.
   bool get isLogin {
     return _isLogin;
   }

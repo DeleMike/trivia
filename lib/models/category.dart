@@ -1,3 +1,4 @@
+///data model for a [Category]
 class Category {
   final String categoryName;
   final int categoryTag;

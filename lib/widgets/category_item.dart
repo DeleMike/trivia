@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../helpers/dark_theme_provider.dart';
 import '../screens/build_question.dart';
 
+///[CategoryItem] is used to display a particular category item to the screen 
 class CategoryItem extends StatelessWidget {
   final String categoryName;
   final int categoryTag;

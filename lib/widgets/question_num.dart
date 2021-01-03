@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
+
+///[QuestionNum] - displays current question number over total number of questions
 class QuestionNum extends StatefulWidget {
   final String currentQuestionNum;
   final String totalQuestionNum;

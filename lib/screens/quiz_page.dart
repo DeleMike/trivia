@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:lottie/lottie.dart';
-import 'package:trivia/helpers/dark_theme_provider.dart';
 
+import '../helpers/dark_theme_provider.dart';
 import '../widgets/question_num.dart';
 import '../widgets/timer.dart' as t;
 import '../widgets/question_placeholder.dart';
@@ -14,6 +14,10 @@ import '../helpers/trivia_history.dart';
 import '../screens/view_answers.dart';
 import '../screens/categories.dart';
 
+///[QuizPage] screen used to display the main quiz board.
+///It contains [QuestionNum], [t.Timer], [QuestionPlaceholder], [ButtonPlaceholder] widgets.
+///
+///All print statements are used for logging
 class QuizPage extends StatefulWidget {
   static const routeName = '/quiz-page';
   @override
@@ -57,15 +61,14 @@ class _QuizPageState extends State<QuizPage> {
     'assets/animations/you-loss.json',
   ];
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  ///this is used to load quiz board data instead of [initState] because we passed data
+  ///through page routing.
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_isLoaded) {
+      //if data is not loaded, then get data.
+      //pass them into their respective variables
       _data = ModalRoute.of(context).settings.arguments as Map;
       print('QuizPage: DataMap = $_data');
       _questions = _data['results']['questions'];
@@ -91,7 +94,7 @@ class _QuizPageState extends State<QuizPage> {
       _currentQuestionNum == (_totalQuestionNum - 1)
           ? _buttonText = 'FINISH'
           : _buttonText = 'NEXT';
-      _currentQuestion = parsedHtmlString(_questions[_currentQuestionNum]);
+      _currentQuestion = _parsedHtmlString(_questions[_currentQuestionNum]);
       var time = _data['difficulty'];
       if (time == 'easy') {
         _currentTime = 20;
@@ -110,15 +113,16 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
+  //DISCLAIMER: This only starts the timer after data has been loaded.
   void _startQuiz() {
     //if all data is loaded: start timer
     if (_isLoaded) {
-      startTimer(_currentTime);
+      _startTimer(_currentTime);
     }
   }
 
+  //go to next question or finish quiz
   void _moveToNext() {
-    //go to current question or finish quiz
     if (_buttonText == 'FINISH') {
       setState(() {
         if (_timer != null) {
@@ -134,6 +138,7 @@ class _QuizPageState extends State<QuizPage> {
       print('QuizPage: chosenAnswers = $_chosenAnswers');
       print('QuizPage: correctAnswers = $_correctAnswers');
     } else {
+      //move to next question.
       setState(() {
         ++_currentQuestionNum;
         print('QuizPage: currentQuestionNum = $_currentQuestionNum');
@@ -147,7 +152,7 @@ class _QuizPageState extends State<QuizPage> {
           _timer.cancel();
         }
 
-        _currentQuestion = parsedHtmlString(_questions[_currentQuestionNum]);
+        _currentQuestion = _parsedHtmlString(_questions[_currentQuestionNum]);
         _isDisabled = false;
         _currentTime = _durationTime;
         _selectedAnswer = '';
@@ -156,8 +161,8 @@ class _QuizPageState extends State<QuizPage> {
     _startQuiz();
   }
 
+  //check if answer is correct
   void _checkAnswer(String selectedAnswer) {
-    //check if answer is correct
     _correctAnswer = _correctAnswers[_currentQuestionNum];
     if (selectedAnswer == _correctAnswer) {
       ++_score; //record quiz score
@@ -169,18 +174,22 @@ class _QuizPageState extends State<QuizPage> {
     print('QuizPage: correctAnswer: $_correctAnswer');
   }
 
+  //this is a func that reacts when ButtonPlaceholder is clicked.
+  //It is used to retrieve the selceted answer by user
   void _onBtnClick(String selectedAns) {
     _checkAnswer(selectedAns);
     //move to next question or finsih quiz
     _moveToNext();
   }
 
-  String parsedHtmlString(String question) {
+  //this is used to change the raw HTML markup into a readable form
+  String _parsedHtmlString(String question) {
     var doc = parser.parse(question);
     String parsedStr = parser.parse(doc.body.text).documentElement.text;
     return parsedStr;
   }
 
+  //this is used to get an Animation appropraite to user's score.
   Widget _resultAnimation() {
     if (_score == 0) {
       return Lottie.asset(
@@ -206,6 +215,9 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
+  //After quiz, and if users desires to view their to view the correct answer,
+  //then this will collect only correct answers that correpond to a particular question
+  //and store as  in Map that will be passed when called upon.
   Map<String, List<String>> _buildViewAnswersTabView() {
     Map<String, List<String>> dataToPass = {
       'question': [],
@@ -224,7 +236,8 @@ class _QuizPageState extends State<QuizPage> {
     return dataToPass;
   }
 
-  void startTimer(int quizTime) {
+  //start timer widget countdown
+  void _startTimer(int quizTime) {
     const oneSec = const Duration(seconds: 1);
 
     _timer = new Timer.periodic(
@@ -252,20 +265,15 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    if (_timer != null) {
-      _timer.cancel();
-    }
-  }
-
+  //this affects the Current Chosen Answer Widget selected by user
   _onSelectAnswer(String answer) {
     setState(() {
       _selectedAnswer = answer;
     });
   }
 
+  //this displays an AlertDialog when user tries to close quiz while quiz is still ongoing.
+  //it gives user the choice to forcefully quit or remain.
   Future<bool> _showDialog() async {
     var closeQuiz = false;
     await showDialog(
@@ -319,6 +327,15 @@ class _QuizPageState extends State<QuizPage> {
     );
     print('QuizPage: closeQuiz = $closeQuiz');
     return closeQuiz;
+  }
+
+  //do some house keeping
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
   }
 
   @override
@@ -381,7 +398,7 @@ class _QuizPageState extends State<QuizPage> {
                               ),
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Your answer: ${parsedHtmlString(_selectedAnswer)}',
+                                'Your answer: ${_parsedHtmlString(_selectedAnswer)}',
                                 style: TextStyle(
                                     color:
                                         theme.darkTheme ? Colors.black : null),
@@ -540,7 +557,7 @@ class _QuizPageState extends State<QuizPage> {
                                                       for (var question
                                                           in _questions) {
                                                         parsedQuestion =
-                                                            parsedHtmlString(
+                                                            _parsedHtmlString(
                                                                 question);
                                                         _viewAnswersQuestions
                                                             .add(
@@ -550,7 +567,7 @@ class _QuizPageState extends State<QuizPage> {
                                                       for (var answer
                                                           in _correctAnswers) {
                                                         parsedAnswer =
-                                                            parsedHtmlString(
+                                                            _parsedHtmlString(
                                                                 answer);
                                                         _viewAnswersCorrectAnswers
                                                             .add(parsedAnswer);

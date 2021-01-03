@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-///handles all quiz's  data handling
+///[QuizBuilder] - handles all quiz's data handling
 class QuizBuilder with ChangeNotifier {
   List<String> _questions = [];
   List<String> _correctAnswers = [];
