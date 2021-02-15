@@ -13,7 +13,7 @@ class BuildQuestion extends StatelessWidget {
       appBar: AppBar(
         title: Text('Fill in the form'),
       ),
-      body: Center(child: BuildQuestionForm(data['name'], data['tag'])),
+      body: Center(child: BuildQuestionForm(data['name'] ?? 'Unavaliable', data['tag'] ?? 0)),
     );
   }
 }
