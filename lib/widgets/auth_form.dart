@@ -23,7 +23,7 @@ class _AuthFormState extends State<AuthForm> {
 
     //if no image is chosen, inform user and return
     if (_pickedImageFilePath == null) {
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Please pick an image.'),
           backgroundColor: Theme.of(context).errorColor,
@@ -39,7 +39,7 @@ class _AuthFormState extends State<AuthForm> {
       //save to shared pref
       Provider.of<UserPref>(context, listen: false)
           .save(_name, _pickedImageFilePath);
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Data saved.', style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.indigo[900],
@@ -112,7 +112,7 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text('Save'),
                 onPressed: _trySubmit,
               ),

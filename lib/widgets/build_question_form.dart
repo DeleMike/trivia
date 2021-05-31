@@ -125,12 +125,10 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
               actions: [
                 if (_isLoading) Center(child: CircularProgressIndicator()),
                 if (!_isLoading)
-                  FlatButton(
+                  ElevatedButton(
                     child: Text('GET DEFAULT QUESTIONS',
                       style: TextStyle(color: theme.darkTheme ? Colors.white : Theme.of(context).primaryColor,),
                     ),
-                    splashColor:  Colors.grey.withOpacity(0.1),
-                //textTheme: Theme.of(context).buttonTheme.textTheme,
                   onPressed: () async {
                     Navigator.of(context).pop();
                     setState(() => _isLoading = true);
@@ -144,12 +142,10 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                       _checkValidResult(_quizBuilder);
                     },
                   ),
-                FlatButton(
+                TextButton(
                   child: Text('OKAY', 
                     style: TextStyle(color: theme.darkTheme ? Colors.white : Theme.of(context).primaryColor,),
                   ),
-                  splashColor: Colors.grey.withOpacity(0.1),
-                  //textTheme: Theme.of(context).buttonTheme.textTheme,
                   onPressed: () {
                     Navigator.of(context)
                         .popUntil(ModalRoute.withName(Categories.routeName));
@@ -302,7 +298,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                 if (!_isLoading)
                   Container(
                     margin: const EdgeInsets.only(bottom: 10),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       child: Text('Submit'),
                       onPressed: _trySubmit,
                     ),

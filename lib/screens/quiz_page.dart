@@ -247,9 +247,7 @@ class _QuizPageState extends State<QuizPage> {
         if (_currentTime == 0) {
           if (mounted) {
             setState(() {
-              if (timer != null) {
-                timer.cancel();
-              }
+              timer.cancel();
               _isDisabled = true;
             });
           }
@@ -291,7 +289,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text(
                   'NO',
                   style: TextStyle(
@@ -300,12 +298,11 @@ class _QuizPageState extends State<QuizPage> {
                         : Theme.of(context).primaryColor,
                   ),
                 ),
-                splashColor: Colors.grey.withOpacity(0.1),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'YES',
                   style: TextStyle(
@@ -314,7 +311,6 @@ class _QuizPageState extends State<QuizPage> {
                         : Theme.of(context).primaryColor,
                   ),
                 ),
-                splashColor: Colors.grey.withOpacity(0.1),
                 onPressed: () {
                   closeQuiz = !closeQuiz;
                   Navigator.of(context).pop();
@@ -435,7 +431,7 @@ class _QuizPageState extends State<QuizPage> {
                             ),
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 30, vertical: 16),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 16),

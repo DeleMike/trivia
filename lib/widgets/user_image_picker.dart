@@ -46,10 +46,9 @@ class _UserImagePickerState extends State<UserImagePicker> {
             backgroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile!) : null 
           ),
         ),
-        FlatButton.icon(
+        ElevatedButton.icon(
           icon: Icon(Icons.image),
           label: Text('Add image'),
-          textColor: Theme.of(context).primaryColor,
           onPressed: _pickedImage,
         ),
       ],

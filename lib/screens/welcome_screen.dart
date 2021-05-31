@@ -97,7 +97,7 @@ class WelcomeScreen extends StatelessWidget {
                           Expanded(
                             child: Container(
                               margin: const EdgeInsets.all(16.0),
-                              child: RaisedButton(
+                              child: ElevatedButton(
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 15),
@@ -129,7 +129,7 @@ class WelcomeScreen extends StatelessWidget {
                                               ),
                                         ),
                                         actions: [
-                                          FlatButton(
+                                          ElevatedButton(
                                               child: Text(
                                                 'OKAY',
                                                 style: TextStyle(
@@ -138,8 +138,6 @@ class WelcomeScreen extends StatelessWidget {
                                                       : Colors.indigo,
                                                 ),
                                               ),
-                                              splashColor:
-                                                  Colors.grey.withOpacity(0.1),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               })
