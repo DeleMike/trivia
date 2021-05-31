@@ -14,7 +14,7 @@ class TriviaHistory with ChangeNotifier {
 
   ///add a history
   Future<void> addHistory(
-      String quizName, String difficulty, String dateTaken, String score) async {
+      String? quizName, String? difficulty, String? dateTaken, String score) async {
     final newHistory = History(
       name: quizName,
       difficulty: difficulty,

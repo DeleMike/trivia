@@ -9,8 +9,8 @@ import '../screens/settings.dart';
 
 ///[NavDrawer] - displays all navigation drawer items.
 class NavDrawer extends StatelessWidget {
-  final String username;
-  final File fileImage;
+  final String? username;
+  final File? fileImage;
 
   NavDrawer({this.username, this.fileImage});
 
@@ -22,9 +22,9 @@ class NavDrawer extends StatelessWidget {
       accountEmail: null,
       currentAccountPicture: CircleAvatar(
         radius: 40,
-        backgroundImage: fileImage != null
-            ? FileImage(fileImage)
-            : AssetImage('assets/images/app_icon.png'),
+        backgroundImage: (fileImage != null
+            ? FileImage(fileImage!)
+            : AssetImage('assets/images/app_icon.png')) as ImageProvider<Object>?,
       ),
     );
 
@@ -41,7 +41,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(
               Icons.note,
               color: themeProvider.darkTheme
-                  ? Theme.of(context).buttonTheme.colorScheme.surface
+                  ? Theme.of(context).buttonTheme.colorScheme!.surface
                   : Theme.of(context).primaryColor,
             ),
             title: Text(
@@ -49,7 +49,7 @@ class NavDrawer extends StatelessWidget {
               style: TextStyle(
                 fontStyle: FontStyle.normal,
                 color: themeProvider.darkTheme
-                    ? Theme.of(context).buttonTheme.colorScheme.surface
+                    ? Theme.of(context).buttonTheme.colorScheme!.surface
                     : Theme.of(context).primaryColor,
               ),
             ),
@@ -63,7 +63,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(
               Icons.settings,
               color: themeProvider.darkTheme
-                  ? Theme.of(context).buttonTheme.colorScheme.surface
+                  ? Theme.of(context).buttonTheme.colorScheme!.surface
                   : Theme.of(context).primaryColor,
             ),
             title: Text(
@@ -71,7 +71,7 @@ class NavDrawer extends StatelessWidget {
               style: TextStyle(
                 fontStyle: FontStyle.normal,
                 color: themeProvider.darkTheme
-                    ? Theme.of(context).buttonTheme.colorScheme.surface
+                    ? Theme.of(context).buttonTheme.colorScheme!.surface
                     : Theme.of(context).primaryColor,
               ),
             ),
@@ -85,7 +85,7 @@ class NavDrawer extends StatelessWidget {
             icon: Icon(
               Icons.info_outline_rounded,
               color: themeProvider.darkTheme
-                  ? Theme.of(context).buttonTheme.colorScheme.surface
+                  ? Theme.of(context).buttonTheme.colorScheme!.surface
                   : Theme.of(context).primaryColor,
             ),
             child: Text(
@@ -93,7 +93,7 @@ class NavDrawer extends StatelessWidget {
               style: TextStyle(
                 fontStyle: FontStyle.normal,
                 color: themeProvider.darkTheme
-                    ? Theme.of(context).buttonTheme.colorScheme.surface
+                    ? Theme.of(context).buttonTheme.colorScheme!.surface
                     : Theme.of(context).primaryColor,
               ),
             ),

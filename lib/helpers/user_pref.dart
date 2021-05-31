@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ///[UserPref] - this handles all user one-time login function
 ///and also stores users preferences
 class UserPref with ChangeNotifier {
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
   final String nameKey = 'username';
   final String filePathKey = 'filePath';
   final String loginKey = 'isLogin';
@@ -15,10 +15,10 @@ class UserPref with ChangeNotifier {
   };
 
   ///save user data
-  void save(String name, String filePath) async {
+  void save(String? name, String? filePath) async {
     prefs = await SharedPreferences.getInstance();
-    await prefs.setString(nameKey, name);
-    await prefs.setString(filePathKey, filePath);
+    await prefs.setString(nameKey, name!);
+    await prefs.setString(filePathKey, filePath!);
     await prefs.setBool(loginKey, true);
 
     notifyListeners();
@@ -26,10 +26,10 @@ class UserPref with ChangeNotifier {
   }
 
   ///get user data
-  Future<Map<String, String>> fetchData() async {
+  Future<Map<String, String?>> fetchData() async {
     prefs = await SharedPreferences.getInstance();
     userData['username'] = prefs.getString(nameKey) ?? 'User';
-    userData['imagepath'] = prefs.getString(filePathKey) ?? null;
+    userData['imagepath'] = prefs.getString(filePathKey)!;
 
     print('UserPref: data fetched');
     return userData;

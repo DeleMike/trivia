@@ -5,13 +5,13 @@ import 'package:http/http.dart' as http;
 
 ///[QuizBuilder] - handles all quiz's data handling
 class QuizBuilder with ChangeNotifier {
-  List<String> _questions = [];
-  List<String> _correctAnswers = [];
-  List<List<dynamic>> _incorrectAnswers = [];
-  Map<String, List> _fetchedData;
+  List<String?> _questions = [];
+  List<String?> _correctAnswers = [];
+  List<List<dynamic>?> _incorrectAnswers = [];
+  Map<String, List>? _fetchedData;
   bool _isEmpty = false;
 
-  Map<String, List> get fetchedData {
+  Map<String, List>? get fetchedData {
     return _fetchedData != null ? _fetchedData : null;
   }
 
@@ -21,10 +21,10 @@ class QuizBuilder with ChangeNotifier {
 
   ///fetch questions from api
   Future<void> fetchAndSetQuestions({
-    @required String numOfQuestion,
-    @required String categoryTag,
-    @required String difficulty,
-    @required String type,
+    required String? numOfQuestion,
+    required String categoryTag,
+    required String? difficulty,
+    required String type,
   }) async {
     //set data and send request
     final String url = 'www.opentdb.com';

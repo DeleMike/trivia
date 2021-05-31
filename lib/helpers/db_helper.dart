@@ -17,7 +17,7 @@ class DbHelper {
   }
 
   ///insert data into DB
-  static Future<void> insert(String table, Map<String, Object> data) async {
+  static Future<void> insert(String table, Map<String, Object?> data) async {
     final sqlDb = await DbHelper.database();
     sqlDb.insert(
       table,

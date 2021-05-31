@@ -28,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
               builder: (_, userPref, __) => NavDrawer(
                 username: userPref.userData['username'],
                 fileImage: File(
-                  userPref.userData['imagepath'],
+                  userPref.userData['imagepath']!,
                 ),
               ),
             );
@@ -72,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
                                 ..color = themeProvider.darkTheme
                                     ? Theme.of(context)
                                         .buttonTheme
-                                        .colorScheme
+                                        .colorScheme!
                                         .surface
                                     : Theme.of(context).primaryColor,
                             ),
@@ -86,7 +86,7 @@ class WelcomeScreen extends StatelessWidget {
                             color: themeProvider.darkTheme
                                 ? Theme.of(context)
                                     .buttonTheme
-                                    .colorScheme
+                                    .colorScheme!
                                     .surface
                                 : Theme.of(context).primaryColor,
                           ),
@@ -123,7 +123,7 @@ class WelcomeScreen extends StatelessWidget {
                                           'No network connection. Please connect and try again',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText2
+                                              .bodyText2!
                                               .copyWith(
                                                 fontSize: 15,
                                               ),

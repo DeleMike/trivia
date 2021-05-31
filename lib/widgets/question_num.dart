@@ -20,7 +20,7 @@ class _QuestionNumState extends State<QuestionNum> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: theme.darkTheme ? Colors.black : Colors.indigo[200],
+              color: theme.darkTheme ? Colors.black : Colors.indigo[200]!,
               spreadRadius: 3,
               blurRadius: 8,
               offset: Offset(-2, 3),

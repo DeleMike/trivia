@@ -12,13 +12,13 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
-  var _name = '';
-  String _pickedImageFilePath;
+  late String? _name = '';
+  late String? _pickedImageFilePath;
   final _formKey = GlobalKey<FormState>();
 
   ///tries to submit data entered
   void _trySubmit() {
-    final isValid = _formKey.currentState.validate();
+    final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus(); //close keyboard
 
     //if no image is chosen, inform user and return
@@ -34,7 +34,7 @@ class _AuthFormState extends State<AuthForm> {
 
     //is valid, save data using shared pref
     if (isValid) {
-      _formKey.currentState.save();
+      _formKey.currentState!.save();
       print('name = $_name, filePath = $_pickedImageFilePath');
       //save to shared pref
       Provider.of<UserPref>(context, listen: false)
@@ -55,7 +55,7 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   ///save picked file
-  void _pickFile(String filePath) {
+  void _pickFile(String? filePath) {
     _pickedImageFilePath = filePath;
   }
 
@@ -91,7 +91,7 @@ class _AuthFormState extends State<AuthForm> {
                           color: theme.darkTheme
                               ? Theme.of(context)
                                   .buttonTheme
-                                  .colorScheme
+                                  .colorScheme!
                                   .surface
                               : null,
                         ),
@@ -100,7 +100,7 @@ class _AuthFormState extends State<AuthForm> {
                         filled: true,
                       ),
                       validator: (value) {
-                        if (value.isEmpty || value.length < 3) {
+                        if (value!.isEmpty || value.length < 3) {
                           return 'username should be at least 3 characters';
                         }
                         return null;

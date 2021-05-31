@@ -22,7 +22,7 @@ class HistoryScreen extends StatelessWidget {
             : Consumer<TriviaHistory>(
                 child: Center(child: Text('You got no history. Take a quiz.')),
                 builder: (ctx, history, ch) => history.items.length == 0
-                    ? ch
+                    ? ch!
                     : Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ListView.builder(

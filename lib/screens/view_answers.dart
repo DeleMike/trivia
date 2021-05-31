@@ -8,7 +8,7 @@ class ViewAnswers extends StatelessWidget {
   static const routeName = '/view-answers';
   @override
   Widget build(BuildContext context) {
-    final tabs = ModalRoute.of(context).settings.arguments as Map<String, List<String>>;
+    final tabs = ModalRoute.of(context)!.settings.arguments as Map<String, List<String>>;
     final questions = tabs['question'];
     final answers = tabs['answer'];
     print('Tabs: $tabs');
@@ -17,7 +17,7 @@ class ViewAnswers extends StatelessWidget {
       appBar: AppBar(title: Text('View Correct Answers')),
       body:
           PageView.builder(
-            itemCount: tabs['question'].length,
+            itemCount: tabs['question']!.length,
             itemBuilder: (ctx, i) {
               return Container(
                  padding: const EdgeInsets.all(8.0),
@@ -36,7 +36,7 @@ class ViewAnswers extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(questions[i], style: Theme.of(context).textTheme.headline6),
+                            child: Text(questions![i], style: Theme.of(context).textTheme.headline6),
                           )),
                           SizedBox(height:10),
                           Divider(),
@@ -49,7 +49,7 @@ class ViewAnswers extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(answers[i], style: Theme.of(context).textTheme.headline5)),
+                          child: Text(answers![i], style: Theme.of(context).textTheme.headline5)),
                         
                       ],
                     ),

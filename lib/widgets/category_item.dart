@@ -12,8 +12,8 @@ class CategoryItem extends StatelessWidget {
   final int categoryTag;
 
   CategoryItem({
-    @required this.categoryName,
-    @required this.categoryTag,
+    required this.categoryName,
+    required this.categoryTag,
   });
 
   @override
@@ -39,7 +39,7 @@ class CategoryItem extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: themeProvider.darkTheme ? [Colors.black, Colors.black] : [Colors.indigo[300], Colors.indigo[900]],
+              colors: themeProvider.darkTheme ? [Colors.black, Colors.black] : [Colors.indigo[300]!, Colors.indigo[900]!],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0, 0.8],

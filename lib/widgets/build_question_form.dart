@@ -41,29 +41,29 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
   }).toList();
 
   String _quizName = '';
-  String _selectedDifficulty = 'easy';
-  String _selectedQuestionType = 'True/False';
-  String _numOfQuestions = '';
+  String? _selectedDifficulty = 'easy';
+  String? _selectedQuestionType = 'True/False';
+  String? _numOfQuestions = '';
   String _typeTag = '';
   bool _isLoading = false;
   final _quizBuilder = QuizBuilder();
 
   final _formKey = GlobalKey<FormState>();
 
-  //try to submit user data and get response.
-  // if ```_quizBuilder``` is empty prompt user on next steps
-  //else move on and pass data to ```QuizPage```
+  /// try to submit user data and get response.
+  /// if ```_quizBuilder``` is empty prompt user on next steps 
+  /// else move on and pass data to ```QuizPage```
   Future<void> _trySubmit() async {
     setState(() => _isLoading = true);
     _selectedQuestionType == 'True/False'
         ? _typeTag = 'boolean'
         : _typeTag = 'multiple';
-    final isValid = _formKey.currentState.validate();
+    final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus(); //close keyboard
 
     //is valid, save data using shared pref
     if (isValid) {
-      _formKey.currentState.save();
+      _formKey.currentState!.save();
 
       print('numOfQuestions = $_numOfQuestions, selectedDifficulty = ' +
           ' $_selectedDifficulty, selectedQuestionType = $_typeTag');
@@ -118,7 +118,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
               content: Text(
                 'The questions are not available yet.'
                 '\n\nPlease try again later or you can get the default questions',
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontSize: 15,
                     ),
               ),
@@ -183,7 +183,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                     style: TextStyle(
                       fontSize: 20,
                       color: themeProvider.darkTheme
-                          ? Theme.of(context).buttonTheme.colorScheme.surface
+                          ? Theme.of(context).buttonTheme.colorScheme!.surface
                           : null,
                     ),
                   ),
@@ -200,7 +200,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                           color: themeProvider.darkTheme
                               ? Theme.of(context)
                                   .buttonTheme
-                                  .colorScheme
+                                  .colorScheme!
                                   .surface
                               : null,
                         ),
@@ -210,7 +210,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                         filled: true,
                       ),
                       validator: (value) {
-                        if (value.isEmpty ||
+                        if (value!.isEmpty ||
                             (int.parse(value) <= 0 || int.parse(value) > 50)) {
                           setState(() => _isLoading = false);
                           return 'please enter a value between 0 and 50';
@@ -248,7 +248,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                       DropdownButton(
                         underline: Container(),
                         value: _selectedDifficulty,
-                        onChanged: (newVal) {
+                        onChanged: (dynamic newVal) {
                           setState(() {
                             _selectedDifficulty = newVal;
                           });
@@ -283,7 +283,7 @@ class _BuildQuestionFormState extends State<BuildQuestionForm> {
                       DropdownButton(
                         underline: Container(),
                         value: _selectedQuestionType,
-                        onChanged: (newVal) {
+                        onChanged: (dynamic newVal) {
                           setState(() {
                             _selectedQuestionType = newVal;
                           });

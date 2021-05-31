@@ -8,7 +8,7 @@ import '../helpers/dark_theme_provider.dart';
 ///Hold all answers for a particular question. 
 class ButtonPlaceholder extends StatefulWidget {
   final List answers;
-  final void Function(String answer) theAnswer;
+  final void Function(String? answer) theAnswer;
   final bool isDisabled;
 
   ButtonPlaceholder(this.answers, this.theAnswer, this.isDisabled);
@@ -33,7 +33,7 @@ class _ButtonPlaceholderState extends State<ButtonPlaceholder> {
   //parse the answer into a readable format
   String _parsedHtmlString(String answer) {
     var doc = parser.parse(answer);
-    String parsedStr = parser.parse(doc.body.text).documentElement.text;
+    String parsedStr = parser.parse(doc.body!.text).documentElement!.text;
     return parsedStr;
   }
 

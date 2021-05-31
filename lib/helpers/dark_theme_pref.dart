@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ///[DarkThemePreference] is used to save user dark theme preference
 class DarkThemePreference {
   static const THEME_STATUS = 'THEME_STATUS';
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   ///set user dark theme choice
   void setDarkTheme(bool value) async {

@@ -25,32 +25,32 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  Timer _timer;
+  Timer? _timer;
   var _currentTime = 20;
   var _durationTime = 20;
   var _data;
   var _isLoaded = false;
   var _currentQuestionNum = 0;
   var _totalQuestionNum;
-  List<String> _questions;
+  List<String>? _questions;
   var _currentQuestion;
-  List<String> _correctAnswers;
-  List<List<dynamic>> _incorrectAnswers;
-  Map<String, List> _answers = {
+  List<String>? _correctAnswers;
+  List<List<dynamic>>? _incorrectAnswers;
+  Map<String, List?> _answers = {
     'correct_answers': [],
     'incorrect_answers': [[]],
   };
   List _anAnswer = [];
   List<List> _allAnswers = [];
-  var _selectedAnswer = '';
+  String? _selectedAnswer = '';
   var _correctAnswer = '';
   var _isDisabled = false;
   var _isSavingData = false;
   var _buttonText = 'NEXT';
   var _score = 0;
-  var _dateTaken = '';
-  var _difficulty = '';
-  var _quizName = '';
+  String? _dateTaken = '';
+  String? _difficulty = '';
+  String? _quizName = '';
   bool _isDoneWithQuiz = false;
   List _chosenAnswers = [];
   List _viewAnswersQuestions = [];
@@ -69,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
     if (!_isLoaded) {
       //if data is not loaded, then get data.
       //pass them into their respective variables
-      _data = ModalRoute.of(context).settings.arguments as Map;
+      _data = ModalRoute.of(context)!.settings.arguments as Map?;
       print('QuizPage: DataMap = $_data');
       _questions = _data['results']['questions'];
       _quizName = _data['quiz_name'];
@@ -80,9 +80,9 @@ class _QuizPageState extends State<QuizPage> {
       _answers['correct_answers'] = _correctAnswers;
       _answers['incorrect_answers'] = _incorrectAnswers;
       print('\n\nQuizPage: Answers: $_answers');
-      for (var i = 0; i < _correctAnswers.length; i++) {
-        _anAnswer.addAll(_answers['incorrect_answers'][i]);
-        _anAnswer.add(_answers['correct_answers'][i]);
+      for (var i = 0; i < _correctAnswers!.length; i++) {
+        _anAnswer.addAll(_answers['incorrect_answers']![i]);
+        _anAnswer.add(_answers['correct_answers']![i]);
         _anAnswer..shuffle();
         _allAnswers.add(_anAnswer);
         //_allAnswers.shuffle();
@@ -90,11 +90,11 @@ class _QuizPageState extends State<QuizPage> {
       }
       print('AllAnswers: $_allAnswers');
 
-      _totalQuestionNum = _questions.length;
+      _totalQuestionNum = _questions!.length;
       _currentQuestionNum == (_totalQuestionNum - 1)
           ? _buttonText = 'FINISH'
           : _buttonText = 'NEXT';
-      _currentQuestion = _parsedHtmlString(_questions[_currentQuestionNum]);
+      _currentQuestion = _parsedHtmlString(_questions![_currentQuestionNum]);
       var time = _data['difficulty'];
       if (time == 'easy') {
         _currentTime = 20;
@@ -126,7 +126,7 @@ class _QuizPageState extends State<QuizPage> {
     if (_buttonText == 'FINISH') {
       setState(() {
         if (_timer != null) {
-          _timer.cancel();
+          _timer!.cancel();
         }
         _currentTime = 0;
         _isDoneWithQuiz = true;
@@ -149,10 +149,10 @@ class _QuizPageState extends State<QuizPage> {
         }
 
         if (_timer != null) {
-          _timer.cancel();
+          _timer!.cancel();
         }
 
-        _currentQuestion = _parsedHtmlString(_questions[_currentQuestionNum]);
+        _currentQuestion = _parsedHtmlString(_questions![_currentQuestionNum]);
         _isDisabled = false;
         _currentTime = _durationTime;
         _selectedAnswer = '';
@@ -162,8 +162,8 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   //check if answer is correct
-  void _checkAnswer(String selectedAnswer) {
-    _correctAnswer = _correctAnswers[_currentQuestionNum];
+  void _checkAnswer(String? selectedAnswer) {
+    _correctAnswer = _correctAnswers![_currentQuestionNum];
     if (selectedAnswer == _correctAnswer) {
       ++_score; //record quiz score
     }
@@ -176,16 +176,16 @@ class _QuizPageState extends State<QuizPage> {
 
   //this is a func that reacts when ButtonPlaceholder is clicked.
   //It is used to retrieve the selceted answer by user
-  void _onBtnClick(String selectedAns) {
+  void _onBtnClick(String? selectedAns) {
     _checkAnswer(selectedAns);
     //move to next question or finsih quiz
     _moveToNext();
   }
 
   //this is used to change the raw HTML markup into a readable form
-  String _parsedHtmlString(String question) {
+  String _parsedHtmlString(String? question) {
     var doc = parser.parse(question);
-    String parsedStr = parser.parse(doc.body.text).documentElement.text;
+    String parsedStr = parser.parse(doc.body!.text).documentElement!.text;
     return parsedStr;
   }
 
@@ -266,7 +266,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   //this affects the Current Chosen Answer Widget selected by user
-  _onSelectAnswer(String answer) {
+  _onSelectAnswer(String? answer) {
     setState(() {
       _selectedAnswer = answer;
     });
@@ -286,7 +286,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             content: Text(
               'Do you really want to exit quiz?',
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
                     fontSize: 15,
                   ),
             ),
@@ -334,7 +334,7 @@ class _QuizPageState extends State<QuizPage> {
   void dispose() {
     super.dispose();
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
   }
 
@@ -426,7 +426,7 @@ class _QuizPageState extends State<QuizPage> {
                                 BoxShadow(
                                   color: theme.darkTheme
                                       ? Colors.black
-                                      : Colors.indigo[200],
+                                      : Colors.indigo[200]!,
                                   spreadRadius: theme.darkTheme ? 1 : 3,
                                   blurRadius: theme.darkTheme ? 0 : 16,
                                   offset: theme.darkTheme ? Offset(0, 0) : Offset(-2, 4),
@@ -555,7 +555,7 @@ class _QuizPageState extends State<QuizPage> {
                                                       print(
                                                           'QuizPage-Bottom Sheet: Pressed view-answers button');
                                                       for (var question
-                                                          in _questions) {
+                                                          in _questions!) {
                                                         parsedQuestion =
                                                             _parsedHtmlString(
                                                                 question);
@@ -565,7 +565,7 @@ class _QuizPageState extends State<QuizPage> {
                                                       }
 
                                                       for (var answer
-                                                          in _correctAnswers) {
+                                                          in _correctAnswers!) {
                                                         parsedAnswer =
                                                             _parsedHtmlString(
                                                                 answer);

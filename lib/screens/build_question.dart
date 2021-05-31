@@ -8,12 +8,12 @@ class BuildQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    final data = ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
     return Scaffold(
       appBar: AppBar(
         title: Text('Fill in the form'),
       ),
-      body: Center(child: BuildQuestionForm(data['name'] ?? 'Unavaliable', data['tag'] ?? 0)),
+      body: Center(child: BuildQuestionForm(data['name'] as String? ?? 'Unavaliable', data['tag'] as int? ?? 0)),
     );
   }
 }

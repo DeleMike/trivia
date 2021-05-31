@@ -8,7 +8,7 @@ import '../helpers/dark_theme_provider.dart';
 
 ///[UserImagePicker] - gets user image on the device gallery.
 class UserImagePicker extends StatefulWidget {
-  final void Function(String filePath) onPickFile;
+  final void Function(String? filePath) onPickFile;
 
   UserImagePicker(this.onPickFile);
 
@@ -17,16 +17,16 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  File _pickedImageFile;
-  String _pickedImageFilePath;
+  File? _pickedImageFile;
+  String? _pickedImageFilePath;
 
   //used to pick image from device gallery app
   void _pickedImage() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.getImage(
-      source: ImageSource.gallery,
-    );
-    final pickedImageFile = File(pickedImage.path);
+    final pickedImage = await (picker.getImage(
+      source: ImageSource.gallery
+     ) );
+    final pickedImageFile = File(pickedImage!.path);
     _pickedImageFilePath = pickedImage.path;
     setState(() {
       _pickedImageFile = pickedImageFile;
@@ -43,7 +43,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   builder: (_, theme, __) => CircleAvatar(
             radius: 40,
             backgroundColor: theme.darkTheme ? Colors.grey[400] : Colors.indigo[400],
-            backgroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile) : null 
+            backgroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile!) : null 
           ),
         ),
         FlatButton.icon(
