@@ -18,9 +18,17 @@ A quiz application to test your knoweldege.
 | ![Finish mode_dark](f_auth_dark.png)| ![Finish mode_light](f_auth_light.png) |
 | ![Finish mode_dark](f_settings_dark.png)| ![Finish mode_light](f_settings_light.png) |
 
+### Web Screenshots
+
+![Welcome Screen](f_web_welcome.png)
+![Dark Mode - from settings page](f_web_dark.png)
+![License page](f_web_license.png)
+
 ### Nice Features
 
     - One time login
+    - Using Sound Null Safety
+    - Web Preview!
     - Offers the dark mode experience!
     - Save users 'taken quiz' using native device DBMS
 
