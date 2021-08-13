@@ -33,14 +33,28 @@ class _MyAppState extends State<MyApp> {
     _getCurrentAppTheme();
   }
 
-  //this will get the app current theme as saved in the shared pref file
+  ///this will get the app current theme as saved in the shared pref file
   void _getCurrentAppTheme() async {
     _themeProvider.darkTheme =
         await _themeProvider.darkThemePreference.getTheme();
 
-        //get current device theme
+    //get if device theme wants to be used
     _themeProvider.isAppDefaultThemeActive =
         await _themeProvider.darkThemePreference.getDeviceTheme();
+
+    _themeProvider.darkTheme =
+        _getDeviceCurrentTheme(_themeProvider.isAppDefaultThemeActive);
+  }
+
+  ///this subroutine should actively be listening to the Device's current theme
+  ///and apply that current theme to the app if ```System Default Theme```
+  ///option was choosed
+  // ignore: unused_element
+  bool _getDeviceCurrentTheme(bool isDeviceThemeSelected) {
+    if (isDeviceThemeSelected) {
+      return _themeProvider.darkThemePreference.getCurrentDeviceTheme();
+    }
+    return false;
   }
 
   @override
