@@ -37,6 +37,10 @@ class _MyAppState extends State<MyApp> {
   void _getCurrentAppTheme() async {
     _themeProvider.darkTheme =
         await _themeProvider.darkThemePreference.getTheme();
+
+        //get current device theme
+    _themeProvider.isAppDefaultThemeActive =
+        await _themeProvider.darkThemePreference.getDeviceTheme();
   }
 
   @override
@@ -57,7 +61,6 @@ class _MyAppState extends State<MyApp> {
         builder: (_, themeProvider, __) => MaterialApp(
           title: 'Trivia',
           theme: Styles.themeData(themeProvider.darkTheme, context),
-          
           home: Consumer<UserPref>(
             builder: (_, userPref, __) => FutureBuilder(
               future: userPref.isLoggedIn(),

@@ -25,6 +25,7 @@ class DarkThemeProvider with ChangeNotifier {
   ///set value for ```isAppDefaultThemeActive```
   set isAppDefaultThemeActive(bool val) {
     _isAppDefaultThemeActive = val;
+    darkThemePreference.setDeviceTheme(val);
     notifyListeners();
   }
 }
