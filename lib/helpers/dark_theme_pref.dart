@@ -1,4 +1,6 @@
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 ///[DarkThemePreference] is used to save user dark theme preference
 class DarkThemePreference {
@@ -12,7 +14,7 @@ class DarkThemePreference {
     prefs.setBool(THEME_STATUS, value);
   }
 
-  ///get user dark theme choice
+  ///get user manual dark theme choice
   Future<bool> getTheme() async {
     prefs = await SharedPreferences.getInstance();
     return prefs.getBool(THEME_STATUS) ?? false;
@@ -24,9 +26,16 @@ class DarkThemePreference {
     prefs.setBool(DEVICE_THEME_STATUS, value);
   }
 
-  ///get device theme
+  ///get previously saved device theme
   Future<bool> getDeviceTheme() async {
     prefs = await SharedPreferences.getInstance();
     return prefs.getBool(DEVICE_THEME_STATUS) ?? false;
+  }
+
+  ///get the device active theme 
+  bool getCurrentDeviceTheme() {
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    bool darkModeOn = brightness == Brightness.dark;
+    return darkModeOn;
   }
 }
