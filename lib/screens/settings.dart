@@ -27,13 +27,17 @@ class _SettingsState extends State<Settings> {
           sections: [
             SettingsSection(
               title: 'Preferences',
-              titleTextStyle: TextStyle(color: themeChange.darkTheme ? Colors.white: Colors.black),
+              titleTextStyle: TextStyle(
+                  color: themeChange.darkTheme ? Colors.white : Colors.black),
               tiles: [
                 SettingsTile.switchTile(
                   title: 'Dark Mode',
-                  leading: Icon(_value ? Icons.bedtime : Icons.bedtime_outlined, color: Colors.indigo[600],),
+                  leading: Icon(
+                    _value ? Icons.bedtime : Icons.bedtime_outlined,
+                    color: Colors.indigo[600],
+                  ),
                   switchValue: themeChange.darkTheme,
-                  switchActiveColor : Colors.indigo[600],
+                  switchActiveColor: Colors.indigo[600],
                   onToggle: (bool val) {
                     themeChange.darkTheme = val;
                     print('Settings: Dark Mode = $val');
@@ -42,9 +46,35 @@ class _SettingsState extends State<Settings> {
                 SettingsTile(
                   title: 'Update bio',
                   subtitle: 'Change your name and profile pic',
-                  leading: Icon(themeChange.darkTheme ? Icons.person : Icons.person_outlined, color: Colors.indigo[600],),
+                  leading: Icon(
+                    themeChange.darkTheme
+                        ? Icons.person
+                        : Icons.person_outlined,
+                    color: Colors.indigo[600],
+                  ),
                   onPressed: (ctx) {
                     Navigator.of(context).pushNamed(AuthScreen.routeName);
+                  },
+                ),
+                SettingsTile(
+                  title: 'Check device theme',
+                  subtitle: 'Get system default current theme',
+                  leading: Icon(
+                    themeChange.darkTheme
+                        ? Icons.circle
+                        : Icons.circle_outlined,
+                    color: Colors.indigo[600],
+                  ),
+                  onPressed: (ctx) {
+                    var brightness = MediaQuery.of(ctx).platformBrightness;
+                    print('Current Brightness of device is $brightness');
+                    ScaffoldMessenger.of(ctx).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text('Current Brightness of device is $brightness'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],
@@ -52,7 +82,6 @@ class _SettingsState extends State<Settings> {
           ],
         ),
       ),
-      
     );
   }
 }
