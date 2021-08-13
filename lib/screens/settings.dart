@@ -65,36 +65,27 @@ class _SettingsState extends State<Settings> {
                       _isDarkMode ? Icons.circle : Icons.circle_outlined,
                       color: Colors.indigo[600],
                     ),
-                    switchValue: _isDeviceDefaultThemeChosen,
+                    switchValue: theme.isAppDefaultThemeActive,
                     switchActiveColor: Colors.indigo[600],
                     onToggle: (bool val) {
                       //change toggle option
-                      setState(
-                        () => _isDeviceDefaultThemeChosen = val,
-                      );
+                      theme.isAppDefaultThemeActive = val;
+                      var brightness =
+                            MediaQuery.of(context).platformBrightness;
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Settings: Phone Theme wants to be used = $_isDeviceDefaultThemeChosen',
+                            'Settings: Phone Theme wants to be used = ${theme.isAppDefaultThemeActive}',
                           ),
                           duration: Duration(seconds: 2),
                         ),
                       );
-                      if (_isDeviceDefaultThemeChosen) {
+                      if (theme.isAppDefaultThemeActive) {
                         //get app current settings
-                        var brightness =
-                            MediaQuery.of(context).platformBrightness;
                         _isAppInDarkMode = brightness == Brightness.dark;
-                        theme.isAppDefaultThemeActive = true;
-
-                        //apply dark mode if user device theme is the Dark Theme
-                        theme.darkTheme = _isAppInDarkMode;
-                      } else {
-                        //if device default mode is not chosen then enable
-                        // app theming options which will be the primary theme
-                        theme.isAppDefaultThemeActive = false;
-                        theme.darkTheme = _isAppInDarkMode;
                       }
+                      theme.darkTheme = _isAppInDarkMode;
                     },
                   ),
                 ],
