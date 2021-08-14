@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   ///this subroutine should actively be listening to the Device's current theme
-  ///and apply that current theme to the app if ```System Default Theme```
+  ///and apply that current theme to the app if "System Default Theme"
   ///option was choosed
   // ignore: unused_element
   bool _getDeviceCurrentTheme(bool isDeviceThemeSelected) {
