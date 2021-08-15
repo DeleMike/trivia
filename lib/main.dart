@@ -31,6 +31,18 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _getCurrentAppTheme();
+    _checkThemeChange(theme: _themeProvider);
+  }
+
+  void _checkThemeChange({DarkThemeProvider? theme}) {
+    var window = WidgetsBinding.instance!.window;
+    window.onPlatformBrightnessChanged = () {
+      //the callback is called every time the brightness changes.
+      var brightness = window.platformBrightness;
+      brightness == Brightness.dark
+          ? theme!.darkTheme = true
+          : theme!.darkTheme = false;
+    };
   }
 
   ///this will get the app current theme as saved in the shared pref file

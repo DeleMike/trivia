@@ -16,7 +16,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   bool _isDarkMode = false;
   bool _isAppInDarkMode = false;
-  bool _isDeviceDefaultThemeChosen = false;
 
   @override
   Widget build(BuildContext context) {
