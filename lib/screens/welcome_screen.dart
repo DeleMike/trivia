@@ -40,119 +40,124 @@ class WelcomeScreen extends StatelessWidget {
               return SplashScreen();
             }
             return Consumer<DarkThemeProvider>(
-              builder: (_, themeProvider, __) => SingleChildScrollView(
-                child: Container(
-                  width: deviceSize.width,
-                  height: deviceSize.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          width: deviceSize.width * 0.2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(12),
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          child: Image.asset('assets/images/logo.png'),
+              builder: (_, themeProvider, __) => Container(
+                width: deviceSize.width,
+                height: deviceSize.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        width: deviceSize.width * 0.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.circular(12),
+                          color: Theme.of(context).primaryColor,
                         ),
+                        child: Image.asset('assets/images/logo.png'),
                       ),
-                      SizedBox(height: 25),
-                      Consumer<UserPref>(
-                        builder: (_, userPref, __) => Expanded(
-                          child: Text(
-                            'Welcome, ${userPref.userData['username']}',
-                            style: TextStyle(
-                              fontSize: 40,
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 2.5
-                                ..color = themeProvider.darkTheme
-                                    ? Theme.of(context)
-                                        .buttonTheme
-                                        .colorScheme!
-                                        .surface
-                                    : Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
+                    ),
+                    SizedBox(height: 25),
+                    Consumer<UserPref>(
+                      builder: (_, userPref, __) => Expanded(
                         child: Text(
-                          'ready to test your knowledge ?',
+                          'Welcome, ${userPref.userData['username']}',
                           style: TextStyle(
-                            color: themeProvider.darkTheme
-                                ? Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme!
-                                    .surface
-                                : Theme.of(context).primaryColor,
+                            fontSize: 40,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 2.5
+                              ..color = themeProvider.darkTheme
+                                  ? Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme!
+                                      .surface
+                                  : Theme.of(context).primaryColor,
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.all(16.0),
-                              child: ElevatedButton(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  child: Text('Go'),
-                                ),
-                                onPressed: () async {
-                                  try {
-                                    final result = await InternetAddress.lookup(
-                                        'google.com');
-                                    if (result.isNotEmpty &&
-                                        result[0].rawAddress.isNotEmpty) {
-                                      print('connected to a network');
-                                      Navigator.pushNamed(
-                                          context, Categories.routeName);
-                                    }
-                                  } on SocketException catch (_) {
-                                    print('Not connected to internet');
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: Text('Message'),
-                                        content: Text(
-                                          'No network connection. Please connect and try again',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2!
-                                              .copyWith(
-                                                fontSize: 15,
-                                              ),
-                                        ),
-                                        actions: [
-                                          ElevatedButton(
-                                              child: Text(
-                                                'OKAY',
-                                                style: TextStyle(
-                                                  color: themeProvider.darkTheme
-                                                      ? Colors.white
-                                                      : Colors.indigo,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              })
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                },
+                    ),
+                    Flexible(
+                      child: Text(
+                        'ready to test your knowledge ?',
+                        style: TextStyle(
+                          color: themeProvider.darkTheme
+                              ? Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .surface
+                              : Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.all(16.0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: themeProvider.darkTheme
+                                    ? Colors.black
+                                    : Colors.indigo,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
                               ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Text('Go'),
+                              ),
+                              onPressed: () async {
+                                try {
+                                  final result = await InternetAddress.lookup(
+                                      'google.com');
+                                  if (result.isNotEmpty &&
+                                      result[0].rawAddress.isNotEmpty) {
+                                    print('connected to a network');
+                                    Navigator.pushNamed(
+                                        context, Categories.routeName);
+                                  }
+                                } on SocketException catch (_) {
+                                  print('Not connected to internet');
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text('Message'),
+                                      content: Text(
+                                        'No network connection. Please connect and try again',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .copyWith(
+                                              fontSize: 15,
+                                            ),
+                                      ),
+                                      actions: [
+                                        ElevatedButton(
+                                            child: Text(
+                                              'OKAY',
+                                              style: TextStyle(
+                                                color: themeProvider.darkTheme
+                                                    ? Colors.white
+                                                    : Colors.indigo,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            })
+                                      ],
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                           ),
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             );
