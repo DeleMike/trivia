@@ -67,23 +67,17 @@ class _SettingsState extends State<Settings> {
                     switchValue: theme.isAppDefaultThemeActive,
                     switchActiveColor: Colors.indigo[600],
                     onToggle: (bool val) {
+                      theme.darkTheme = false;
                       //change toggle option
                       theme.isAppDefaultThemeActive = val;
                       var brightness =
-                            MediaQuery.of(context).platformBrightness;
+                          MediaQuery.of(context).platformBrightness;
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Settings: Phone Theme wants to be used = ${theme.isAppDefaultThemeActive}',
-                          ),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
                       if (theme.isAppDefaultThemeActive) {
                         //get app current settings
                         _isAppInDarkMode = brightness == Brightness.dark;
                       }
+                     // print('Settings: isAppInDarkMode = $_isAppInDarkMode');
                       theme.darkTheme = _isAppInDarkMode;
                     },
                   ),
