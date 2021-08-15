@@ -34,39 +34,44 @@ class _MyAppState extends State<MyApp> {
     _checkThemeChange(theme: _themeProvider);
   }
 
+  ///actively listens for changes in the device theme.
+  ///If user has selected 'System Default' as the theme of the app
+  ///then this app will automatically change its colour when the device switches
+  ///from eithe Dark to Light Mode or Light to Dark Mode
   void _checkThemeChange({DarkThemeProvider? theme}) {
     var window = WidgetsBinding.instance!.window;
     window.onPlatformBrightnessChanged = () {
       //the callback is called every time the brightness changes.
       var brightness = window.platformBrightness;
-      brightness == Brightness.dark
-          ? theme!.darkTheme = true
-          : theme!.darkTheme = false;
+      if (theme!.isAppDefaultThemeActive) {
+        // print('Main: isAppDefaultActive = ${theme.isAppDefaultThemeActive}');
+        brightness == Brightness.dark
+            ? theme.darkTheme = true
+            : theme.darkTheme = false;
+      }
+      //print('Main: isDarkMode = ${theme.darkTheme}');
     };
   }
 
   ///this will get the app current theme as saved in the shared pref file
   void _getCurrentAppTheme() async {
-    _themeProvider.darkTheme =
-        await _themeProvider.darkThemePreference.getTheme();
-
     //get if device theme wants to be used
     _themeProvider.isAppDefaultThemeActive =
         await _themeProvider.darkThemePreference.getDeviceTheme();
+    _getDeviceCurrentTheme(
+      _themeProvider.isAppDefaultThemeActive,
+    );
 
     _themeProvider.darkTheme =
-        _getDeviceCurrentTheme(_themeProvider.isAppDefaultThemeActive);
+        await _themeProvider.darkThemePreference.getTheme();
   }
 
-  ///this subroutine should actively be listening to the Device's current theme
-  ///and apply that current theme to the app if "System Default Theme"
-  ///option was choosed
-  // ignore: unused_element
-  bool _getDeviceCurrentTheme(bool isDeviceThemeSelected) {
+  ///this subroutine checks if "System Default Theme" option was choosen
+  void _getDeviceCurrentTheme(bool isDeviceThemeSelected) {
+    print('Main: isDeviceThemeSelected = $isDeviceThemeSelected');
     if (isDeviceThemeSelected) {
-      return _themeProvider.darkThemePreference.getCurrentDeviceTheme();
+      _themeProvider.darkThemePreference.getCurrentDeviceTheme();
     }
-    return false;
   }
 
   @override
