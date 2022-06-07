@@ -34,7 +34,7 @@ class DarkThemePreference {
 
   ///get the device active theme 
   bool getCurrentDeviceTheme() {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     bool darkModeOn = brightness == Brightness.dark;
     return darkModeOn;
   }

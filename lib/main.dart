@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   ///then this app will automatically change its colour when the device switches
   ///from eithe Dark to Light Mode or Light to Dark Mode
   void _checkThemeChange({DarkThemeProvider? theme}) {
-    var window = WidgetsBinding.instance!.window;
+    var window = WidgetsBinding.instance.window;
     window.onPlatformBrightnessChanged = () {
       //the callback is called every time the brightness changes.
       var brightness = window.platformBrightness;
