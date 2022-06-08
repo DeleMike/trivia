@@ -14,15 +14,15 @@ A quiz application to test your knoweldege.
 
 | Dark Mode | Light Mode |
 |-----------|-------------|
-| ![Finish mode_dark](f_finish_dark.png)| ![Finish mode_light](f_finish_light.png) |
-| ![Finish mode_dark](f_auth_dark.png)| ![Finish mode_light](f_auth_light.png) |
-| ![Finish mode_dark](f_settings_dark.png)| ![Finish mode_light](f_settings_light.png) |
+| ![Finish mode_dark](gt_imgs/f_finish_dark.png)| ![Finish mode_light](gt_imgs/f_finish_light.png) |
+| ![Finish mode_dark](gt_imgs/f_auth_dark.png)| ![Finish mode_light](gt_imgs/f_auth_light.png) |
+| ![Finish mode_dark](gt_imgs/f_settings_dark.png)| ![Finish mode_light](gt_imgs/f_settings_light.png) |
 
 ### Web Screenshots
 
-![Welcome Screen](f_web_welcome.png)
-![Dark Mode - from settings page](f_web_dark.png)
-![License page](f_web_license.png)
+![Welcome Screen](gt_imgs/f_web_welcome.png)
+![Dark Mode - from settings page](gt_imgs/f_web_dark.png)
+![License page](gt_imgs/f_web_license.png)
 
 ### Nice Features
 
