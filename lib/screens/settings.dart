@@ -28,27 +28,27 @@ class _SettingsState extends State<Settings> {
           builder: (_, theme, __) => SettingsList(
             sections: [
               SettingsSection(
-                title: 'Preferences',
-                titleTextStyle: TextStyle(
-                    color: theme.darkTheme ? Colors.white : Colors.black),
+                title: Text('Preferences'),
+                // titleTextStyle: TextStyle(
+                //     color: theme.darkTheme ? Colors.white : Colors.black),
                 tiles: [
                   SettingsTile.switchTile(
-                    title: 'Dark Mode',
+                    title: Text('Dark Mode'),
                     leading: Icon(
                       _isDarkMode ? Icons.bedtime : Icons.bedtime_outlined,
                       color: Colors.indigo[600],
                     ),
                     enabled: !theme.isAppDefaultThemeActive,
-                    switchValue: theme.darkTheme,
-                    switchActiveColor: Colors.indigo[600],
+                    initialValue: theme.darkTheme,
+                    activeSwitchColor: Colors.indigo[600],
                     onToggle: (bool val) {
                       theme.darkTheme = val;
                       print('Settings: Dark Mode = $val');
                     },
                   ),
                   SettingsTile(
-                    title: 'Update bio',
-                    subtitle: 'Change your name and profile pic',
+                    title: Text('Update bio'),
+                    description: Text('Change your name and profile pic'),
                     leading: Icon(
                       theme.darkTheme ? Icons.person : Icons.person_outlined,
                       color: Colors.indigo[600],
@@ -58,14 +58,14 @@ class _SettingsState extends State<Settings> {
                     },
                   ),
                   SettingsTile.switchTile(
-                    title: 'System default theme',
-                    subtitle: 'Apply your phone\'s current theme to this app',
+                    title: Text('System default theme'),
+                    description: Text('Apply your phone\'s current theme to this app'),
                     leading: Icon(
                       _isDarkMode ? Icons.circle : Icons.circle_outlined,
                       color: Colors.indigo[600],
                     ),
-                    switchValue: theme.isAppDefaultThemeActive,
-                    switchActiveColor: Colors.indigo[600],
+                    initialValue: theme.isAppDefaultThemeActive,
+                    activeSwitchColor: Colors.indigo[600],
                     onToggle: (bool val) {
                       theme.darkTheme = false;
                       //change toggle option
