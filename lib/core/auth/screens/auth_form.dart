@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:trivia/configs/constants.dart';
+import 'package:trivia/core/auth/controllers/auth_controller.dart';
 
 import '../../../helpers/dark_theme_provider.dart';
 import '../../../helpers/user_pref.dart';
@@ -75,6 +76,9 @@ class _AuthFormState extends State<AuthForm> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                onChanged: (value) {
+                  context.read<AuthController>().username = value;
+                },
                 keyboardType: TextInputType.name,
                 autocorrect: true,
                 decoration: InputDecoration(
@@ -95,8 +99,3 @@ class _AuthFormState extends State<AuthForm> {
     );
   }
 }
-
-// ElevatedButton(
-//             child: Text('Save'),
-//             onPressed: _trySubmit,
-//           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/routes.dart';
 
 import 'helpers/dark_theme_provider.dart';
 import 'screens/welcome_screen.dart';
@@ -96,9 +97,7 @@ class _MyAppState extends State<MyApp> {
             },
           ),
         ),
-        routes: {
-          '/auth': (ctx) => AuthScreen(),
-        },
+        routes: Routes().generateRoutes(context),
         debugShowCheckedModeBanner: false,
       ),
     );

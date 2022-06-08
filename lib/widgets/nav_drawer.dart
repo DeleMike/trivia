@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/routes.dart';
 
 import '../helpers/dark_theme_provider.dart';
 import '../screens/history_screen.dart';
@@ -77,7 +78,7 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           onTap: () {
-            Navigator.of(context).popAndPushNamed(Settings.routeName);
+            Navigator.of(context).popAndPushNamed(Routes.settings);
           },
         ),
         InkWell(

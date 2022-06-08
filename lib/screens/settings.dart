@@ -7,7 +7,6 @@ import '../helpers/dark_theme_provider.dart';
 
 ///[Settings] screen is used to display user prefences options
 class Settings extends StatefulWidget {
-  static const routeName = 'settings';
 
   @override
   _SettingsState createState() => _SettingsState();
