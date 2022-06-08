@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      primaryColor: isDarkTheme ? Colors.black : Colors.indigo,
+      primaryColor: isDarkTheme ? Colors.black : Color(0xFF3F51B5),
       canvasColor: isDarkTheme ? Colors.grey[900] : Colors.indigo[50],
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
       fontFamily: 'Ubuntu',

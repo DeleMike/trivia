@@ -15,6 +15,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.3
   html: ^0.15.0
+  flutter_svg: ^1.1.0
   http: ^0.13.3
   image_picker: ^0.8.5+3
   intl: ^0.17.0
@@ -25,6 +26,7 @@ dependencies:
   settings_ui: ^2.0.2
   shared_preferences: ^2.0.6
   sqflite: ^2.0.0+3
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -49,11 +51,9 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/app_icon.png
-    - assets/images/logo.png
-    - assets/animations/congratulation-success-batch.json
-    - assets/animations/thumb-up-party.json
-    - assets/animations/you-loss.json
+    - assets/images/
+    - assets/images/auth/
+    - assets/animations/
 
   fonts:
     - family: Ubuntu

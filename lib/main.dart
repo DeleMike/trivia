@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/app_theme.dart';
+
 import 'package:trivia/helpers/dark_theme_provider.dart';
 import 'package:trivia/models/styles.dart';
+import 'package:trivia/screens/welcome_screen.dart';
 
 import './widgets/splash_screen.dart';
-import './screens/auth_screen.dart';
-import './screens/categories.dart';
-import './screens/build_question.dart';
-import './screens/welcome_screen.dart';
-import './screens/quiz_page.dart';
-import './screens/view_answers.dart';
-import './screens/history_screen.dart';
-import './screens/settings.dart';
+import './core/auth/screens/auth_screen.dart';
+
 import './helpers/user_pref.dart';
 import './helpers/trivia_history.dart';
 
@@ -91,7 +88,7 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<DarkThemeProvider>(
         builder: (_, themeProvider, __) => MaterialApp(
           title: 'Trivia',
-          theme: Styles.themeData(themeProvider.darkTheme, context),
+          theme: AppTheme(context).lightTheme,
           home: Consumer<UserPref>(
             builder: (_, userPref, __) => FutureBuilder(
               future: userPref.isLoggedIn(),
@@ -104,13 +101,8 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           routes: {
-            AuthScreen.routeName: (ctx) => AuthScreen(),
-            Categories.routeName: (ctx) => Categories(),
-            BuildQuestion.routeName: (ctx) => BuildQuestion(),
-            QuizPage.routeName: (ctx) => QuizPage(),
-            ViewAnswers.routeName: (ctx) => ViewAnswers(),
-            HistoryScreen.routeName: (ctx) => HistoryScreen(),
-            Settings.routeName: (ctx) => Settings(),
+            '/auth': (ctx) => AuthScreen(),
+            
           },
           debugShowCheckedModeBanner: false,
         ),

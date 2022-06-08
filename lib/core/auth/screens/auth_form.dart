@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/constants.dart';
 
-import '../helpers/dark_theme_provider.dart';
-import '../widgets/user_image_picker.dart';
-import '../helpers/user_pref.dart';
+import '../../../helpers/dark_theme_provider.dart';
+import '../../../helpers/user_pref.dart';
+
+import 'user_image_picker.dart';
 
 ///[AuthForm] collects all desired data to save in app.
 class AuthForm extends StatefulWidget {
@@ -37,8 +40,7 @@ class _AuthFormState extends State<AuthForm> {
       _formKey.currentState!.save();
       print('name = $_name, filePath = $_pickedImageFilePath');
       //save to shared pref
-      Provider.of<UserPref>(context, listen: false)
-          .save(_name, _pickedImageFilePath);
+      Provider.of<UserPref>(context, listen: false).save(_name, _pickedImageFilePath);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Data saved.', style: TextStyle(color: Colors.white)),
@@ -47,7 +49,7 @@ class _AuthFormState extends State<AuthForm> {
               label: 'OKAY',
               textColor: Colors.white,
               onPressed: () {
-                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               }),
         ),
       );
@@ -61,65 +63,40 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
     return Container(
-      width: deviceSize.width * 0.85,
+      width: kScreenWidth(context),
       padding: const EdgeInsets.all(10.0),
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: UserImagePicker(_pickFile),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Form(
-                  key: _formKey,
-                  child: Consumer<DarkThemeProvider>(
-                    builder: (_, theme, __) => TextFormField(
-                      keyboardType: TextInputType.name,
-                      autocorrect: true,
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: theme.darkTheme
-                              ? Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .surface
-                              : null,
-                        ),
-                        labelText: 'Enter username',
-                        border: UnderlineInputBorder(),
-                        filled: true,
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty || value.length < 3) {
-                          return 'username should be at least 3 characters';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _name = value;
-                      },
-                    ),
+      margin: const EdgeInsets.all(kPaddingS),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          UserImagePicker(_pickFile),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                keyboardType: TextInputType.name,
+                autocorrect: true,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(
+                    color: kBlack,
+                    fontFamily: GoogleFonts.caveatBrush().fontFamily,
                   ),
+                  labelText: 'Enter your geek name',
+                  border: UnderlineInputBorder(),
+                  fillColor: kCanvasColor,
+                  filled: true,
                 ),
               ),
-              ElevatedButton(
-                child: Text('Save'),
-                onPressed: _trySubmit,
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
+
+// ElevatedButton(
+//             child: Text('Save'),
+//             onPressed: _trySubmit,
+//           ),

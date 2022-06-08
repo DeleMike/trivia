@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/routes.dart';
 
 import '../helpers/dark_theme_provider.dart';
-import '../screens/auth_screen.dart';
 
 ///[Settings] screen is used to display user prefences options
 class Settings extends StatefulWidget {
@@ -54,7 +54,7 @@ class _SettingsState extends State<Settings> {
                       color: Colors.indigo[600],
                     ),
                     onPressed: (ctx) {
-                      Navigator.of(context).pushNamed(AuthScreen.routeName);
+                      Navigator.of(context).pushNamed(Routes.auth);
                     },
                   ),
                   SettingsTile.switchTile(
