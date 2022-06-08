@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/configs/app_theme.dart';
 
-import 'package:trivia/helpers/dark_theme_provider.dart';
-import 'package:trivia/models/styles.dart';
-import 'package:trivia/screens/welcome_screen.dart';
-
-import './widgets/splash_screen.dart';
-import './core/auth/screens/auth_screen.dart';
-
-import './helpers/user_pref.dart';
-import './helpers/trivia_history.dart';
+import 'helpers/dark_theme_provider.dart';
+import 'screens/welcome_screen.dart';
+import 'widgets/splash_screen.dart';
+import 'core/auth/screens/auth_screen.dart';
+import 'helpers/user_pref.dart';
+import 'helpers/trivia_history.dart';
+import 'configs/app_theme.dart';
+import 'core/auth/controllers/auth_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,9 +40,7 @@ class _MyAppState extends State<MyApp> {
       var brightness = window.platformBrightness;
       if (theme!.isAppDefaultThemeActive) {
         // print('Main: isAppDefaultActive = ${theme.isAppDefaultThemeActive}');
-        brightness == Brightness.dark
-            ? theme.darkTheme = true
-            : theme.darkTheme = false;
+        brightness == Brightness.dark ? theme.darkTheme = true : theme.darkTheme = false;
       }
       //print('Main: isDarkMode = ${theme.darkTheme}');
     };
@@ -53,14 +49,12 @@ class _MyAppState extends State<MyApp> {
   ///this will get the app current theme as saved in the shared pref file
   void _getCurrentAppTheme() async {
     //get if device theme wants to be used
-    _themeProvider.isAppDefaultThemeActive =
-        await _themeProvider.darkThemePreference.getDeviceTheme();
+    _themeProvider.isAppDefaultThemeActive = await _themeProvider.darkThemePreference.getDeviceTheme();
     _getDeviceCurrentTheme(
       _themeProvider.isAppDefaultThemeActive,
     );
 
-    _themeProvider.darkTheme =
-        await _themeProvider.darkThemePreference.getTheme();
+    _themeProvider.darkTheme = await _themeProvider.darkThemePreference.getTheme();
   }
 
   ///this subroutine checks if "System Default Theme" option was choosen
@@ -79,33 +73,33 @@ class _MyAppState extends State<MyApp> {
           create: (ctx) => UserPref(),
         ),
         ChangeNotifierProvider(
+          create: (ctx) => AuthController(),
+        ),
+        ChangeNotifierProvider(
           create: (ctx) => TriviaHistory(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => _themeProvider,
         ),
       ],
-      child: Consumer<DarkThemeProvider>(
-        builder: (_, themeProvider, __) => MaterialApp(
-          title: 'Trivia',
-          theme: AppTheme(context).lightTheme,
-          home: Consumer<UserPref>(
-            builder: (_, userPref, __) => FutureBuilder(
-              future: userPref.isLoggedIn(),
-              builder: (ctx, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SplashScreen();
-                }
-                return !userPref.isLogin ? AuthScreen() : WelcomeScreen();
-              },
-            ),
+      child: MaterialApp(
+        title: 'Trivia',
+        theme: AppTheme(context).lightTheme,
+        home: Consumer<UserPref>(
+          builder: (_, userPref, __) => FutureBuilder(
+            future: userPref.isLoggedIn(),
+            builder: (ctx, AsyncSnapshot<void> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SplashScreen();
+              }
+              return !userPref.isLogin ? AuthScreen() : WelcomeScreen();
+            },
           ),
-          routes: {
-            '/auth': (ctx) => AuthScreen(),
-            
-          },
-          debugShowCheckedModeBanner: false,
         ),
+        routes: {
+          '/auth': (ctx) => AuthScreen(),
+        },
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

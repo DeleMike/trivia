@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/configs/constants.dart';
 
-import '../../../helpers/dark_theme_provider.dart';
+import '../controllers/auth_controller.dart';
+import '../../../configs/constants.dart';
 
 ///[UserImagePicker] - gets user image on the device gallery.
 class UserImagePicker extends StatefulWidget {
@@ -18,23 +15,6 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  File? _pickedImageFile;
-  String? _pickedImageFilePath;
-  bool _hasPickedImageSuccessfully = false;
-
-  //used to pick image from device gallery app
-  void _pickedImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await (picker.pickImage(source: ImageSource.gallery));
-    final pickedImageFile = File(pickedImage!.path);
-    _pickedImageFilePath = pickedImage.path;
-    setState(() {
-      _pickedImageFile = pickedImageFile;
-      _hasPickedImageSuccessfully = true;
-    });
-    widget.onPickFile(_pickedImageFilePath);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,17 +26,19 @@ class _UserImagePickerState extends State<UserImagePicker> {
           radius: 45,
           backgroundColor: kTransparent,
           child: Visibility(
-            visible: !_hasPickedImageSuccessfully,
+            visible: !context.watch<AuthController>().hasPickedImageSuccessfully,
             child: TextButton.icon(
               style: ButtonStyle(
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
               ),
               icon: Icon(Icons.image),
               label: Text('Add image'),
-              onPressed: _pickedImage,
+              onPressed: () => context.read<AuthController>().pickedImage(),
             ),
           ),
-          backgroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile!) : null),
+          backgroundImage: context.watch<AuthController>().pickedImageFile != null
+              ? FileImage(context.watch<AuthController>().pickedImageFile!)
+              : null),
     );
   }
 }
