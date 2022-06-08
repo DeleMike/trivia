@@ -6,15 +6,14 @@ import '../../../configs/constants.dart';
 
 ///[UserImagePicker] - gets user image on the device gallery.
 class UserImagePicker extends StatefulWidget {
-  final void Function(String? filePath) onPickFile;
-
-  UserImagePicker(this.onPickFile);
+  const UserImagePicker({Key? key}) : super(key: key);
 
   @override
   _UserImagePickerState createState() => _UserImagePickerState();
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
+  
   @override
   Widget build(BuildContext context) {
     return Container(

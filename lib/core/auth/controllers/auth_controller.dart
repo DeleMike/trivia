@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:trivia/configs/constants.dart';
 
+import '../../../configs/constants.dart';
 import '../../../helpers/user_pref.dart';
 
 /// Controls selecting user profile picture and display name.
@@ -24,6 +24,7 @@ class AuthController with ChangeNotifier {
 
   /// get check for successful image picking
   bool get hasPickedImageSuccessfully => _hasPickedImageSuccessfully;
+
 
   /// used to pick image from device gallery app
   void pickedImage() async {
