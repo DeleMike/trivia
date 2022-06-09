@@ -12,7 +12,7 @@ class Routes {
   Map<String, Widget Function(BuildContext)> generateRoutes(BuildContext context) {
     return {
       
-      auth: (ctx) => AuthScreen(),
+      auth: (ctx) => const AuthScreen(),
       settings: (ctx) => Settings()
       // Categories.routeName: (ctx) => Categories(),
       // BuildQuestion.routeName: (ctx) => BuildQuestion(),

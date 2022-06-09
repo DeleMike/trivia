@@ -54,7 +54,7 @@ Orientation kGetOrientation(BuildContext context) {
 class AssetsImages {
   static const String logoIcon = 'assets/images/logo.png';
   static const String appIcon = 'assets/images/app_icon.png';
-  static const String authBannerImg = 'assets/images/auth/auth-banner.svg';
+  static const String authBannerImg = 'assets/images/auth/auth_banner.svg';
 }
 
 class AssetsAnimations {

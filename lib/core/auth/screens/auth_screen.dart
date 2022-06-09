@@ -29,7 +29,7 @@ class AuthScreen extends StatelessWidget {
                 children: [
                   const ImageBanner(),
                   const TextBanner(),
-                  AuthForm(),
+                  const AuthForm(),
                   Container(
                     width: kScreenWidth(context),
                     padding: const EdgeInsets.all(kPaddingS),

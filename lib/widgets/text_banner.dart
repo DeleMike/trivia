@@ -5,7 +5,7 @@ import '../configs/constants.dart';
 
 ///[TextBanner] - used a banner for auth screen.
 class TextBanner extends StatelessWidget {
-  const TextBanner();
+  const TextBanner({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class TextBanner extends StatelessWidget {
                 wordSpacing: 2.0,
               ),
           children: [
-            TextSpan(
+            const TextSpan(
               text: 'Nice to meet you.\n',
               style: TextStyle(
                 fontWeight: FontWeight.w100,
@@ -33,6 +33,7 @@ class TextBanner extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w200,
                 fontFamily: GoogleFonts.ubuntu().fontFamily,
+                height: 1.8,
                 fontSize: 12,
                 color: kBlack,
               ),

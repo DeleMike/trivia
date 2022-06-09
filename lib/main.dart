@@ -16,12 +16,13 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  DarkThemeProvider _themeProvider = DarkThemeProvider();
+  final DarkThemeProvider _themeProvider = DarkThemeProvider();
 
   @override
   void initState() {
@@ -93,7 +94,7 @@ class _MyAppState extends State<MyApp> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SplashScreen();
               }
-              return !userPref.isLogin ? AuthScreen() : WelcomeScreen();
+              return !userPref.isLogin ? const AuthScreen() : WelcomeScreen();
             },
           ),
         ),

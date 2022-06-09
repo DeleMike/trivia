@@ -9,12 +9,12 @@ import 'user_image_picker.dart';
 
 ///[AuthForm] collects all desired data to save in app.
 class AuthForm extends StatefulWidget {
+  const AuthForm({Key? key}) : super(key: key);
   @override
   _AuthFormState createState() => _AuthFormState();
 }
 
 class _AuthFormState extends State<AuthForm> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +24,7 @@ class _AuthFormState extends State<AuthForm> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          UserImagePicker(),
+          const UserImagePicker(),
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -40,7 +40,7 @@ class _AuthFormState extends State<AuthForm> {
                     fontFamily: GoogleFonts.caveatBrush().fontFamily,
                   ),
                   labelText: 'Enter your geek name',
-                  border: UnderlineInputBorder(),
+                  border: const UnderlineInputBorder(),
                   fillColor: kCanvasColor,
                   filled: true,
                 ),

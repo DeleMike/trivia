@@ -25,7 +25,6 @@ class AuthController with ChangeNotifier {
   /// get check for successful image picking
   bool get hasPickedImageSuccessfully => _hasPickedImageSuccessfully;
 
-
   /// used to pick image from device gallery app
   void pickedImage() async {
     final picker = ImagePicker();
@@ -38,7 +37,7 @@ class AuthController with ChangeNotifier {
   }
 
   ///tries to submit data entered
-  void trySubmit(BuildContext context) {
+  Future<void> trySubmit(BuildContext context) async {
     final _isValid = username.length > 2;
     FocusScope.of(context).unfocus(); //close keyboard
 
@@ -46,7 +45,7 @@ class AuthController with ChangeNotifier {
     if (_pickedImageFilePath == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Please pick an avatar boss 🧙‍♂️'),
+          content: const Text('Please pick an avatar boss 🧙‍♂️'),
           backgroundColor: Theme.of(context).primaryColor,
         ),
       );
@@ -69,22 +68,19 @@ class AuthController with ChangeNotifier {
       return;
     }
     //is valid, save data using shared pref
-    context.read<UserPref>().save(username, _pickedImageFilePath).then(
-          (value) => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Superhero $username 🔥🔥 \nYour data is in safe hands 😇.',
-                  style: TextStyle(color: Colors.white)),
-              backgroundColor: Theme.of(context).primaryColor,
-              action: SnackBarAction(
-                label: 'OKAY',
-                textColor: kWhite,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ),
-        );
+    await context.read<UserPref>().save(username, _pickedImageFilePath);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Superhero $username 🔥🔥 \nYour data is in safe hands 😇.',
+          style: const TextStyle(color: Colors.white)),
+      backgroundColor: Theme.of(context).primaryColor,
+      action: SnackBarAction(
+        label: 'OKAY',
+        textColor: kWhite,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    ));
 
     notifyListeners();
   }
