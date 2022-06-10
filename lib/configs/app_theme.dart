@@ -34,9 +34,9 @@ class AppTheme {
             headline1: const TextStyle(
                 fontSize: 16, fontFamily: 'Ubuntu', fontWeight: FontWeight.normal, color:kWhite),
             headline6: const TextStyle(
-              fontSize: 24,
+              fontSize: 18,
               fontFamily: 'Ubuntu',
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
             ),
             headline5: const TextStyle(
               fontSize: 18,

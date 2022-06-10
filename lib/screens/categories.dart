@@ -14,7 +14,7 @@ class Categories extends StatelessWidget {
       ),
       body: GridView(
         padding: const EdgeInsets.all(15),
-        children: CATEGORIES.map(
+        children: categories.map(
           (category) {
             return CategoryItem(
               categoryName: category.categoryName,

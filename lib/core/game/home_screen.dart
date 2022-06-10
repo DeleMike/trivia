@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../configs/routes.dart';
 import '../../data/category_data.dart';
 import '../../helpers/user_pref.dart';
 import '../../configs/constants.dart';
@@ -138,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                               style: TextButton.styleFrom(
                                 backgroundColor: kLightPrimaryColor,
                               ),
-                              onPressed: () {},
+                              onPressed: () => Navigator.of(context).pushNamed(Routes.categories),
                               child: Padding(
                                 padding: const EdgeInsets.all(kPaddingS - 5),
                                 child: Text(
