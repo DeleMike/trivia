@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
+/// App's String methods
+extension StringExtension on String {
+  ///Capitalize first letter of String
+  ///```
+  /// var str = 'boy';
+  /// print(str.capitalize);
+  /// //Output: 'Boy'
+  ///```
+  String capitalize() {
+    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+  }
 
-extension on MaterialColor {
-  // Color get appPrimaryColor => Mater
-
-  MaterialColor get appPrimaryColor => MaterialColor(
-        _indigoValue,
-        <int, Color>{
-          500: Color(_indigoValue),
-        },
-      );
-  static const int _indigoValue = 0xFF3F51B5;
+  /// Remove all values before the colon in category name
+  String removeColon() {
+    return substring(indexOf(':') + 1);
+  }
 }

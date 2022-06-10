@@ -13,14 +13,17 @@ class AuthController with ChangeNotifier {
   String? _pickedImageFilePath;
   bool _hasPickedImageSuccessfully = false;
 
-  /// get username
+  /// username
   String username = '';
+
+  /// String pickedImageFilePath
+  String pickedImageFilePath = '';
 
   /// get picked file
   File? get pickedImageFile => _pickedImageFile;
 
   /// get picked file image path
-  String? get pickedImageFilePath => _pickedImageFilePath;
+  // String? get pickedImageFilePath => _pickedImageFilePath;
 
   /// get check for successful image picking
   bool get hasPickedImageSuccessfully => _hasPickedImageSuccessfully;

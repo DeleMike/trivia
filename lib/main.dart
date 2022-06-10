@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trivia/configs/routes.dart';
 
 import 'helpers/dark_theme_provider.dart';
-import 'screens/welcome_screen.dart';
+import 'core/game/home_screen.dart';
 import 'widgets/splash_screen.dart';
 import 'core/auth/screens/auth_screen.dart';
 import 'helpers/user_pref.dart';
@@ -12,7 +12,7 @@ import 'configs/app_theme.dart';
 import 'core/auth/controllers/auth_controller.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SplashScreen();
               }
-              return !userPref.isLogin ? const AuthScreen() : WelcomeScreen();
+              return !userPref.isLogin ? const AuthScreen() : const HomeScreen();
             },
           ),
         ),

@@ -30,8 +30,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
               style: ButtonStyle(
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
               ),
-              icon: Icon(Icons.image),
-              label: Text('Add image'),
+              icon: const Icon(Icons.image),
+              label: const Text('Add image'),
               onPressed: () => context.read<AuthController>().pickedImage(),
             ),
           ),

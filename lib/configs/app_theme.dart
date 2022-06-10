@@ -13,7 +13,7 @@ class AppTheme {
       fontFamily: GoogleFonts.ubuntu().fontFamily,
       brightness: Brightness.light,
       primaryColor: kPrimaryColor,
-      scaffoldBackgroundColor: Color(0xFFF9FAFC),
+      scaffoldBackgroundColor: kCanvasColor,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Color(0xfff5f5f5),
       ),
@@ -24,21 +24,21 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
-            bodyText2: TextStyle(
-              color: Color.fromRGBO(20, 51, 51, 1),
+            bodyText2:const  TextStyle(
+              color: kBlack,
             ),
-            bodyText1: TextStyle(
-              color: Color.fromRGBO(20, 51, 51, 1),
+            bodyText1: const TextStyle(
+              color: kBlack,
               fontStyle: FontStyle.italic,
             ),
-            headline1: TextStyle(
-                fontSize: 16, fontFamily: 'Ubuntu', fontWeight: FontWeight.normal, color: Colors.black),
-            headline6: TextStyle(
+            headline1: const TextStyle(
+                fontSize: 16, fontFamily: 'Ubuntu', fontWeight: FontWeight.normal, color:kWhite),
+            headline6: const TextStyle(
               fontSize: 24,
               fontFamily: 'Ubuntu',
               fontWeight: FontWeight.bold,
             ),
-            headline5: TextStyle(
+            headline5: const TextStyle(
               fontSize: 18,
               fontFamily: 'Ubuntu',
               fontWeight: FontWeight.w600,
