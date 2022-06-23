@@ -4,6 +4,7 @@ import 'package:trivia/configs/routes.dart';
 
 import 'helpers/dark_theme_provider.dart';
 import 'core/game/home_screen.dart';
+import 'core/game/controllers/question_form_controller.dart';
 import 'widgets/splash_screen.dart';
 import 'core/auth/screens/auth_screen.dart';
 import 'helpers/user_pref.dart';
@@ -82,6 +83,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (ctx) => _themeProvider,
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => QuestionFormController(),
         ),
       ],
       child: MaterialApp(

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../configs/routes.dart';
 import '../../data/category_data.dart';
+import 'screens/question_form.dart';
 import '../../helpers/user_pref.dart';
 import '../../configs/constants.dart';
 import '../../configs/app_extensions.dart';
@@ -190,7 +191,24 @@ class _GridContainer extends StatelessWidget {
       itemBuilder: (ctx, index) {
         // ignore: avoid_print
         return InkWell(
-            onTap: (() => debugPrint('Position $index clicked')),
+            onTap: (() {
+              debugPrint('Position $index clicked');
+              showModalBottomSheet(
+                isScrollControlled: true,
+
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12.0),
+                  ),
+                ),
+                context: context,
+                builder: (_) => QuestionForm(
+                  name: categories[index].categoryName,
+                  imageUrl: categories[index].categoryImgSrc,
+                  tag: categories[index].categoryTag,
+                ),
+              );
+            }),
             child: Card(
               elevation: kCardElevation,
               shape: RoundedRectangleBorder(

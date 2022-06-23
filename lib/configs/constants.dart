@@ -56,6 +56,11 @@ Orientation kGetOrientation(BuildContext context) {
   return MediaQuery.of(context).orientation;
 }
 
+/// Get textTheme
+TextStyle? kGetQuestionFormHeaderTheme(BuildContext context) {
+  return Theme.of(context).textTheme.headline5;
+}
+
 /// Assets images
 class AssetsImages {
   static const String logoIcon = 'assets/images/logo.png';

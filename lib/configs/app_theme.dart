@@ -24,15 +24,16 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
-            bodyText2:const  TextStyle(
+            bodyText2: TextStyle(
               color: kBlack,
+              fontFamily: GoogleFonts.ubuntu().fontFamily,
             ),
             bodyText1: const TextStyle(
               color: kBlack,
               fontStyle: FontStyle.italic,
             ),
             headline1: const TextStyle(
-                fontSize: 16, fontFamily: 'Ubuntu', fontWeight: FontWeight.normal, color:kWhite),
+                fontSize: 16, fontFamily: 'Ubuntu', fontWeight: FontWeight.normal, color: kWhite),
             headline6: const TextStyle(
               fontSize: 18,
               fontFamily: 'Ubuntu',
