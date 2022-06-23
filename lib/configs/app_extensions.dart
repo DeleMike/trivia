@@ -4,7 +4,7 @@ extension StringExtension on String {
   ///```
   /// var str = 'boy';
   /// print(str.capitalize);
-  /// //Output: 'Boy'
+  /// // Output: 'Boy'
   ///```
   String capitalize() {
     return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
@@ -14,4 +14,11 @@ extension StringExtension on String {
   String removeColon() {
     return substring(indexOf(':') + 1);
   }
+
+  bool isNumeric() {
+    print('$this is a valid number =  ${double.tryParse(this) != null}');
+    return int.tryParse(this) != null;
+  }
 }
+
+extension NumExtension on num {}

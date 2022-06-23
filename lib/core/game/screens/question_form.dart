@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../controllers/question_form_controller.dart';
 import '../../../configs/constants.dart';
 import '../../../configs/app_extensions.dart';
 
@@ -29,10 +31,8 @@ class _QuestionFormState extends State<QuestionForm> {
   String _selectedDifficulty = 'Easy';
   String _selectedQuestionType = 'True/False';
   String _numOfQuestions = '';
-  String _typeTag = '';
-  bool _isLoading = false;
 
-   final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   final List<DropdownMenuItem<String>> _difficultyDropdownMenuItems = _difficulties.map((val) {
     return DropdownMenuItem<String>(value: val, child: Text(val));
@@ -83,10 +83,17 @@ class _QuestionFormState extends State<QuestionForm> {
                       fillColor: kCanvasColor.withOpacity(0.3),
                     ),
                     validator: (value) {
-                      if (value!.isEmpty || (int.parse(value) <= 0 || int.parse(value) > 50)) {
-                        return 'please enter a value between 0 and 50';
+                      if (value!.isEmpty || !value.isNumeric()) {
+                        return 'please enter a valid input';
+                      }
+
+                      if ((int.parse(value) <= 0 || int.parse(value) > 50)) {
+                        return 'please enter a value between 1 and 50';
                       }
                       return null;
+                    },
+                    onChanged: (value) {
+                      _numOfQuestions = value;
                     },
                     onSaved: (value) {
                       _numOfQuestions = value!;
@@ -140,17 +147,28 @@ class _QuestionFormState extends State<QuestionForm> {
               ),
             ),
             const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.all(kPaddingS),
-              child: ElevatedButton(
-                child: Text('Submit', style: Theme.of(context).textTheme.bodyText2!.copyWith(color: kWhite),),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(kScreenWidth(context), kScreenHeight(context) * 0.05),
-                  padding: const EdgeInsets.all(kPaddingM - 5),
-                ),
-                onPressed: () {},
-              ),
-            ),
+            context.watch<QuestionFormController>().isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Container(
+                    margin: const EdgeInsets.all(kPaddingS),
+                    child: ElevatedButton(
+                      child: Text(
+                        'Submit',
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(color: kWhite),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(kScreenWidth(context), kScreenHeight(context) * 0.05),
+                        padding: const EdgeInsets.all(kPaddingM - 5),
+                      ),
+                      onPressed: () async {
+                        await context.read<QuestionFormController>().submitAndFetchQuestions(context,
+                            formKey: _formKey,
+                            selectedDifficulty: _selectedDifficulty,
+                            selectedNumOfQuestions: _numOfQuestions,
+                            selectedQuestionType: _selectedQuestionType);
+                      },
+                    ),
+                  ),
           ],
         ),
       ),
