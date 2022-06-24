@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class QuestionFormController with ChangeNotifier {
+import '../../../configs/http_client.dart' as client;
 
+class QuestionFormController with ChangeNotifier {
   String? _difficulty;
   String? _questionType;
   bool _isLoading = false;
@@ -14,6 +15,7 @@ class QuestionFormController with ChangeNotifier {
     BuildContext context, {
     required String selectedQuestionType,
     required String selectedDifficulty,
+    required int selectedCategory,
     required String selectedNumOfQuestions,
     required GlobalKey<FormState> formKey,
   }) async {
@@ -31,11 +33,18 @@ class QuestionFormController with ChangeNotifier {
       formKey.currentState!.save();
 
       debugPrint('numOfQuestions = $selectedNumOfQuestions, selectedDifficulty = '
-          ' $_difficulty, selectedQuestionType = $_questionType');
+          ' $_difficulty, selectedQuestionType = $_questionType' 'categoryTag = $selectedCategory');
 
       try {
-        //simulate fetching data
-        await Future.delayed(const Duration(seconds: 1));
+       
+        await client.HttpClient(resource: 'api.php/').get(data: {
+          'amount': int.parse(selectedNumOfQuestions),
+          'type': _questionType,
+          'difficulty': _difficulty,
+          'category': selectedCategory
+        });
+
+        Navigator.pop(context); 
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data Fetched')));
         _isLoading = false;
       } catch (e) {
