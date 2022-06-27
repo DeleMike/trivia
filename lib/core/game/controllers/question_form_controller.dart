@@ -11,17 +11,19 @@ class QuestionFormController with ChangeNotifier {
   List<String> _questions = [];
   List<String> _correctAnswers = [];
   List<List<dynamic>> _wrongAnswers = [];
-  Map<String, List> _fetchedData = {};
+  Map<String, dynamic> _fetchedData = {};
 
   /// is data been fetched?
   bool get isLoading => _isLoading;
 
   /// get all data consisting of questions, correct answers, incorrect answers
-  Map<String, List> get fetchedData => _fetchedData;
+  Map<String, dynamic> get fetchedData => _fetchedData;
 
   /// process users selected type and fetch question resource
   Future<void> submitAndFetchQuestions(
     BuildContext context, {
+    required String title,
+    required String imageUrl,
     required String selectedQuestionType,
     required String selectedDifficulty,
     required int selectedCategory,
@@ -76,6 +78,8 @@ class QuestionFormController with ChangeNotifier {
           }
 
           _fetchedData = {
+            'title': title,
+            'imageUrl': imageUrl,
             'questions': _questions,
             'correct_answers': _correctAnswers,
             'wrong_answers': _wrongAnswers,

@@ -165,6 +165,8 @@ class _QuestionFormState extends State<QuestionForm> {
                       onPressed: () async {
                         await context.read<QuestionFormController>().submitAndFetchQuestions(context,
                             formKey: _formKey,
+                            title: widget.name,
+                            imageUrl: widget.imageUrl,
                             selectedDifficulty: _selectedDifficulty,
                             selectedCategory: widget.tag,
                             selectedNumOfQuestions: _numOfQuestions,

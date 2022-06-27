@@ -11,6 +11,7 @@ import 'helpers/user_pref.dart';
 import 'helpers/trivia_history.dart';
 import 'configs/app_theme.dart';
 import 'core/auth/controllers/auth_controller.dart';
+import 'core/game/controllers/quiz_page_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -86,6 +87,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (ctx) => QuestionFormController(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => QuizPageController(),
         ),
       ],
       child: MaterialApp(
