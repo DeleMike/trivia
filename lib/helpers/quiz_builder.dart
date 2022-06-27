@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, prefer_const_declarations, prefer_final_fields, prefer_if_null_operators
+
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -48,11 +50,11 @@ class QuizBuilder with ChangeNotifier {
       print('QuizBuilder: response returned no result');
     } else {
       _isEmpty = false;
-      result.forEach((res) {
+      for (var res in result) {
         _questions.add(res['question']);
         _correctAnswers.add(res['correct_answer']);
         _incorrectAnswers.add(res['incorrect_answers']);
-      });
+      }
 
       print('QuizBuilder: question = $_questions');
       print('QuizBuilder: correct_answers = $_correctAnswers');

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../controllers/question_form_controller.dart';
 import '../../../configs/constants.dart';
+import '../../../configs/routes.dart';
 import '../../../configs/app_extensions.dart';
 
 class QuestionForm extends StatefulWidget {
@@ -31,7 +32,7 @@ class _QuestionFormState extends State<QuestionForm> {
   String _selectedDifficulty = 'Easy';
   String _selectedQuestionType = 'True/False';
   String _numOfQuestions = '';
-  int _selectedTag = 0;
+  Map<String, dynamic> _data = {};
 
   final _formKey = GlobalKey<FormState>();
 
@@ -162,13 +163,15 @@ class _QuestionFormState extends State<QuestionForm> {
                         padding: const EdgeInsets.all(kPaddingM - 5),
                       ),
                       onPressed: () async {
-                        _selectedTag = widget.tag;
                         await context.read<QuestionFormController>().submitAndFetchQuestions(context,
                             formKey: _formKey,
                             selectedDifficulty: _selectedDifficulty,
                             selectedCategory: widget.tag,
                             selectedNumOfQuestions: _numOfQuestions,
                             selectedQuestionType: _selectedQuestionType);
+                        Navigator.pushNamed(context, Routes.quiz,
+                            arguments: context.read<QuestionFormController>().fetchedData);
+                        context.read<QuestionFormController>().clearStates();
                       },
                     ),
                   ),
