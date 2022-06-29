@@ -25,6 +25,7 @@ class _QuizPageState extends State<QuizPage> {
     context.read<QuizPageController>().transportedData = ModalRoute.of(context)!.settings.arguments as Map;
 
     context.read<QuizPageController>().preProcessData();
+    //context.read<QuizPageController>().startTimer(context);
   }
 
   // this affects the Current Chosen Answer Widget selected by user
@@ -83,6 +84,29 @@ class _QuizPageState extends State<QuizPage> {
           backgroundColor: kCanvasColor,
           leading: Container(),
           elevation: 0,
+          actions: [
+            Container(
+              padding: const EdgeInsets.only(top: 5.0, bottom: 5),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: kLightPrimaryColor.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: kWhite,
+                child: Text(
+                  '20s',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+            ),
+          ],
           centerTitle: true,
           title: Text(context.read<QuizPageController>().transportedData['title'].toString().removeColon(),
               style: Theme.of(context).textTheme.headline5),
@@ -93,10 +117,10 @@ class _QuizPageState extends State<QuizPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const LinearProgressIndicator(
-                  value: 0.8,
-                  minHeight: 5,
-                ),
+                // LinearProgressIndicator(
+                //   value: context.watch<QuizPageController>().timer,
+                //   minHeight: 5,
+                // ),
                 Stack(
                   children: [
                     Container(
@@ -121,7 +145,7 @@ class _QuizPageState extends State<QuizPage> {
                           radius: 30,
                           backgroundColor: kWhite,
                           child: Text(
-                              '${context.watch<QuizPageController>().currentQuestionNumber + 1}/${_displayData['total_question_length']} '),
+                            '${context.watch<QuizPageController>().currentQuestionNumber + 1}/${_displayData['total_question_length']} '),
                         ),
                       ),
                     )
@@ -166,12 +190,16 @@ class _QuizPageState extends State<QuizPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(kPaddingS + 5)),
                     onPressed: () {
+                      context.read<QuizPageController>().evaluateUserChoice(_selectedAnswer);
                       if (context.read<QuizPageController>().isDoneWithQuiz) {
-                        context.read<QuizPageController>().clearResources();
                         Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(context.read<QuizPageController>().score.toString())));
+                        context.read<QuizPageController>().clearResources();
                         return;
                       }
-                      context.read<QuizPageController>().getNextQuestion();
+
+                      context.read<QuizPageController>().getNextQuestion(context);
                       _selectedAnswer = '';
                     },
                     child: Text(context.read<QuizPageController>().isDoneWithQuiz ? 'DONE' : 'NEXT'),
