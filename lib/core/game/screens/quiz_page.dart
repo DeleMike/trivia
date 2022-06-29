@@ -164,18 +164,19 @@ class _QuizPageState extends State<QuizPage> {
                   width: kScreenWidth(context),
                   margin: const EdgeInsets.only(left: kPaddingM + 2, right: kPaddingM + 2, top: kPaddingM),
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(kPaddingS + 5)),
-                      onPressed: () {
-                        if (context.read<QuizPageController>().isDoneWithQuiz) {
-                          context.read<QuizPageController>().clearResources();
-                          Navigator.of(context).pop();
-                          return;
-                        }
-                        context.read<QuizPageController>().getNextQuestion();
-                        _selectedAnswer = '';
-                      },
-                      child: Text(context.read<QuizPageController>().isDoneWithQuiz ? 'DONE' : 'NEXT')),
-                )
+                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(kPaddingS + 5)),
+                    onPressed: () {
+                      if (context.read<QuizPageController>().isDoneWithQuiz) {
+                        context.read<QuizPageController>().clearResources();
+                        Navigator.of(context).pop();
+                        return;
+                      }
+                      context.read<QuizPageController>().getNextQuestion();
+                      _selectedAnswer = '';
+                    },
+                    child: Text(context.read<QuizPageController>().isDoneWithQuiz ? 'DONE' : 'NEXT'),
+                  ),
+                ),
               ],
             ),
           ),
