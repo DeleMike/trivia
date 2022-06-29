@@ -18,7 +18,7 @@ class QuizPageController with ChangeNotifier {
   };
 
   int _currentQuestionNumber = 0;
-  
+  bool _isDoneWithQuiz = false;
 
   /// Returns clean and processed data
   Map<String, dynamic> get cleanedData => _cleanedData;
@@ -31,6 +31,9 @@ class QuizPageController with ChangeNotifier {
 
   /// Returns or Sets the selected answer
   String selectedAnswer = '';
+
+  /// Returns a boolean value. Returns ```true``` if user is done with quiz
+  bool get isDoneWithQuiz => _isDoneWithQuiz;
 
   ///pre-porcess the data to readable form
   void preProcessData() {
@@ -49,6 +52,8 @@ class QuizPageController with ChangeNotifier {
     _triviaSet['incorrect_answers'] = _cleanedData['incorrect_answers'][_currentQuestionNumber];
     _triviaSet['answers'] = allAnswers..shuffle();
     _triviaSet['total_question_length'] = _cleanedData['questions'].length;
+
+    _isDoneWithQuiz = (_currentQuestionNumber + 1) == _cleanedData['questions'].length;
   }
 
   /// process data
@@ -93,12 +98,26 @@ class QuizPageController with ChangeNotifier {
   }
 
   /// update next question
+  ///
+  /// Also, checks if the user is at the last question
   void getNextQuestion() {
-    ++_currentQuestionNumber;
+    _currentQuestionNumber = _currentQuestionNumber + 1;
+    if (_currentQuestionNumber >= (_cleanedData['questions'].length - 1)) {
+      _isDoneWithQuiz = true;
+      _currentQuestionNumber = _cleanedData['questions'].length - 1;
+    }
+    debugPrint('Current Question Number: $_currentQuestionNumber');
     _triviaSet['question'] = _cleanedData['questions'][_currentQuestionNumber];
     _triviaSet['correct_answer'] = _cleanedData['correct_answers'][_currentQuestionNumber];
     _triviaSet['incorrect_answers'] = _cleanedData['incorrect_answers'][_currentQuestionNumber];
     notifyListeners();
   }
 
+  void clearResources() {
+    transportedData.clear();
+    _cleanedData.clear();
+    _triviaSet.clear();
+    _currentQuestionNumber = 0;
+    _isDoneWithQuiz = false;
+  }
 }
