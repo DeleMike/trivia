@@ -15,6 +15,7 @@ class QuestionFormController with ChangeNotifier {
 
   /// is data been fetched?
   bool get isLoading => _isLoading;
+  int get responseCode => _reponseCode;
 
   /// get all data consisting of questions, correct answers, incorrect answers
   Map<String, dynamic> get fetchedData => _fetchedData;

@@ -195,7 +195,6 @@ class _GridContainer extends StatelessWidget {
               debugPrint('Position $index clicked');
               showModalBottomSheet(
                 isScrollControlled: true,
-
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12.0),

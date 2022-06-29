@@ -32,7 +32,6 @@ class _QuestionFormState extends State<QuestionForm> {
   String _selectedDifficulty = 'Easy';
   String _selectedQuestionType = 'True/False';
   String _numOfQuestions = '';
-  Map<String, dynamic> _data = {};
 
   final _formKey = GlobalKey<FormState>();
 
@@ -43,6 +42,12 @@ class _QuestionFormState extends State<QuestionForm> {
   final List<DropdownMenuItem<String>> _questionTypeDropdownMenuItems = _questionTypes.map((val) {
     return DropdownMenuItem<String>(value: val, child: Text(val));
   }).toList();
+
+  @override
+  void dispose() {
+   // context.read<QuestionFormController>().clearStates();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,9 +176,13 @@ class _QuestionFormState extends State<QuestionForm> {
                             selectedCategory: widget.tag,
                             selectedNumOfQuestions: _numOfQuestions,
                             selectedQuestionType: _selectedQuestionType);
-                        Navigator.pushNamed(context, Routes.quiz,
+
+                        if(context.read<QuestionFormController>().responseCode == 0) {
+                         Navigator.pushNamed(context, Routes.quiz,
                             arguments: context.read<QuestionFormController>().fetchedData);
+                        }
                         context.read<QuestionFormController>().clearStates();
+                        
                       },
                     ),
                   ),
