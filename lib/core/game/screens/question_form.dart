@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/core/game/screens/quiz_page.dart';
 
 import '../controllers/question_form_controller.dart';
 import '../../../configs/constants.dart';
@@ -34,6 +35,7 @@ class _QuestionFormState extends State<QuestionForm> {
   String _numOfQuestions = '';
 
   final _formKey = GlobalKey<FormState>();
+  Map<String, dynamic> _dataToSend = {};
 
   final List<DropdownMenuItem<String>> _difficultyDropdownMenuItems = _difficulties.map((val) {
     return DropdownMenuItem<String>(value: val, child: Text(val));
@@ -44,8 +46,16 @@ class _QuestionFormState extends State<QuestionForm> {
   }).toList();
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
-   // context.read<QuestionFormController>().clearStates();
+    debugPrint('Called Dispose');
+    // if (mounted) {
+    //   _scaffoldKey.currentContext!.read<QuestionFormController>().clearStates();
+    // }
     super.dispose();
   }
 
@@ -177,12 +187,18 @@ class _QuestionFormState extends State<QuestionForm> {
                             selectedNumOfQuestions: _numOfQuestions,
                             selectedQuestionType: _selectedQuestionType);
 
-                        if(context.read<QuestionFormController>().responseCode == 0) {
-                         Navigator.pushNamed(context, Routes.quiz,
-                            arguments: context.read<QuestionFormController>().fetchedData);
-                        }
-                        context.read<QuestionFormController>().clearStates();
+                        if (context.read<QuestionFormController>().responseCode == 0) {
+                          _dataToSend = context.read<QuestionFormController>().fetchedData;
+                          debugPrint('Fetched Data: $_dataToSend');
                         
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return QuizPage(
+                              transportedData: _dataToSend,
+                            );
+                          }));
+                          //  Navigator.pushNamed(context, Routes.quiz,
+                          //     arguments: context.read<QuestionFormController>().fetchedData);
+                        }
                       },
                     ),
                   ),

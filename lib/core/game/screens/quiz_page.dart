@@ -1,15 +1,19 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/routes.dart';
 
 import '../../../configs/constants.dart';
 import '../../../configs/app_extensions.dart';
+import '../controllers/question_form_controller.dart';
 import '../controllers/quiz_page_controller.dart';
 
 import 'answers_box.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({Key? key}) : super(key: key);
+  final Map<String, dynamic> transportedData;
+  const QuizPage({Key? key, required this.transportedData}) : super(key: key);
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -20,12 +24,34 @@ class _QuizPageState extends State<QuizPage> {
   String _selectedAnswer = '';
 
   @override
+  void initState() {
+    super.initState();
+    debugPrint('Called only once');
+
+    _getData();
+
+    // debugPrint('Collected Data from Controller Page: ${widget.transportedData}');
+
+    // debugPrint('Transported Data on Quiz Page: ${context.read<QuizPageController>().transportedData}');
+    // context.read<QuizPageController>().preProcessData();
+    // context.read<QuizPageController>().startTimer(context);
+  }
+
+  void _getData() {
+    debugPrint('Collected Data from Controller Page: ${widget.transportedData}');
+    context.read<QuizPageController>().transportedData = {...widget.transportedData};
+    // context.read<QuizPageController>().transportedData = ModalRoute.of(context)!.settings.arguments as Map;
+    debugPrint('Transported Data on Quiz Page: ${context.read<QuizPageController>().transportedData}');
+    context.read<QuizPageController>().preProcessData();
+    context.read<QuizPageController>().startTimer(context);
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<QuizPageController>().transportedData = ModalRoute.of(context)!.settings.arguments as Map;
-
-    context.read<QuizPageController>().preProcessData();
-    //context.read<QuizPageController>().startTimer(context);
+    context.read<QuestionFormController>().clearStates();
+    debugPrint('didChangeDependencies is called because of a state change');
+    // context.read<QuizPageController>().transportedData = ModalRoute.of(context)!.settings.arguments as Map;
   }
 
   // this affects the Current Chosen Answer Widget selected by user
@@ -63,6 +89,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
                 onPressed: () {
                   closeGame = !closeGame;
+                  context.read<QuestionFormController>().clearStates();
                   context.read<QuizPageController>().clearResources();
                   Navigator.of(context).pop();
                 },
@@ -100,9 +127,12 @@ class _QuizPageState extends State<QuizPage> {
               child: CircleAvatar(
                 radius: 30,
                 backgroundColor: kWhite,
-                child: Text(
-                  '20s',
-                  style: Theme.of(context).textTheme.headline6,
+                child: Lottie.asset(
+                  AssetsAnimations.lookingEyes,
+                  animate: context.watch<QuizPageController>().timeLength == 20 ? false : true,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -117,10 +147,10 @@ class _QuizPageState extends State<QuizPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // LinearProgressIndicator(
-                //   value: context.watch<QuizPageController>().timer,
-                //   minHeight: 5,
-                // ),
+                LinearProgressIndicator(
+                  value: context.watch<QuizPageController>().timeCounter,
+                  minHeight: 5,
+                ),
                 Stack(
                   children: [
                     Container(
@@ -145,7 +175,7 @@ class _QuizPageState extends State<QuizPage> {
                           radius: 30,
                           backgroundColor: kWhite,
                           child: Text(
-                            '${context.watch<QuizPageController>().currentQuestionNumber + 1}/${_displayData['total_question_length']} '),
+                              '${context.watch<QuizPageController>().currentQuestionNumber + 1}/${_displayData['total_question_length']} '),
                         ),
                       ),
                     )
@@ -182,6 +212,7 @@ class _QuizPageState extends State<QuizPage> {
                 AnswersBox(
                   answers: _displayData['answers'],
                   selectedAnswer: _onSelectAnswer,
+                  isDisabled: context.watch<QuizPageController>().isDisabled,
                 ),
 
                 Container(
@@ -192,10 +223,12 @@ class _QuizPageState extends State<QuizPage> {
                     onPressed: () {
                       context.read<QuizPageController>().evaluateUserChoice(_selectedAnswer);
                       if (context.read<QuizPageController>().isDoneWithQuiz) {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(context.read<QuizPageController>().score.toString())));
-                        context.read<QuizPageController>().clearResources();
+                        context.read<QuizPageController>().savetoDB();
+                        Navigator.pushReplacementNamed(context, Routes.result);
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //     SnackBar(content: Text(context.read<QuizPageController>().score.toString())));
+                        // context.read<QuizPageController>().clearResources();
+                        //  Navigator.of(context).pop();
                         return;
                       }
 

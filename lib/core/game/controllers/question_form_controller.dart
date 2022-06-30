@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trivia/configs/constants.dart';
 
 import '../../../configs/http_client.dart' as client;
 
@@ -8,9 +9,9 @@ class QuestionFormController with ChangeNotifier {
   bool _isLoading = false;
   int _reponseCode = 0;
   List<dynamic> _results = [];
-  List<String> _questions = [];
-  List<String> _correctAnswers = [];
-  List<List<dynamic>> _wrongAnswers = [];
+  final List<String> _questions = [];
+  final List<String> _correctAnswers = [];
+  final List<List<dynamic>> _wrongAnswers = [];
   Map<String, dynamic> _fetchedData = {};
 
   /// is data been fetched?
@@ -63,10 +64,14 @@ class QuestionFormController with ChangeNotifier {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('trivia'),
-                  content: Text(
-                      'No data available for selected number of questions.\nPlease try to enter a lower value(e.g. 5)'),
-                  actions: [ElevatedButton(onPressed: () => Navigator.pop(context), child: Text('GOT IT'))],
+                  title: const Text(kAppName),
+                  content: const Text(
+                    'No data available for selected number of questions.'
+                    '\nPlease try to enter a lower value(e.g. 5)',
+                  ),
+                  actions: [
+                    ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text('GOT IT'))
+                  ],
                 );
               });
         } else {
@@ -88,7 +93,6 @@ class QuestionFormController with ChangeNotifier {
 
           debugPrint('FormController: FetchedData =  $_fetchedData');
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Data Fetched')));
         }
         _isLoading = false;
       } catch (e) {
@@ -106,11 +110,11 @@ class QuestionFormController with ChangeNotifier {
   void clearStates() {
     _isLoading = false;
     _reponseCode = 0;
-    _results = [];
-    _questions = [];
-    _correctAnswers = [];
-    _wrongAnswers = [];
-    _fetchedData = {};
+    _results.clear();
+    _questions.clear();
+    _correctAnswers.clear();
+    _wrongAnswers.clear();
+    _fetchedData.clear();
 
     debugPrint('QuestionFormController: All States Cleared');
   }

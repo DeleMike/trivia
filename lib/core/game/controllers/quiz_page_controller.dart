@@ -23,10 +23,9 @@ class QuizPageController with ChangeNotifier {
   bool _isDoneWithQuiz = false;
   int _score = 0;
   Timer? _timer;
-  double _counter = 1;
-  int _timerLength = 20;
-  bool gameisOngoing = false;
-  bool _gameHasToPause = false;
+  double _timeCounter = 0;
+  int _timerLength = 0;
+  bool _isDisabled = false;
 
   /// Returns clean and processed data
   Map<String, dynamic> get cleanedData => _cleanedData;
@@ -35,7 +34,10 @@ class QuizPageController with ChangeNotifier {
   int get currentQuestionNumber => _currentQuestionNumber;
 
   /// Returns a particular question
-  Map<String, dynamic> get triviaSet => _triviaSet;
+  Map<String, dynamic> get triviaSet {
+    debugPrint('Trivia list is now: $_triviaSet');
+    return _triviaSet;
+  }
 
   /// Returns or Sets the selected answer
   String selectedAnswer = '';
@@ -46,11 +48,13 @@ class QuizPageController with ChangeNotifier {
   /// Returns user score;
   int get score => _score;
 
-  /// Returns timer value
-  Timer? get timer => _timer;
+  ///
+  bool get isDisabled => _isDisabled;
 
   ///
   int get timeLength => _timerLength;
+
+  double get timeCounter => _timeCounter;
 
   ///pre-porcess the data to readable form
   void preProcessData() {
@@ -70,74 +74,36 @@ class QuizPageController with ChangeNotifier {
     _triviaSet['answers'] = allAnswers..shuffle();
     _triviaSet['total_question_length'] = _cleanedData['questions'].length;
 
+    debugPrint('All Answers list is now: ${_triviaSet['answers']}');
+
     _isDoneWithQuiz = (_currentQuestionNumber + 1) == _cleanedData['questions'].length;
   }
 
   //start timer widget countdown
-  // void startTimer(BuildContext context) {
-  //   const oneSec = const Duration(seconds: 1);
+  void startTimer(BuildContext context) {
+    const oneSec = Duration(seconds: 1);
+    _isDisabled = false;
+    _timer = Timer.periodic(oneSec, (Timer timer) {
+      //if time is 0, then automatically disable buttons
+      if (_timerLength == 20) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('times up')));
+        _timer!.cancel();
+        _isDisabled = true;
+      } else {
+        ++_timerLength;
+        _timeCounter = double.parse((_timerLength / 20.0).toStringAsFixed(2));
+        debugPrint('Timer: Current time = $_timerLength remaining');
+        debugPrint('Linear Progress Updator: $_timeCounter');
+      }
+      notifyListeners();
+    });
+  }
 
-  //   _timer = Timer.periodic(oneSec, (Timer timer) {
-  //     //if time is 0, then automatically disable buttons
-  //     if (_timerLength == 0) {
-  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('times up')));
-  //       timer.cancel();
-  //     } else {
-  //       --_timerLength;
-  //       debugPrint('Timer: Current time = $_timerLength remaining');
-  //     }
-  //     notifyListeners();
-  //   });
-  // }
-
-  // /// Start the game timer
-  // Future<void> startTimer(BuildContext context) async {
-  //   gameisOngoing = true;
-
-  //   while (gameisOngoing) {
-  //     await Future.delayed(const Duration(seconds: 1));
-  //     _timer = double.parse((_counter / 30.0).toStringAsFixed(2));
-
-  //     if (_gameHasToPause) {
-  //       break;
-  //     }
-
-  //     if (_timer == 1.00) {
-  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('times up')));
-  //       notifyListeners();
-  //       break;
-  //     } else {
-  //       _timer = double.parse((_counter / 30.0).toStringAsFixed(2));
-  //       _counter += 1;
-
-  //       debugPrint('Counter is: $_counter');
-  //       debugPrint('Timer is: $_timer');
-  //     }
-  //     notifyListeners();
-  //   }
-  // }
-
-  // void stopTimer() {
-  //   _timer!.cancel();
-  //   notifyListeners();
-  // }
-
-  // /// start timer
-  // void startTimer(BuildContext context) {
-  //   Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-  //     if (_timer == 1.00) {
-  //       timer.cancel();
-  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('times up')));
-  //     } else {
-  //       _timer = double.parse((_counter / 30.0).toStringAsFixed(2));
-  //       _counter += 1;
-
-  //       debugPrint('Counter is: $_counter');
-  //       debugPrint('Timer is: $_timer');
-  //     }
-  //     notifyListeners();
-  //   });
-  // }
+  void stopTimer() {
+    _timer!.cancel();
+    _timerLength = 0;
+    notifyListeners();
+  }
 
   /// process data
   String _changeHTMLtoString(String text) {
@@ -182,7 +148,7 @@ class QuizPageController with ChangeNotifier {
 
   /// Check if right answer
   void evaluateUserChoice(String chosenAnswer) {
-   // stopTimer();
+    stopTimer();
     String correctAnswer = _triviaSet['correct_answer'];
     if (correctAnswer == chosenAnswer) {
       debugPrint('Right Answer chosen');
@@ -207,8 +173,17 @@ class QuizPageController with ChangeNotifier {
     _triviaSet['question'] = _cleanedData['questions'][_currentQuestionNumber];
     _triviaSet['correct_answer'] = _cleanedData['correct_answers'][_currentQuestionNumber];
     _triviaSet['incorrect_answers'] = _cleanedData['incorrect_answers'][_currentQuestionNumber];
-   // startTimer(context);
+    final List<String> allAnswers = [
+      _cleanedData['correct_answers'][_currentQuestionNumber],
+      ..._cleanedData['incorrect_answers'][_currentQuestionNumber]
+    ];
+    _triviaSet['answers'] = allAnswers..shuffle();
+    startTimer(context);
     notifyListeners();
+  }
+
+  void savetoDB() {
+    debugPrint('User Score is: $_score');
   }
 
   void clearResources() {
@@ -218,10 +193,10 @@ class QuizPageController with ChangeNotifier {
     _currentQuestionNumber = 0;
     _isDoneWithQuiz = false;
     _score = 0;
-    _timer = null;
-    _counter = 1;
-    _timerLength = 20;
-    gameisOngoing = false;
-    _gameHasToPause = false;
+    _timer!.cancel();
+    _timeCounter = 0;
+    _timerLength = 0;
+    _isDisabled = false;
+    debugPrint('Clear Quiz Page states');
   }
 }

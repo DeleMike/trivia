@@ -96,4 +96,5 @@ class AssetsImages {
 
 class AssetsAnimations {
   static const String wellDone = 'assets/animations/well_done_anim.json';
+  static const String lookingEyes = 'assets/animations/looking_eyes.json';
 }

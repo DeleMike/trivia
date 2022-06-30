@@ -7,11 +7,13 @@ import '../../../configs/constants.dart';
 class AnswersBox extends StatefulWidget {
   final List<String> answers;
   final void Function(String answer) selectedAnswer;
+  final bool isDisabled;
 
   const AnswersBox({
     Key? key,
     required this.answers,
     required this.selectedAnswer,
+    required this.isDisabled,
   }) : super(key: key);
 
   @override
@@ -46,7 +48,7 @@ class _AnswersBoxState extends State<AnswersBox> {
               side: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
             ),
             child: Padding(padding: const EdgeInsets.all(18.0), child: Text(answer)),
-            onPressed: () {
+            onPressed: widget.isDisabled ? null : () {
               _selectAnswer(answer);
             },
           ),
