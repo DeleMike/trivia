@@ -36,6 +36,7 @@ class _QuestionFormState extends State<QuestionForm> {
 
   final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> _dataToSend = {};
+  bool _isTyping = false;
 
   final List<DropdownMenuItem<String>> _difficultyDropdownMenuItems = _difficulties.map((val) {
     return DropdownMenuItem<String>(value: val, child: Text(val));
@@ -111,6 +112,13 @@ class _QuestionFormState extends State<QuestionForm> {
                     },
                     onChanged: (value) {
                       _numOfQuestions = value;
+                      setState(() {
+                        if (value.isEmpty) {
+                          _isTyping = false;
+                        } else {
+                          _isTyping = true;
+                        }
+                      });
                     },
                     onSaved: (value) {
                       _numOfQuestions = value!;
@@ -177,29 +185,31 @@ class _QuestionFormState extends State<QuestionForm> {
                         minimumSize: Size(kScreenWidth(context), kScreenHeight(context) * 0.05),
                         padding: const EdgeInsets.all(kPaddingM - 5),
                       ),
-                      onPressed: () async {
-                        await context.read<QuestionFormController>().submitAndFetchQuestions(context,
-                            formKey: _formKey,
-                            title: widget.name,
-                            imageUrl: widget.imageUrl,
-                            selectedDifficulty: _selectedDifficulty,
-                            selectedCategory: widget.tag,
-                            selectedNumOfQuestions: _numOfQuestions,
-                            selectedQuestionType: _selectedQuestionType);
+                      onPressed: !_isTyping
+                          ? null
+                          : () async {
+                              await context.read<QuestionFormController>().submitAndFetchQuestions(context,
+                                  formKey: _formKey,
+                                  title: widget.name,
+                                  imageUrl: widget.imageUrl,
+                                  selectedDifficulty: _selectedDifficulty,
+                                  selectedCategory: widget.tag,
+                                  selectedNumOfQuestions: _numOfQuestions,
+                                  selectedQuestionType: _selectedQuestionType);
 
-                        if (context.read<QuestionFormController>().responseCode == 0) {
-                          _dataToSend = context.read<QuestionFormController>().fetchedData;
-                          debugPrint('Fetched Data: $_dataToSend');
-                        
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return QuizPage(
-                              transportedData: _dataToSend,
-                            );
-                          }));
-                          //  Navigator.pushNamed(context, Routes.quiz,
-                          //     arguments: context.read<QuestionFormController>().fetchedData);
-                        }
-                      },
+                              if (context.read<QuestionFormController>().responseCode == 0) {
+                                _dataToSend = context.read<QuestionFormController>().fetchedData;
+                                debugPrint('Fetched Data: $_dataToSend');
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return QuizPage(
+                                    transportedData: _dataToSend,
+                                  );
+                                }));
+                                //  Navigator.pushNamed(context, Routes.quiz,
+                                //     arguments: context.read<QuestionFormController>().fetchedData);
+                              }
+                            },
                     ),
                   ),
           ],
