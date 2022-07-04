@@ -20,6 +20,7 @@ class QuizPageController with ChangeNotifier {
   };
 
   int _currentQuestionNumber = 0;
+  int _totalNumOfQuestions = 0;
   bool _isDoneWithQuiz = false;
   int _score = 0;
   Timer? _timer;
@@ -29,6 +30,8 @@ class QuizPageController with ChangeNotifier {
 
   /// Returns clean and processed data
   Map<String, dynamic> get cleanedData => _cleanedData;
+
+  int get totalNumOfQuestions => _totalNumOfQuestions;
 
   /// Returns current question number
   int get currentQuestionNumber => _currentQuestionNumber;
@@ -62,6 +65,9 @@ class QuizPageController with ChangeNotifier {
     _cleanedData['correct_answers'] = _convertCorrectAnswersToString(transportedData['correct_answers']);
     _cleanedData['incorrect_answers'] = _convertWrongAnswersToString(transportedData['wrong_answers']);
 
+    // final questions = [..._cleanedData['questions']];
+
+    // _totalNumOfQuestions = questions.length;
     final List<String> allAnswers = [
       _cleanedData['correct_answers'][_currentQuestionNumber],
       ..._cleanedData['incorrect_answers'][_currentQuestionNumber]
@@ -184,6 +190,7 @@ class QuizPageController with ChangeNotifier {
 
   void savetoDB() {
     debugPrint('User Score is: $_score');
+    debugPrint('User Total Questions is: $_totalNumOfQuestions');
   }
 
   void clearResources() {
