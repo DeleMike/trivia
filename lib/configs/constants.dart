@@ -92,9 +92,13 @@ class AssetsImages {
   static const String theaterImg = 'assets/images/category/theater_img.png';
   static const String vehiclesImg = 'assets/images/category/vehicles_img.png';
   static const String videoGameImg = 'assets/images/category/video_game_img.png';
+  static const String coinsImg = 'assets/images/coins.png';
 }
 
 class AssetsAnimations {
   static const String wellDone = 'assets/animations/well_done_anim.json';
   static const String lookingEyes = 'assets/animations/looking_eyes.json';
+  static const String congrats = 'assets/animations/congratulation-success-batch.json';
+  static const String thumbsUp = 'assets/animations/thumb-up-party.json';
+  static const String loss = 'assets/animations/you-loss.json';
 }
