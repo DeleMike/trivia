@@ -1,22 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:fl_chart/fl_chart.dart';
 
 import '../../configs/constants.dart';
 
-class QuizSeries {
+final barData = [
+  QuizData(id: 1, score: 70, difficulty: 'Hard', courseName: 'Mat', color: Colors.blue),
+  QuizData(id: 2, score: 40, difficulty: 'Medium', courseName: 'Ge', color: Colors.green),
+  QuizData(id: 2, score: 40, difficulty: 'Easy', courseName: 'Fr', color: Colors.green),
+  QuizData(id: 3, score: 20, difficulty: 'Easy', courseName: 'Com', color: Colors.red),
+  QuizData(id: 4, score: 90, difficulty: 'Medium', courseName: 'Sci', color: Colors.orange),
+  QuizData(id: 5, score: 55, difficulty: 'Easy', courseName: 'Eng', color: Colors.pink),
+];
+
+class QuizData {
+  final int id;
   final int score;
   final String difficulty;
   final String courseName;
-  final charts.Color barColor;
+  final Color color;
 
-  QuizSeries({
+  QuizData({
+    required this.id,
     required this.score,
     required this.difficulty,
     required this.courseName,
-    required this.barColor,
+    required this.color,
   });
+}
+
+class BarTiles {
+  static AxisTitles getBottomTiles() => AxisTitles(
+        axisNameWidget: const Text('Subjects'),
+        sideTitles: SideTitles(
+          showTitles: true,
+          getTitlesWidget: (id, _) =>
+              Text(barData.firstWhere((element) => element.id == id.toInt()).courseName),
+        ),
+        // showTitles: true,
+        // getTitlesWidget: (id, _) => Text(barData.firstWhere((element) => element.id == id.toInt()).courseName));
+      );
+
+
 }
 
 class Dashboard extends StatefulWidget {
@@ -27,43 +53,10 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final List<QuizSeries> data = [
-    QuizSeries(
-      score: 70,
-      courseName: 'General',
-      difficulty: 'easy',
-      barColor: charts.ColorUtil.fromDartColor(Colors.green),
-    ),
-    QuizSeries(
-      score: 40,
-      courseName: 'General',
-      difficulty: 'hard',
-      barColor: charts.ColorUtil.fromDartColor(Colors.green),
-    ),
-    QuizSeries(
-      score: 80,
-      courseName: 'Mathematics',
-      difficulty: 'medium',
-      barColor: charts.ColorUtil.fromDartColor(Colors.red),
-    ),
-    QuizSeries(
-      score: 90,
-      courseName: 'Any',
-      difficulty: 'easy',
-      barColor: charts.ColorUtil.fromDartColor(Colors.orange),
-    ),
-  ];
+  final double _barWidth = 22;
+
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<QuizSeries, String>> series = [
-      charts.Series(
-          id: "Progression",
-          data: data,
-          domainFn: (QuizSeries series, _) => series.courseName,
-          measureFn: (QuizSeries series, _) => series.score,
-          colorFn: (QuizSeries series, _) => series.barColor)
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -74,7 +67,6 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: kCanvasColor,
       ),
       body: SingleChildScrollView(
-      
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,12 +160,43 @@ class _DashboardState extends State<Dashboard> {
               child: Padding(
                 padding: const EdgeInsets.all(kPaddingM),
                 child: Center(
-                    child: charts.BarChart(
-                  series,
-                  animate: true,
-                  barGroupingType: charts.BarGroupingType.groupedStacked
-                ) //.Barchart(series, animate: true)
+                  child: BarChart(
+                    BarChartData(
+                      alignment: BarChartAlignment.center,
+                      maxY: 100,
+                      minY: 0,
+                      // borderData: FlBorderData(show: false) ,
+                      // gridData: FlGridData(checkToShowHorizontalLine: ((value) => false)),
+                      groupsSpace: 20,
+                      titlesData: FlTitlesData(
+                        //topTitles: BarTitles.getTopTiles(),
+                        bottomTitles: BarTiles.getBottomTiles(),
+                       
+                      ),
+                      barTouchData: BarTouchData(enabled: true),
+                      barGroups: barData
+                          .map(
+                            (data) => BarChartGroupData(
+                              x: data.id,
+                              barsSpace: 0,
+                              groupVertically: true,
+                              barRods: [
+                                BarChartRodData(
+                                  fromY: 0,
+                                  toY: double.parse(data.score.toString()),
+                                  width: _barWidth,
+                                  color: data.color,
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(2), topRight: Radius.circular(2)),
+                                ),
+                                
+                              ],
+                            ),
+                          )
+                          .toList(),
                     ),
+                  ),
+                ),
               ),
             ),
             Padding(
