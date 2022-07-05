@@ -12,7 +12,7 @@ import '../widgets/question_placeholder.dart';
 import '../widgets/button_placeholder.dart';
 import '../helpers/trivia_history.dart';
 import '../screens/view_answers.dart';
-import '../screens/categories.dart';
+// import '../screens/categories.dart';
 
 ///[QuizPage] screen used to display the main quiz board.
 ///It contains [QuestionNum], [t.Timer], [QuestionPlaceholder], [ButtonPlaceholder] widgets.
@@ -516,8 +516,7 @@ class _QuizPageState extends State<QuizPage> {
                                                             .popUntil((route) =>
                                                                 route.settings
                                                                     .name ==
-                                                                Categories
-                                                                    .routeName);
+                                                                ''); // supposed to be Categories.routeName
                                                       }),
                                                 ),
                                                 Container(

@@ -5,10 +5,12 @@ import '../screens/settings.dart';
 import '../core/game/categories.dart';
 import '../core/game/screens/quiz_page.dart';
 import '../core/game/screens/quiz_result.dart';
+import '../core/nav_screen.dart';
 
 /// Defines established routes in the application
 class Routes {
   static const auth = '/auth';
+  static const navScreen = '/navScreen';
   static const categories = '/categories';
   static const settings = '/settings';
   static const quiz = '/quiz';
@@ -18,6 +20,7 @@ class Routes {
   Map<String, Widget Function(BuildContext)> generateRoutes(BuildContext context) {
     return {
       auth: (ctx) => const AuthScreen(),
+      navScreen: (ctx) => const NavScreen(),
       categories: (ctx) => const Categories(),
       settings: (ctx) => Settings(),
       quiz: (ctx) => const QuizPage(transportedData: {'questions': []}),

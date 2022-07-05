@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trivia/configs/constants.dart';
 
+import '../../../configs/constants.dart';
 import '../../../configs/http_client.dart' as client;
+import '../../../widgets/info_dialog.dart';
 
 class QuestionFormController with ChangeNotifier {
   String? _difficulty;
@@ -63,15 +64,8 @@ class QuestionFormController with ChangeNotifier {
           showDialog(
               context: context,
               builder: (context) {
-                return AlertDialog(
-                  title: const Text(kAppName),
-                  content: const Text(
-                    'No data available for selected number of questions.'
-                    '\nPlease try to enter a lower value(e.g. 5)',
-                  ),
-                  actions: [
-                    ElevatedButton(onPressed: () => Navigator.pop(context), child: const Text('GOT IT'))
-                  ],
+                return const InfoDialog(
+                  text: 'Your request could not be processed well. Try entering 5 questions',
                 );
               });
         } else {

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:trivia/configs/routes.dart';
 
 import 'helpers/dark_theme_provider.dart';
-import 'core/game/home_screen.dart';
+import 'core/nav_screen.dart';
 import 'core/game/controllers/question_form_controller.dart';
 import 'widgets/splash_screen.dart';
 import 'core/auth/screens/auth_screen.dart';
@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SplashScreen();
               }
-              return !userPref.isLogin ? const AuthScreen() : const HomeScreen();
+              return !userPref.isLogin ? const AuthScreen() : const NavScreen();
             },
           ),
         ),
