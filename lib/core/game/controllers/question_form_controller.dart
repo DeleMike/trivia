@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../configs/constants.dart';
 import '../../../configs/http_client.dart' as client;
 import '../../../widgets/info_dialog.dart';
 

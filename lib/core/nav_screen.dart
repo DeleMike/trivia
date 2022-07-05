@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../configs/constants.dart';
 //screens
 import 'game/home_screen.dart';
+import 'dashboard/dashboard.dart';
 
 class NavScreen extends StatefulWidget {
   const NavScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _NavScreenState extends State<NavScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _navScreens = [
-    Center(child: Text('Dashboard')),
+    Dashboard(),
     HomeScreen(),
     Center(child: Text('Settings')),
   ];
