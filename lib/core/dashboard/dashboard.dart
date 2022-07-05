@@ -30,19 +30,24 @@ class QuizData {
   });
 }
 
-class BarTiles {
-  static AxisTitles getBottomTiles() => AxisTitles(
-        axisNameWidget: const Text('Subjects'),
-        sideTitles: SideTitles(
-          showTitles: true,
-          getTitlesWidget: (id, _) =>
-              Text(barData.firstWhere((element) => element.id == id.toInt()).courseName),
-        ),
-        // showTitles: true,
-        // getTitlesWidget: (id, _) => Text(barData.firstWhere((element) => element.id == id.toInt()).courseName));
+class LineTiles {
+  static getTilesData() => FlTitlesData(
+        show: true,
+        // rightTitles: AxisTitles(
+        //  // axisNameWidget: Text('Score'),
+        //   sideTitles: SideTitles(
+        //       showTitles: true,
+        //       getTitlesWidget: (id, _) => Text(id.toInt().toString())
+        //         // switch (id.toInt()) {
+        //         //   case 50:
+
+        //         //     break;
+        //         //   default:
+        //         // }
+
+        //       ),
+        //));
       );
-
-
 }
 
 class Dashboard extends StatefulWidget {
@@ -53,7 +58,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final double _barWidth = 22;
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +154,14 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: kPaddingS + 2, right: kPaddingM + 2, top: kPaddingM + 2, bottom: kPaddingS - 5),
+              child: Text(
+                'Performance per Quiz Attempt \u{1f4ca}',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
             Container(
               margin: const EdgeInsets.only(left: kPaddingS + 2, right: kPaddingM + 2, top: kPaddingM + 2),
               height: kScreenHeight(context) * 0.25,
@@ -160,40 +172,41 @@ class _DashboardState extends State<Dashboard> {
               child: Padding(
                 padding: const EdgeInsets.all(kPaddingM),
                 child: Center(
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.center,
-                      maxY: 100,
+                  child: LineChart(
+                    LineChartData(
+                      minX: 0,
+                      maxX: 7,
                       minY: 0,
-                      // borderData: FlBorderData(show: false) ,
-                      // gridData: FlGridData(checkToShowHorizontalLine: ((value) => false)),
-                      groupsSpace: 20,
-                      titlesData: FlTitlesData(
-                        //topTitles: BarTitles.getTopTiles(),
-                        bottomTitles: BarTiles.getBottomTiles(),
-                       
+                      maxY: 100,
+                      titlesData: LineTiles.getTilesData(),
+                      borderData: FlBorderData(
+                        show: true,
+                        border: Border.all(color: kPrimaryColor),
                       ),
-                      barTouchData: BarTouchData(enabled: true),
-                      barGroups: barData
-                          .map(
-                            (data) => BarChartGroupData(
-                              x: data.id,
-                              barsSpace: 0,
-                              groupVertically: true,
-                              barRods: [
-                                BarChartRodData(
-                                  fromY: 0,
-                                  toY: double.parse(data.score.toString()),
-                                  width: _barWidth,
-                                  color: data.color,
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(2), topRight: Radius.circular(2)),
-                                ),
-                                
-                              ],
-                            ),
-                          )
-                          .toList(),
+                      lineBarsData: [
+                        LineChartBarData(
+                          isCurved: true,
+                          gradient: const LinearGradient(colors: [kLightPrimaryColor, kPrimaryColor]),
+                          barWidth: 5,
+                          dotData: FlDotData(show: false),
+                          belowBarData: BarAreaData(
+                            show: true,
+                            gradient: LinearGradient(
+                                colors: <Color>[kLightPrimaryColor, kPrimaryColor]
+                                    .map((color) => color.withOpacity(0.3))
+                                    .toList()),
+                          ),
+                          spots: const [
+                            FlSpot(0, 20),
+                            FlSpot(2, 60),
+                            FlSpot(3, 33),
+                            FlSpot(4, 50),
+                            FlSpot(5, 60),
+                            FlSpot(6, 94.5),
+                            FlSpot(7, 55)
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -203,7 +216,7 @@ class _DashboardState extends State<Dashboard> {
               padding: const EdgeInsets.only(
                   left: kPaddingS + 2, right: kPaddingM + 2, top: kPaddingM + 2, bottom: kPaddingS - 5),
               child: Text(
-                'Last Attempts',
+                'Past Attempts',
                 style: Theme.of(context).textTheme.headline5,
               ),
             ),
