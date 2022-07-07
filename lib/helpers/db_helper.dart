@@ -10,7 +10,10 @@ class DbHelper {
       path.join(dbPath, 'trivia.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE history(id INTEGER PRIMARY KEY AUTOINCREMENT, quizName TEXT, quizDifficulty TEXT, dateTaken TEXT, score TEXT)');
+          'CREATE TABLE history(id INTEGER PRIMARY KEY AUTOINCREMENT, '
+          'quizName TEXT, quizDifficulty TEXT, scorePercentage TEXT, imageUrl TEXT, '
+          'dateTaken TEXT)',
+        );
       },
       version: 1,
     );

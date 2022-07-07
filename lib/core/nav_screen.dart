@@ -13,7 +13,7 @@ class NavScreen extends StatefulWidget {
 }
 
 class _NavScreenState extends State<NavScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   static const List<Widget> _navScreens = [
     Dashboard(),
@@ -44,10 +44,11 @@ class _NavScreenState extends State<NavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _navScreens,
-      ),
+      body: _navScreens.elementAt(_selectedIndex),
+      // body: IndexedStack(
+      //   index: _selectedIndex,
+      //   children: _navScreens,
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         items: _navBarItems,
         type: BottomNavigationBarType.shifting,

@@ -79,6 +79,7 @@ class QuestionFormController with ChangeNotifier {
           _fetchedData = {
             'title': title,
             'imageUrl': imageUrl,
+            'selectedDifficulty': selectedDifficulty,
             'questions': _questions,
             'correct_answers': _correctAnswers,
             'wrong_answers': _wrongAnswers,

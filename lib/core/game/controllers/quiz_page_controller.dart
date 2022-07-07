@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:html/parser.dart' as parser;
+
+import '../../../helpers/trivia_history.dart';
 
 class QuizPageController with ChangeNotifier {
   /// Get fetched data from
@@ -81,7 +85,7 @@ class QuizPageController with ChangeNotifier {
     _triviaSet['total_question_length'] = _cleanedData['questions'].length;
 
     debugPrint('All Answers list is now: ${_triviaSet['answers']}');
-
+    debugPrint('QPage Controller: fetched Data is = $transportedData');
     _isDoneWithQuiz = (_currentQuestionNumber + 1) == _cleanedData['questions'].length;
   }
 
@@ -188,9 +192,29 @@ class QuizPageController with ChangeNotifier {
     notifyListeners();
   }
 
-  void savetoDB() {
-    debugPrint('User Score is: $_score');
-    debugPrint('User Total Questions is: $_totalNumOfQuestions');
+  /// Save result to DB
+  Future<void> savetoDB(BuildContext context, {required int score, required int totalQuestion}) async {
+    final dateFormat = DateFormat('dd/MM/yyyy @ H:m:s');
+    final date = dateFormat.format(DateTime.now());
+    int scorePercentage = ((score / totalQuestion) * 100).toInt();
+
+    // save to db
+    await context.read<TriviaHistory>().addHistory(
+          quizName: transportedData['title'],
+          imageUrl: transportedData['imageUrl'],
+          difficulty: transportedData['selectedDifficulty'],
+          scorePercentage: scorePercentage.toString(),
+          dateTaken: date,
+        );
+
+    debugPrint('QuizPageController: Date = $date');
+    debugPrint('QuizPageController: quizName = ${transportedData['title']}');
+    debugPrint('QuizPageController: img-url = ${transportedData['imageUrl']}');
+    debugPrint('QuizPageController: difficulty = ${transportedData['selectedDifficulty']}');
+
+    debugPrint('QuizPageController: Saved to DB');
+
+    notifyListeners();
   }
 
   void clearResources() {

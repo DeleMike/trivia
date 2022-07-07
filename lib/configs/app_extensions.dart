@@ -16,7 +16,6 @@ extension StringExtension on String {
   }
 
   bool isNumeric() {
-    print('$this is a valid number =  ${double.tryParse(this) != null}');
     return int.tryParse(this) != null;
   }
 }

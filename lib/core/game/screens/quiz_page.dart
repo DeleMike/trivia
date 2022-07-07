@@ -223,7 +223,7 @@ class _QuizPageState extends State<QuizPage> {
                     onPressed: () {
                       context.read<QuizPageController>().evaluateUserChoice(_selectedAnswer);
                       if (context.read<QuizPageController>().isDoneWithQuiz) {
-                        context.read<QuizPageController>().savetoDB();
+                        
                         Navigator.pushReplacementNamed(context, Routes.result, arguments: {
                           'total_question':  context.read<QuizPageController>().cleanedData['questions'].length.toString(),
                           'score': context.read<QuizPageController>().score.toString()
