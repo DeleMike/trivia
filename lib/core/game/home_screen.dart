@@ -11,6 +11,8 @@ import '../../helpers/user_pref.dart';
 import '../../configs/constants.dart';
 import '../../configs/app_extensions.dart';
 
+import '../../helpers/trivia_history.dart';
+
 ///It will be used to show greetings and display some options
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   //fetch user data
   Future<int> _loadData(BuildContext context) async {
     await context.read<UserPref>().fetchData();
+    await context.read<TriviaHistory>().fetchAndSetHistory();
     return 1;
   }
 
@@ -101,9 +104,12 @@ class HomeScreen extends StatelessWidget {
                                                   fontFamily: GoogleFonts.caveatBrush().fontFamily,
                                                   fontSize: 30,
                                                 ),
-                                                children: const [
-                                                  TextSpan(text: ''),
-                                                  TextSpan(text: 'Last quiz: 80%'),
+                                                children: [
+                                                  const TextSpan(text: ''),
+                                                  TextSpan(
+                                                    text:
+                                                        'Last quiz: ${context.watch<TriviaHistory>().scorePercentage}%',
+                                                  ),
                                                 ]),
                                           ),
                                         ),

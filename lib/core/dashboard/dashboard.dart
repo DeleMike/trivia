@@ -3,15 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:trivia/configs/routes.dart';
 
 import '../../configs/constants.dart';
 import '../../configs/app_extensions.dart';
 import '../../helpers/trivia_history.dart';
 
 class LineTiles {
-  static getTilesData() => FlTitlesData(
-        show: true,
-      );
+  static getTilesData() => FlTitlesData(show: true);
 }
 
 class Dashboard extends StatefulWidget {
@@ -22,11 +21,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  @override
-  void initState() {
-    super.initState();
-    //_getAllData();
-  }
 
   Future<void> _getAllData() async {
     await context.read<TriviaHistory>().fetchAndSetHistory();
@@ -217,7 +211,7 @@ class _DashboardState extends State<Dashboard> {
                             top: kPaddingM + 2,
                             bottom: kPaddingS - 5),
                         child: Text(
-                          'Past Attempts',
+                          'Past Quiz Attempts',
                           style: Theme.of(context).textTheme.headline5,
                         ),
                       ),
@@ -242,7 +236,7 @@ class _DashboardState extends State<Dashboard> {
                                   itemBuilder: ((context, index) {
                                     return InkWell(
                                         onTap: (() {
-                                          debugPrint('Position $index clicked');
+                                          Navigator.of(context).pushNamed(Routes.history);
                                         }),
                                         child: Card(
                                           elevation: 0,
