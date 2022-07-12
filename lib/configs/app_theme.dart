@@ -23,6 +23,17 @@ class AppTheme {
         textTheme: ButtonTextTheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
+          if (states.contains(MaterialState.disabled)) {
+            return kPrimaryColor.withOpacity(.48);
+          }
+          return kPrimaryColor;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color>((states) {
+          return kPrimaryColor.withOpacity(.48);
+        }),
+      ),
       textTheme: ThemeData.light().textTheme.copyWith(
             bodyText2: TextStyle(
               color: kBlack,

@@ -4,6 +4,7 @@ import '../configs/constants.dart';
 //screens
 import 'game/home_screen.dart';
 import 'dashboard/dashboard.dart';
+import 'settings/settings.dart';
 
 class NavScreen extends StatefulWidget {
   const NavScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _NavScreenState extends State<NavScreen> {
   static const List<Widget> _navScreens = [
     Dashboard(),
     HomeScreen(),
-    Center(child: Text('Settings')),
+    Settings(),
   ];
 
   static const List<BottomNavigationBarItem> _navBarItems = [
