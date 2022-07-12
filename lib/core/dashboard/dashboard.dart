@@ -75,7 +75,7 @@ class _DashboardState extends State<Dashboard> {
                                         children: [
                                           const TextSpan(text: ''),
                                           history.scorePercentage.isEmpty
-                                              ? const TextSpan(text: '')
+                                              ? const TextSpan(text: 'No quiz taken yet')
                                               : TextSpan(text: 'Last quiz: ${history.scorePercentage} %'),
                                         ]),
                                   ),

@@ -107,8 +107,12 @@ class HomeScreen extends StatelessWidget {
                                                 children: [
                                                   const TextSpan(text: ''),
                                                   TextSpan(
-                                                    text:
-                                                        'Last quiz: ${context.watch<TriviaHistory>().scorePercentage}%',
+                                                    text: context
+                                                            .watch<TriviaHistory>()
+                                                            .scorePercentage
+                                                            .isEmpty
+                                                        ? 'No quiz taken yet'
+                                                        : 'Last quiz: ${context.watch<TriviaHistory>().scorePercentage}%',
                                                   ),
                                                 ]),
                                           ),
