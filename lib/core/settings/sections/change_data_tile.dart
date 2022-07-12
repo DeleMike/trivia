@@ -13,9 +13,9 @@ class ChangeDataTile extends StatelessWidget {
         onTap: () {
           debugPrint('Open \'change bio\' page');
         },
-        child: const ListTile(
-          title: Text('Biodata'),
-          subtitle: Text('change your name or user picture'),
+        child: ListTile(
+          title: Text('Biodata', style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 16)),
+          subtitle: const Text('change your name or profile picture'),
         ),
       ),
     );

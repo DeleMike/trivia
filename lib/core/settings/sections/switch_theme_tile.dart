@@ -16,7 +16,7 @@ class _SwitchThemeTileState extends State<SwitchThemeTile> {
     return Container(
       margin: const EdgeInsets.only(top: kPaddingM + 2, bottom: kPaddingS),
       child: SwitchListTile(
-        title: const Text('App Theme'),
+        title: Text('App Theme', style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 16)),
         subtitle: Text('change the app\'s current theme to ' '${switchIsOn ? 'light' : 'dark'}'),
         value: switchIsOn,
         inactiveThumbColor: kLightPrimaryColor,
