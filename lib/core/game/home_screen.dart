@@ -203,8 +203,8 @@ class _GridContainer extends StatelessWidget {
         return InkWell(
             onTap: (() {
               debugPrint('Position $index clicked');
-              showModalBottomSheet(
-                isScrollControlled: true,
+              showBottomSheet(
+                // isScrollControlled: true,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(12.0),

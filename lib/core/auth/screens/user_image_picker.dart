@@ -13,7 +13,6 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +30,12 @@ class _UserImagePickerState extends State<UserImagePicker> {
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
               ),
               icon: const Icon(Icons.image),
-              label: const Text('Add image'),
+              label: Text(
+                'Add image',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      color: kPrimaryColor,
+                    ),
+              ),
               onPressed: () => context.read<AuthController>().pickedImage(),
             ),
           ),
