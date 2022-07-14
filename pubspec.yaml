@@ -30,6 +30,7 @@ dependencies:
   bubble: ^1.2.1
   step_progress_indicator: ^1.0.2
   fl_chart: ^0.55.0
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:

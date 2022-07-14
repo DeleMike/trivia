@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../configs/constants.dart';
-import '../../configs/routes.dart';
 import '../../helpers/trivia_history.dart';
 import '../../configs/app_extensions.dart';
 
@@ -45,9 +44,7 @@ class _AllHistoryState extends State<AllHistory> {
                       itemCount: history.items.length,
                       itemBuilder: ((context, index) {
                         return InkWell(
-                            // onTap: (() {
-                            //   Navigator.of(context).pushNamed(Routes.history);
-                            // }),
+                            onTap: () {},
                             child: Card(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
