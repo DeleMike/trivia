@@ -41,6 +41,11 @@ const double kCardElevation = 5.0;
 const double kButtonRadius = 10.0;
 const double kDialogRadius = 20.0;
 
+// time for each type of difficulty
+const int kTimeLengthForEasyDifficulty = 20;
+const int kTimeLengthForMediumDifficulty = 40;
+const int kTimeLengthForHardDifficulty = 60;
+
 /// Get screen height
 double kScreenHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;

@@ -22,6 +22,7 @@ class AppTheme {
         backgroundColor: Color(0xfff5f5f5),
       ),
       appBarTheme: const AppBarTheme(backgroundColor: kCanvasColor),
+       progressIndicatorTheme: const ProgressIndicatorThemeData(color: kPrimaryColor),
       colorScheme: const ColorScheme.light(primary: Colors.indigo).copyWith(secondary: kPrimaryColor),
       buttonTheme: ButtonTheme.of(context).copyWith(
         buttonColor: kPrimaryColor,
@@ -53,7 +54,7 @@ class AppTheme {
             headline6: const TextStyle(
               fontSize: 18,
               fontFamily: 'Ubuntu',
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.bold,
             ),
             headline5: const TextStyle(
               fontSize: 18,
@@ -75,8 +76,8 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(primary: Colors.indigo).copyWith(secondary: kPrimaryColor),
       // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo).copyWith(secondary: kPrimaryColor),
       buttonTheme: ButtonTheme.of(context).copyWith(
-        buttonColor: kPrimaryColor,
         textTheme: ButtonTextTheme.primary,
+        colorScheme: const ColorScheme.dark(primary: kBlack).copyWith(onPrimary: kWhite),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
       iconTheme: const IconThemeData(color: kWhite),
@@ -91,6 +92,7 @@ class AppTheme {
           return kPrimaryColor.withOpacity(.48);
         }),
       ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(color: kWhite),
       textTheme: ThemeData.dark().textTheme.copyWith(
             bodyText2: TextStyle(
               color: kWhite,
@@ -105,7 +107,7 @@ class AppTheme {
             headline6: const TextStyle(
               fontSize: 18,
               fontFamily: 'Ubuntu',
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.bold,
             ),
             headline5: const TextStyle(
               fontSize: 18,
@@ -115,11 +117,9 @@ class AppTheme {
           ),
     );
   }
-  
-  
+
   /// returns app current theme depending on if [isDarkMode] is ```true``` or otherwise
-   ThemeData? themeData(bool isDarkModeOn) {
+  ThemeData? themeData(bool isDarkModeOn) {
     return isDarkModeOn ? darkTheme : lightTheme;
   }
-  
 }

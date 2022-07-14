@@ -45,12 +45,16 @@ class _AnswersBoxState extends State<AnswersBox> {
             style: OutlinedButton.styleFrom(
               primary: Theme.of(context).primaryColor,
               textStyle: Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.bold),
-              side: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+              side: BorderSide(
+                  color: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor,
+                  width: 1.5),
             ),
-            child: Padding(padding: const EdgeInsets.all(18.0), child: Text(answer)),
-            onPressed: widget.isDisabled ? null : () {
-              _selectAnswer(answer);
-            },
+            child: Padding(padding: const EdgeInsets.all(18.0), child: Text(answer, style: Theme.of(context).textTheme.headline6,)),
+            onPressed: widget.isDisabled
+                ? null
+                : () {
+                    _selectAnswer(answer);
+                  },
           ),
         );
       }).toList(),

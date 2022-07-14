@@ -74,7 +74,7 @@ class _QuizPageState extends State<QuizPage> {
             content: const Text('Do you really want to exit?'),
             actions: [
               TextButton(
-                style: TextButton.styleFrom(primary: kPrimaryColor),
+                style: TextButton.styleFrom(primary: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
                 child: const Text(
                   'NO',
                 ),
@@ -83,7 +83,7 @@ class _QuizPageState extends State<QuizPage> {
                 },
               ),
               TextButton(
-                style: TextButton.styleFrom(primary: kPrimaryColor),
+                style: TextButton.styleFrom(primary: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
                 child: const Text(
                   'YES',
                 ),
@@ -108,7 +108,6 @@ class _QuizPageState extends State<QuizPage> {
       onWillPop: () async => _showDialog(),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: kCanvasColor,
           leading: Container(),
           elevation: 0,
           actions: [
@@ -188,7 +187,7 @@ class _QuizPageState extends State<QuizPage> {
                   nipHeight: kPaddingS,
                   elevation: kCardElevation - 2,
                   nip: BubbleNip.leftTop,
-                  color: kWhite,
+                  color: Theme.of(context).brightness == Brightness.dark ? kBlack : kWhite,
                   child: Text(
                     _displayData['question'],
                     style: Theme.of(context).textTheme.headline6!.copyWith(
@@ -219,19 +218,20 @@ class _QuizPageState extends State<QuizPage> {
                   width: kScreenWidth(context),
                   margin: const EdgeInsets.only(left: kPaddingM + 2, right: kPaddingM + 2, top: kPaddingM),
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(kPaddingS + 5)),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(kPaddingS + 5),
+                      onPrimary: kWhite,
+                      primary: kPrimaryColor,
+                    ),
                     onPressed: () {
                       context.read<QuizPageController>().evaluateUserChoice(_selectedAnswer);
                       if (context.read<QuizPageController>().isDoneWithQuiz) {
-                        
                         Navigator.pushReplacementNamed(context, Routes.result, arguments: {
-                          'total_question':  context.read<QuizPageController>().cleanedData['questions'].length.toString(),
+                          'total_question':
+                              context.read<QuizPageController>().cleanedData['questions'].length.toString(),
                           'score': context.read<QuizPageController>().score.toString()
                         });
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(content: Text(context.read<QuizPageController>().score.toString())));
-                        // context.read<QuizPageController>().clearResources();
-                        //  Navigator.of(context).pop();
+
                         return;
                       }
 

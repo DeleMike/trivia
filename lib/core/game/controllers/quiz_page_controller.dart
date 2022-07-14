@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:html/parser.dart' as parser;
+import 'package:trivia/configs/constants.dart';
 
 import '../../../helpers/trivia_history.dart';
 
@@ -24,18 +25,16 @@ class QuizPageController with ChangeNotifier {
   };
 
   int _currentQuestionNumber = 0;
-  int _totalNumOfQuestions = 0;
   bool _isDoneWithQuiz = false;
   int _score = 0;
   Timer? _timer;
   double _timeCounter = 0;
   int _timerLength = 0;
+  int _totalQuizLength = kTimeLengthForEasyDifficulty;
   bool _isDisabled = false;
 
   /// Returns clean and processed data
   Map<String, dynamic> get cleanedData => _cleanedData;
-
-  int get totalNumOfQuestions => _totalNumOfQuestions;
 
   /// Returns current question number
   int get currentQuestionNumber => _currentQuestionNumber;
@@ -69,6 +68,12 @@ class QuizPageController with ChangeNotifier {
     _cleanedData['correct_answers'] = _convertCorrectAnswersToString(transportedData['correct_answers']);
     _cleanedData['incorrect_answers'] = _convertWrongAnswersToString(transportedData['wrong_answers']);
 
+    if ((transportedData['selectedDifficulty'] as String).toLowerCase() == 'hard') {
+      _totalQuizLength = kTimeLengthForHardDifficulty;
+    } else if ((transportedData['selectedDifficulty'] as String).toLowerCase() == 'medium') {
+      _totalQuizLength = kTimeLengthForMediumDifficulty;
+    }
+
     // final questions = [..._cleanedData['questions']];
 
     // _totalNumOfQuestions = questions.length;
@@ -91,17 +96,35 @@ class QuizPageController with ChangeNotifier {
 
   //start timer widget countdown
   void startTimer(BuildContext context) {
+    debugPrint('Total Time for Quiz is: ${_totalQuizLength}s');
     const oneSec = Duration(seconds: 1);
     _isDisabled = false;
     _timer = Timer.periodic(oneSec, (Timer timer) {
       //if time is 0, then automatically disable buttons
-      if (_timerLength == 20) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('times up')));
+      if (_timerLength == _totalQuizLength) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: 'Okay',
+              textColor: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor,
+              onPressed: () {},
+            ),
+            content: Padding(
+              padding: const EdgeInsets.all(kPaddingS + 2),
+              child: Text(
+                'No data updated',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        );
         _timer!.cancel();
         _isDisabled = true;
       } else {
         ++_timerLength;
-        _timeCounter = double.parse((_timerLength / 20.0).toStringAsFixed(2));
+        _timeCounter = double.parse((_timerLength / _totalQuizLength.toDouble()).toStringAsFixed(2));
         debugPrint('Timer: Current time = $_timerLength remaining');
         debugPrint('Linear Progress Updator: $_timeCounter');
       }
@@ -227,6 +250,7 @@ class QuizPageController with ChangeNotifier {
     _timer!.cancel();
     _timeCounter = 0;
     _timerLength = 0;
+    _totalQuizLength = kTimeLengthForEasyDifficulty;
     _isDisabled = false;
     debugPrint('Clear Quiz Page states');
   }

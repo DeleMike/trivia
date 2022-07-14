@@ -16,7 +16,7 @@ class InfoDialog extends StatelessWidget {
           Container(
             height: kScreenHeight(context) * 0.4,
             decoration: BoxDecoration(
-              color: kLightPrimaryColor,
+              color: Theme.of(context).brightness == Brightness.dark ? kGrey : kLightPrimaryColor,
               borderRadius: BorderRadius.circular(kDialogRadius),
             ),
           ), // bottom part
@@ -24,7 +24,7 @@ class InfoDialog extends StatelessWidget {
             child: Container(
               height: kScreenHeight(context) * 0.385,
               decoration: BoxDecoration(
-                color: kWhite,
+                color: Theme.of(context).brightness == Brightness.dark ? kSecondaryTextColor : kWhite,
                 borderRadius: BorderRadius.circular(kDialogRadius),
               ),
               child: Column(
@@ -36,8 +36,9 @@ class InfoDialog extends StatelessWidget {
                       width: 80,
                       child: CircleAvatar(
                         minRadius: 20,
+                        backgroundColor: kTransparent,
                         child: Image.asset(
-                          AssetsImages.appIcon,
+                          AssetsImages.homeBannerImg,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -47,7 +48,7 @@ class InfoDialog extends StatelessWidget {
                     text,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

@@ -64,7 +64,7 @@ class QuestionFormController with ChangeNotifier {
               context: context,
               builder: (context) {
                 return const InfoDialog(
-                  text: 'Your request could not be processed well. Try entering 5 questions',
+                  text: 'Your request could not be processed well. Try entering a smaller number of questions',
                 );
               });
         } else {

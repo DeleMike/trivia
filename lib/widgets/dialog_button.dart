@@ -13,7 +13,7 @@ class DialogButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: kPrimaryColor,
+        primary: Theme.of(context).brightness == Brightness.dark ? kBlack : kPrimaryColor,
         minimumSize: Size(kScreenWidth(context) * 0.8, 52),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kButtonRadius),
@@ -24,11 +24,7 @@ class DialogButton extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            fontFamily: kFontFamily
-          ),
+          style:Theme.of(context).textTheme.bodyText2
         ),
       ),
     );

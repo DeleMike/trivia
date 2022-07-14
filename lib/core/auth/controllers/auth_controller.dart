@@ -65,9 +65,12 @@ class AuthController with ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
-          content: const Padding(
-            padding: EdgeInsets.all(kPaddingS + 2),
-            child: Text('No data updated'),
+          content: Padding(
+            padding: const EdgeInsets.all(kPaddingS + 2),
+            child: Text(
+              'No data updated',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
           ),
           backgroundColor: Theme.of(context).primaryColor,
         ),
