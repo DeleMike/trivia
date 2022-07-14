@@ -189,11 +189,17 @@ class _QuizResultState extends State<QuizResult> {
                             padding: const EdgeInsets.all(kPaddingM),
                             child: Text(
                               'Share Results',
-                              style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 3.5,
-                                  ),
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 3.5,
+                                      color: kBlack)
+                                  : Theme.of(context).textTheme.bodyText2!.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 3.5,
+                                      ),
                             ),
                           ),
                         ),
@@ -219,11 +225,17 @@ class _QuizResultState extends State<QuizResult> {
                             padding: const EdgeInsets.all(kPaddingM),
                             child: Text(
                               'Close Quiz',
-                              style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 3.5,
-                                  ),
+                              style: Theme.of(context).brightness == Brightness.dark
+                                  ? Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 3.5,
+                                      color: kBlack)
+                                  : Theme.of(context).textTheme.bodyText2!.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 3.5,
+                                      ),
                             ),
                           ),
                         ),

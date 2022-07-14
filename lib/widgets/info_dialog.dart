@@ -17,15 +17,15 @@ class InfoDialog extends StatelessWidget {
             height: kScreenHeight(context) * 0.4,
             decoration: BoxDecoration(
               color: Theme.of(context).brightness == Brightness.dark ? kGrey : kLightPrimaryColor,
-              borderRadius: BorderRadius.circular(kDialogRadius),
+              borderRadius: BorderRadius.circular(10),
             ),
           ), // bottom part
           Positioned(
             child: Container(
-              height: kScreenHeight(context) * 0.385,
+              height: kScreenHeight(context) * 0.390,
               decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark ? kSecondaryTextColor : kWhite,
-                borderRadius: BorderRadius.circular(kDialogRadius),
+                color: Theme.of(context).brightness == Brightness.dark ? kSecondaryTextColor : kLightBlack,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

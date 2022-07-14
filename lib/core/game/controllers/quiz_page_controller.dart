@@ -107,14 +107,14 @@ class QuizPageController with ChangeNotifier {
             behavior: SnackBarBehavior.floating,
             action: SnackBarAction(
               label: 'Okay',
-              textColor: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor,
+              textColor: kWhite,
               onPressed: () {},
             ),
             content: Padding(
               padding: const EdgeInsets.all(kPaddingS + 2),
               child: Text(
-                'No data updated',
-                style: Theme.of(context).textTheme.bodyText2,
+                'Time\'s up. Move to next question...',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(color: kWhite),
               ),
             ),
             backgroundColor: Theme.of(context).primaryColor,

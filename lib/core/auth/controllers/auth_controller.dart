@@ -63,17 +63,23 @@ class AuthController with ChangeNotifier {
     //check if they are empty
     if (updateProfileUsername == null && _updateProfilePickedImgFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
+
         SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Padding(
-            padding: const EdgeInsets.all(kPaddingS + 2),
-            child: Text(
-              'No data updated',
-              style: Theme.of(context).textTheme.bodyText2,
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: 'Okay',
+              textColor: kWhite,
+              onPressed: () {},
             ),
+            content: Padding(
+              padding: const EdgeInsets.all(kPaddingS + 2),
+              child: Text(
+                'No data updated',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(color: kWhite),
+              ),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
           ),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
       );
       return;
     }

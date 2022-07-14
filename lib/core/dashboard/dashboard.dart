@@ -105,8 +105,6 @@ class _DashboardState extends State<Dashboard> {
                           children: [
                             Expanded(
                               child: StepProgressIndicator(
-                                // totalSteps: history.possibleMaxScore,
-                                // currentStep: history.sumofAllScores,
                                 totalSteps: history.possibleMaxScore == 0 ? 7 : history.possibleMaxScore,
                                 currentStep: history.sumofAllScores == 0 ? 3 : history.sumofAllScores,
                                 size: 15,
@@ -216,15 +214,39 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPaddingS + 2,
-                            right: kPaddingM + 2,
-                            top: kPaddingM + 2,
-                            bottom: kPaddingS - 5),
-                        child: Text(
-                          'Past Quiz Attempts',
-                          style: Theme.of(context).textTheme.headline5,
+                      Container(
+                        margin:
+                            const EdgeInsets.only(left: kPaddingS + 2, right: kPaddingM + 2, top: kPaddingM),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(kPaddingS),
+                              child: Text(
+                                'Past 10 Attempts',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: kLightPrimaryColor,
+                              ),
+                              onPressed: () => Navigator.of(context).pushNamed(Routes.allHistory),
+                              child: Padding(
+                                padding: const EdgeInsets.all(kPaddingS - 5),
+                                child: Text(
+                                  'View All',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .copyWith(fontSize: 12, color: kDarkPrimaryColor),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -243,13 +265,17 @@ class _DashboardState extends State<Dashboard> {
                                 margin: const EdgeInsets.only(
                                     left: kPaddingS + 2, right: kPaddingM + 2, top: kPaddingS + 2),
                                 child: ListView.builder(
-                                  itemCount: history.items.length,
+                                  itemCount: history.items.length > 10
+                                      ? history.items
+                                          .getRange(((history.items).length - 10), (history.items).length)
+                                          .length
+                                      : history.items.length,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: ((context, index) {
                                     return InkWell(
-                                        onTap: (() {
-                                          Navigator.of(context).pushNamed(Routes.history);
-                                        }),
+                                        // onTap: (() {
+                                        //   Navigator.of(context).pushNamed(Routes.history);
+                                        // }),
                                         child: Card(
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
