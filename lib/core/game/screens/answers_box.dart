@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../controllers/quiz_page_controller.dart';
 import '../../../configs/constants.dart';
 
 class AnswersBox extends StatefulWidget {
@@ -21,6 +19,7 @@ class AnswersBox extends StatefulWidget {
 }
 
 class _AnswersBoxState extends State<AnswersBox> {
+  // ignore: prefer_typing_uninitialized_variables, unused_field
   var _selectedAnswer;
 
   //used to select correct answer

@@ -109,6 +109,11 @@ class AuthController with ChangeNotifier {
         var option = options[(3 - name.length).toString()];
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+            action: SnackBarAction(
+              label: 'Okay',
+              textColor: kWhite,
+              onPressed: () {},
+            ),
             behavior: SnackBarBehavior.floating,
             content: Padding(
               padding: const EdgeInsets.all(kPaddingS + 2),
@@ -129,6 +134,11 @@ class AuthController with ChangeNotifier {
     await context.read<UserPref>().save(name, profileImgFilePath);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        action: SnackBarAction(
+              label: 'Okay',
+              textColor: kWhite,
+              onPressed: () {},
+            ),
         behavior: SnackBarBehavior.floating,
         content: Padding(
           padding: const EdgeInsets.all(kPaddingS + 2),
@@ -152,6 +162,11 @@ class AuthController with ChangeNotifier {
     if (_pickedImageFilePath == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          action: SnackBarAction(
+              label: 'Okay',
+              textColor: kWhite,
+              onPressed: () {},
+            ),
           behavior: SnackBarBehavior.floating,
           content: const Padding(
             padding: EdgeInsets.all(kPaddingS + 2),
@@ -172,6 +187,11 @@ class AuthController with ChangeNotifier {
       var option = options[(3 - username.length).toString()];
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          action: SnackBarAction(
+              label: 'Okay',
+              textColor: kWhite,
+              onPressed: () {},
+            ),
           behavior: SnackBarBehavior.floating,
           content: Padding(
             padding: const EdgeInsets.all(kPaddingS + 2),
@@ -186,6 +206,7 @@ class AuthController with ChangeNotifier {
     await context.read<UserPref>().save(username, _pickedImageFilePath);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        
         behavior: SnackBarBehavior.floating,
         content: Padding(
           padding: const EdgeInsets.all(kPaddingS + 2),
