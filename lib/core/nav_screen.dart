@@ -57,7 +57,7 @@ class _NavScreenState extends State<NavScreen> {
         currentIndex: _selectedIndex,
         unselectedItemColor: kSecondaryTextColor,
         selectedFontSize: 18,
-        selectedItemColor: kPrimaryColor,
+        selectedItemColor: Theme.of(context).brightness == Brightness.dark ? kWhite: kPrimaryColor,
         onTap: _onItemTapped,
       ),
     );

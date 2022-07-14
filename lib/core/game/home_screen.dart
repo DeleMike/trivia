@@ -27,6 +27,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Theme.of(context).brightness == Brightness.dark ? kGrey:null,
       body: FutureBuilder(
           future: _loadData(context),
           builder: (context, snapshot) {
@@ -143,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2!
-                                    .copyWith(fontSize: 16, color: kBlack, fontWeight: FontWeight.w900),
+                                    .copyWith(fontSize: 16, fontWeight: FontWeight.w900),
                               ),
                             ),
                             TextButton(

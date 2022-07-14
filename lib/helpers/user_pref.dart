@@ -40,6 +40,8 @@ class UserPref with ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
     //is user login data saved
     _isLogin = prefs.getBool(loginKey) ?? false;
+    debugPrint('UserPref: data fetched , is user logged in = $_isLogin');
+
   }
 
   ///get user login data: returns ```true``` for if login, ```false``` otherwise.

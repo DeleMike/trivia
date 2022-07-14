@@ -23,7 +23,9 @@ class UpdateBioBottomSheet extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: kPrimaryColor),
+                  border: Border.all(
+                    color: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor,
+                  ),
                   borderRadius: BorderRadius.circular(55),
                 ),
                 child: CircleAvatar(
@@ -35,10 +37,15 @@ class UpdateBioBottomSheet extends StatelessWidget {
                         style: ButtonStyle(
                           overlayColor: MaterialStateProperty.all(Colors.transparent),
                         ),
-                        icon: const Icon(Icons.image),
+                        icon: Icon(
+                          Icons.image,
+                          color: Theme.of(context).brightness == Brightness.dark ? kWhite : null,
+                        ),
                         label: Text(
-                          'change image',
-                          style: Theme.of(context).textTheme.bodyText2!.copyWith(color: kPrimaryColor),
+                          'Change image',
+                          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              color:
+                                  Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
                         ),
                         onPressed: () => context.read<AuthController>().pickProfileUpdateImage(),
                       ),
@@ -58,13 +65,13 @@ class UpdateBioBottomSheet extends StatelessWidget {
                     autocorrect: true,
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
-                        color: kBlack,
+                        color:  Theme.of(context).brightness == Brightness.dark ? kWhite : kBlack,
                         fontFamily: GoogleFonts.caveatBrush().fontFamily,
                       ),
-                      labelText: 'Enter your geek name',
                       border: const UnderlineInputBorder(),
-                      fillColor: kCanvasColor,
                       filled: true,
+                      fillColor: kCanvasColor.withOpacity(0.3),
+                      labelText: 'Enter your geek name',
                     ),
                   ),
                 ),
@@ -79,7 +86,10 @@ class UpdateBioBottomSheet extends StatelessWidget {
                 context.read<AuthController>().clearStates();
                 Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.upgrade),
+              icon: Icon(
+                Icons.upgrade,
+                color: Theme.of(context).brightness == Brightness.dark ? kWhite : null,
+              ),
               label: Padding(
                 padding: const EdgeInsets.all(kPaddingS + 5),
                 child: Text(

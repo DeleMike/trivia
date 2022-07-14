@@ -13,7 +13,6 @@ class Routes {
   static const auth = '/auth';
   static const navScreen = '/nav';
   static const categories = '/categories';
-  static const settings = '/settings';
   static const quiz = '/quiz';
   static const result = '/result';
   static const history = '/history';
@@ -24,7 +23,6 @@ class Routes {
       auth: (ctx) => const AuthScreen(),
       navScreen: (ctx) => const NavScreen(),
       categories: (ctx) => const Categories(),
-      settings: (ctx) => Settings(),
       quiz: (ctx) => const QuizPage(transportedData: {'questions': []}),
       result: (ctx) => const QuizResult(),
       history: (ctx) => const HistoryView(),

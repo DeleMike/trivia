@@ -19,7 +19,6 @@ class Settings extends StatelessWidget {
           style: Theme.of(context).textTheme.headline5,
         ),
         elevation: 0,
-        backgroundColor: kCanvasColor,
       ),
       body: SingleChildScrollView(
         child: ListBody(children: settingsList),

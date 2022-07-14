@@ -21,7 +21,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   Future<void> _getAllData() async {
     await context.read<TriviaHistory>().fetchAndSetHistory();
   }
@@ -35,7 +34,7 @@ class _DashboardState extends State<Dashboard> {
           style: Theme.of(context).textTheme.headline5,
         ),
         elevation: 0,
-        backgroundColor: kCanvasColor,
+        //backgroundColor: kCanvasColor,
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
@@ -49,9 +48,12 @@ class _DashboardState extends State<Dashboard> {
                       Container(
                         margin: const EdgeInsets.only(left: kPaddingS + 2, right: kPaddingM + 2),
                         height: kScreenHeight(context) * 0.25,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: kBlack,
-                          borderRadius: BorderRadius.all(Radius.circular(kSmallRadius)),
+                          borderRadius: const BorderRadius.all(Radius.circular(kSmallRadius)),
+                          border: Theme.of(context).brightness == Brightness.dark
+                              ? Border.all(color: kWhite)
+                              : null,
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,8 +166,17 @@ class _DashboardState extends State<Dashboard> {
                                       .copyWith(color: kPrimaryTextColor),
                                 ),
                               )
-                            : Padding(
+                            : Container(
                                 padding: const EdgeInsets.all(kPaddingM),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(12.0),
+                                  ),
+                                  border: Theme.of(context).brightness == Brightness.dark
+                                      ? Border.all(color: kWhite)
+                                      : null,
+                                  color: Theme.of(context).canvasColor,
+                                ),
                                 child: Center(
                                   child: LineChart(
                                     LineChartData(
@@ -174,6 +185,7 @@ class _DashboardState extends State<Dashboard> {
                                       minY: 0,
                                       maxY: 100,
                                       titlesData: LineTiles.getTilesData(),
+                                      backgroundColor: Theme.of(context).canvasColor,
                                       borderData: FlBorderData(
                                         show: true,
                                         border: Border.all(color: kPrimaryColor),
@@ -278,9 +290,12 @@ class _DashboardState extends State<Dashboard> {
                         margin: const EdgeInsets.only(
                             left: kPaddingS + 2, right: kPaddingM + 2, top: kPaddingM + 2, bottom: kPaddingS),
                         height: kScreenHeight(context) * 0.25,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: kBlack,
-                          borderRadius: BorderRadius.all(Radius.circular(kSmallRadius)),
+                          borderRadius: const BorderRadius.all(Radius.circular(kSmallRadius)),
+                          border: Theme.of(context).brightness == Brightness.dark
+                              ? Border.all(color: kWhite)
+                              : null,
                         ),
                         child: const Padding(
                           padding: EdgeInsets.all(kPaddingM),
