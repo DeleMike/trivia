@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../configs/internet_config.dart';
+import '../../widgets/internet_pop_screen.dart';
 import 'screens/question_form.dart';
 import '../../configs/constants.dart';
 import '../../configs/app_extensions.dart';
@@ -18,14 +20,21 @@ class Categories extends StatelessWidget {
         title: const Text('Choose your zone'),
         foregroundColor: kPrimaryTextColor,
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(top: kPaddingM, left: kPaddingS + 2, right: kPaddingM + 2),
-            child: const _GridContainer(),
-          ),
-        ),
-      ),
+      body: StreamBuilder(
+          stream: InternetConnectivity.instance.internetStream,
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.hasData && snapshot.data == false) {
+              return const InternetPopScreen();
+            }
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.only(top: kPaddingM, left: kPaddingS + 2, right: kPaddingM + 2),
+                  child: const _GridContainer(),
+                ),
+              ),
+            );
+          }),
     );
   }
 }

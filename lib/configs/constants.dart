@@ -106,4 +106,5 @@ class AssetsAnimations {
   static const String congrats = 'assets/animations/congratulation-success-batch.json';
   static const String thumbsUp = 'assets/animations/thumb-up-party.json';
   static const String loss = 'assets/animations/you-loss.json';
+  static const String noInternet = 'assets/animations/cat_anim.json';
 }
