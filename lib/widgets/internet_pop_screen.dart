@@ -15,7 +15,7 @@ class InternetPopScreen extends StatelessWidget {
     bool isOnline = false;
     isOnline = await InternetConnectionChecker().hasConnection;
     String text = isOnline ? 'Connected to the interent' : 'No internet connection';
-    Color color = isOnline ? Colors.green : kRed;
+    Color color = isOnline ? kGreen : kRed;
 
     showSimpleNotification(
       Text(
