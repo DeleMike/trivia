@@ -31,6 +31,9 @@ dependencies:
   step_progress_indicator: ^1.0.2
   fl_chart: ^0.55.0
   flutter_spinkit: ^5.1.0
+  connectivity_plus: ^2.3.6
+  overlay_support: ^2.0.1
+  internet_connection_checker: ^0.0.1+4
 
 dev_dependencies:
   flutter_test:
