@@ -24,7 +24,7 @@ class _QuizResultState extends State<QuizResult> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Message'),
-            content: const Text('Do you really want to exit?'),
+            content: const Text('Do you really want to exit?\n\nYour result will still be saved.'),
             actions: [
               TextButton(
                 style: TextButton.styleFrom(primary: kPrimaryColor),

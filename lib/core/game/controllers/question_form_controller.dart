@@ -7,7 +7,7 @@ class QuestionFormController with ChangeNotifier {
   String? _difficulty;
   String? _questionType;
   bool _isLoading = false;
-  int _reponseCode = 0;
+  int _reponseCode = 1;
   List<dynamic> _results = [];
   final List<String> _questions = [];
   final List<String> _correctAnswers = [];
@@ -36,6 +36,7 @@ class QuestionFormController with ChangeNotifier {
     _difficulty = selectedDifficulty.toLowerCase();
 
     final _isValid = formKey.currentState!.validate();
+    debugPrint('isValid: $_isValid');
 
     debugPrint('Num of Questions = $selectedNumOfQuestions');
 
@@ -64,7 +65,8 @@ class QuestionFormController with ChangeNotifier {
               context: context,
               builder: (context) {
                 return const InfoDialog(
-                  text: 'Your request could not be processed well. Try entering a smaller number of questions',
+                  text:
+                      'Your request could not be processed well. Try entering a smaller number of questions',
                 );
               });
         } else {
@@ -94,16 +96,15 @@ class QuestionFormController with ChangeNotifier {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Data Fetch procedure failed')));
         throw ('Error Message: ' + e.toString());
-      } finally {
-        notifyListeners();
       }
     }
+    notifyListeners();
   }
 
   /// clear all variables old states
   void clearStates() {
     _isLoading = false;
-    _reponseCode = 0;
+    _reponseCode = 1;
     _results.clear();
     _questions.clear();
     _correctAnswers.clear();

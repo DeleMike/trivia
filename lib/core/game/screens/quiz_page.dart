@@ -70,8 +70,8 @@ class _QuizPageState extends State<QuizPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Message'),
-            content: const Text('Do you really want to exit?'),
+            title: const Text('Do you really want to exit?'),
+            content: const Text('Closing this page will make you lose this quiz\'s data!'),
             actions: [
               TextButton(
                 style: TextButton.styleFrom(primary: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
@@ -216,7 +216,7 @@ class _QuizPageState extends State<QuizPage> {
 
                 Container(
                   width: kScreenWidth(context),
-                  margin: const EdgeInsets.only(left: kPaddingM + 2, right: kPaddingM + 2, top: kPaddingM),
+                  margin: const EdgeInsets.only(left: kPaddingM + 2, right: kPaddingM + 2, top: kPaddingM, bottom: kPaddingM),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(kPaddingS + 5),

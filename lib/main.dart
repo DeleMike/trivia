@@ -65,9 +65,9 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: kAppName,
           theme: AppTheme(context).themeData(context.watch<DarkThemeProvider>().isDarkMode),
-          // theme: AppTheme(context).themeData(_themeProvider.isDarkMode),
           home: Consumer<UserPref>(
             builder: (_, userPref, __) => FutureBuilder(
+              // future: Future.wait([userPref.isLoggedIn(), Future.delayed(const Duration(seconds: 1))]),
               future: userPref.isLoggedIn(),
               builder: (ctx, AsyncSnapshot<void> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

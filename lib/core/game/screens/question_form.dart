@@ -137,6 +137,7 @@ class _QuestionFormState extends State<QuestionForm> {
                   ),
                   DropdownButton(
                     underline: Container(),
+                    style: Theme.of(context).textTheme.bodyText2,
                     value: _selectedDifficulty,
                     onChanged: (dynamic newVal) {
                       setState(() {
@@ -159,6 +160,7 @@ class _QuestionFormState extends State<QuestionForm> {
                   ),
                   DropdownButton(
                     underline: Container(),
+                    style: Theme.of(context).textTheme.bodyText2,
                     value: _selectedQuestionType,
                     onChanged: (dynamic newVal) {
                       setState(() {
@@ -205,8 +207,7 @@ class _QuestionFormState extends State<QuestionForm> {
                                     transportedData: _dataToSend,
                                   );
                                 }));
-                                //  Navigator.pushNamed(context, Routes.quiz,
-                                //     arguments: context.read<QuestionFormController>().fetchedData);
+                                
                               }
                             },
                     ),

@@ -45,10 +45,20 @@ class _AnswersBoxState extends State<AnswersBox> {
               primary: Theme.of(context).primaryColor,
               textStyle: Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.bold),
               side: BorderSide(
-                  color: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor,
+                  color: widget.isDisabled
+                      ? kSecondaryTextColor
+                      : Theme.of(context).brightness == Brightness.dark
+                          ? kWhite
+                          : kPrimaryColor,
                   width: 1.5),
             ),
-            child: Padding(padding: const EdgeInsets.all(18.0), child: Text(answer, style: Theme.of(context).textTheme.headline6,)),
+            child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Text(answer,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(color: widget.isDisabled ? kDeepGrey : null))),
             onPressed: widget.isDisabled
                 ? null
                 : () {

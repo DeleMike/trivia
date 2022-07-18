@@ -17,7 +17,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: kPrimaryColor),
+        border: Border.all(color: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
         borderRadius: BorderRadius.circular(45),
       ),
       child: CircleAvatar(
@@ -27,14 +27,16 @@ class _UserImagePickerState extends State<UserImagePicker> {
             visible: !context.watch<AuthController>().hasPickedImageSuccessfully,
             child: TextButton.icon(
               style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(
+                  Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor,
+                ),
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
               ),
               icon: const Icon(Icons.image),
               label: Text(
                 'Add image',
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      color: kPrimaryColor,
-                    ),
+                    color: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
               ),
               onPressed: () => context.read<AuthController>().pickedImage(),
             ),

@@ -106,8 +106,10 @@ class TriviaHistory with ChangeNotifier {
           _lastWeekScores.add(ChartData(position: i + 1, value: int.parse(_items[i].scorePercentage)));
         }
       } else {
+        int pos = 1;
         for (var i = (_items.length - 7); i < _items.length; i++) {
-          _lastWeekScores.add(ChartData(position: i + 1, value: int.parse(_items[i].scorePercentage)));
+          _lastWeekScores.add(ChartData(position: pos, value: int.parse(_items[i].scorePercentage)));
+          pos++;
         }
       }
     }
