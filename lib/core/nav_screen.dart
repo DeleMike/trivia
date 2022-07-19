@@ -42,23 +42,63 @@ class _NavScreenState extends State<NavScreen> {
     });
   }
 
+
+  // shows dialog to confirm user's action
+  Future<bool> _showDialog() async {
+    bool closeApp = false;
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('You are leaving us'),
+            content: const Text('Are you sure you want to exit this app?'),
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(primary: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
+                child: const Text(
+                  'NO',
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(primary: Theme.of(context).brightness == Brightness.dark ? kWhite : kPrimaryColor),
+                child: const Text(
+                  'YES',
+                ),
+                onPressed: () {
+                  closeApp = !closeApp;
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+
+    return closeApp;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _navScreens.elementAt(_selectedIndex),
-      // body: IndexedStack(
-      //   index: _selectedIndex,
-      //   children: _navScreens,
-      // ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: _navBarItems,
-        type: BottomNavigationBarType.shifting,
-        elevation: 0,
-        currentIndex: _selectedIndex,
-        unselectedItemColor: kSecondaryTextColor,
-        selectedFontSize: 18,
-        selectedItemColor: Theme.of(context).brightness == Brightness.dark ? kWhite: kPrimaryColor,
-        onTap: _onItemTapped,
+    return WillPopScope(
+      onWillPop: () async => _showDialog(),
+      child: Scaffold(
+        body: _navScreens.elementAt(_selectedIndex),
+        // body: IndexedStack(
+        //   index: _selectedIndex,
+        //   children: _navScreens,
+        // ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: _navBarItems,
+          type: BottomNavigationBarType.shifting,
+          elevation: 0,
+          currentIndex: _selectedIndex,
+          unselectedItemColor: kSecondaryTextColor,
+          selectedFontSize: 18,
+          selectedItemColor: Theme.of(context).brightness == Brightness.dark ? kWhite: kPrimaryColor,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
