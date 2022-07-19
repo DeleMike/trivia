@@ -14,10 +14,12 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kCanvasColor,
         elevation: 0,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).brightness == Brightness.dark ? kWhite:null, 
+        ),
         centerTitle: true,
-        title: const Text('Choose your zone'),
+        title: Text('Choose your zone',  style: Theme.of(context).textTheme.headline5,),
         foregroundColor: kPrimaryTextColor,
       ),
       body: StreamBuilder(
