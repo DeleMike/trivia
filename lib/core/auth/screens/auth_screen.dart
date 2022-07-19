@@ -42,7 +42,7 @@ class AuthScreen extends StatelessWidget {
                             'Let\'s go!!',
                             style: TextStyle(
                               fontSize: 30,
-                              color: Theme.of(context).brightness == Brightness.dark ? kWhite: kBlack,
+                              color: kWhite,
                               fontFamily: GoogleFonts.caveatBrush().fontFamily,
                             ),
                           ),
