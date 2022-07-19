@@ -5,7 +5,7 @@ import '../configs/constants.dart';
 
 ///[TextBanner] - used a banner for auth screen.
 class TextBanner extends StatelessWidget {
-  const TextBanner({Key? key}): super(key: key);
+  const TextBanner({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,8 @@ class TextBanner extends StatelessWidget {
                 fontFamily: GoogleFonts.ubuntu().fontFamily,
                 height: 1.8,
                 fontSize: 12,
-                color: kBlack,
+                color: Theme.of(context).brightness == Brightness.dark ? kWhite : kBlack,
+
               ),
             ),
           ],
