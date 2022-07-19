@@ -15,14 +15,14 @@ class UserPref with ChangeNotifier {
   };
 
   ///save user data
-  void save(String? name, String? filePath) async {
+  Future<void> save(String? name, String? filePath) async {
     prefs = await SharedPreferences.getInstance();
     await prefs.setString(nameKey, name!);
     await prefs.setString(filePathKey, filePath!);
     await prefs.setBool(loginKey, true);
 
     notifyListeners();
-    print('UserPref: data saved');
+    debugPrint('UserPref: data saved');
   }
 
   ///get user data
@@ -31,7 +31,7 @@ class UserPref with ChangeNotifier {
     userData['username'] = prefs.getString(nameKey) ?? 'User';
     userData['imagepath'] = prefs.getString(filePathKey)!;
 
-    print('UserPref: data fetched');
+    debugPrint('UserPref: data fetched');
     return userData;
   }
 
@@ -40,6 +40,8 @@ class UserPref with ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
     //is user login data saved
     _isLogin = prefs.getBool(loginKey) ?? false;
+    debugPrint('UserPref: data fetched , is user logged in = $_isLogin');
+
   }
 
   ///get user login data: returns ```true``` for if login, ```false``` otherwise.
